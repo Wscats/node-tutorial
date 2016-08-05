@@ -4,28 +4,39 @@
 ```
 <!DOCTYPE html>
 <html ng-app="wsscat">
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 	</head>
 	<script type="text/javascript" src="angular/angular.js"></script>
+
 	<body ng-controller="homeCtrl">
-			{{text}}
+		<input ng-model="message" ng-change="rebotRequest()" />
+		<p>{{text}}</p>
 	</body>
 	<script>
 		var app = angular.module('wsscat', []);
 		app.controller('homeCtrl', ['$scope', '$http', function($scope, $http) {
-			$scope.text = '1234';
-			$http.jsonp('http://localhost:8888/rebot',{
-				params:{
-					message:'你好',
-					callback:'JSON_CALLBACK'
-				}
-			}).success(function(data){
-				console.log(data);
-			})
+			$scope.rebotRequest = function() {
+				$http.jsonp('http://localhost:8888/rebot', {
+					params: {
+						message: $scope.message,
+						callback: 'JSON_CALLBACK'
+					}
+				}).success(function(data) {
+					console.log(data);
+					$scope.text = data.text;
+				})
+			}
 		}])
 	</script>
+	<style>
+		input{
+			width: 100%;
+		}
+	</style>
+
 </html>
 ```
 运行 ```node http.js```
