@@ -146,3 +146,7 @@ function responseIndex(response) {
 	});
 }
 ```
+
+打开angular.html页面我们就可以看到下面图片的结果，在输入框输入内容，图灵机器人就会自动回复
+
+![这里写图片描述](http://img.blog.csdn.net/20160805232415194)
