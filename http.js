@@ -1,6 +1,9 @@
 var http = require('http');
+//读写文件的模块
 var fs = require('fs');
+//获取请求地址信息的模块
 var url = require('url');
+//处理字符串的模块
 var querystring = require('querystring');
 //创建服务器
 http.createServer(function(request, response) {
@@ -9,12 +12,12 @@ http.createServer(function(request, response) {
 	var pathname = url.parse(request.url).pathname;
 	//获取请求参数 例如?callback=JSON_CALLBACK&name=yao
 	var paramStr = url.parse(request.url).query;
-	console.log(pathname);
 	//将参数转化为json对象
+	//例如把?callback=JSON_CALLBACK&name=yao 转化为对象{callback:'JSON_CALLBACK',name:'yao'}
 	var param = querystring.parse(paramStr);
 	//发送 HTTP 头部 
 	//HTTP 状态值: 200 : OK
-	//内容类型: text/plain
+	//内容类型: text/jsonp
 	response.writeHead(200, {
 		//把格式转化为jsonp，并把字符串用utf-8输出，这里如果不设置它会让中文以GBK乱码输出
 		'Content-Type': 'text/jsonp;charset=utf-8'
