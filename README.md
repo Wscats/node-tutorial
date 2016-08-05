@@ -29,7 +29,11 @@
 </html>
 ```
 运行 ```node http.js```
+
 ![这里写图片描述](http://img.blog.csdn.net/20160805230653864)
+
+![这里写图片描述](http://img.blog.csdn.net/20160805230826910)
+
 ## http.js
 ```
 var http = require('http');
