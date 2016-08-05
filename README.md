@@ -30,7 +30,9 @@
 ```
 运行 ```node http.js```
 浏览器输入以下地址测试node后台能否正确运行
+
 如果一切无误，则会出现浏览器的jsonp结果，并且node的命令行也会输出相关的信息
+
 `http://127.0.0.1:8888/rebot?message=%E5%A7%9A%E6%98%8E&callback=rebotInfo`
 
 ![这里写图片描述](http://img.blog.csdn.net/20160805230952115)
