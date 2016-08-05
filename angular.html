@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="wsscat">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<script type="text/javascript" src="angular/angular.js"></script>
+	<body ng-controller="homeCtrl">
+			{{text}}
+	</body>
+	<script>
+		var app = angular.module('wsscat', []);
+		app.controller('homeCtrl', ['$scope', '$http', function($scope, $http) {
+			$scope.text = '1234';
+			$http.jsonp('http://localhost:8888/rebot',{
+				params:{
+					message:'你好',
+					callback:'JSON_CALLBACK'
+				}
+			}).success(function(data){
+				console.log(data);
+			})
+		}])
+	</script>
+</html>
