@@ -82,7 +82,7 @@ function responseRebotMessage(param, response) {
 			console.log('相应的内容为: ' + data);
 			str += data;
 			//如果在这里直接打印数据，会有可能丢失数据
-			response.end(param.callback + "(" + data + ")");
+			//response.end(param.callback + "(" + data + ")");
 		});
 		//监听数据成功后才去拼jsonp的数据
 		resquest.on('end', function() {
