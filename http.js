@@ -76,10 +76,19 @@ function responseRebotMessage(param, response) {
 		//console.log('STATUS: ' + resquest.statusCode);
 		//console.log('HEADERS: ' + JSON.stringify(resquest.headers));
 		resquest.setEncoding('utf8');
+		//这里用str来不间断监听数据
+		var str='';
 		resquest.on('data', function(data) {
 			console.log('相应的内容为: ' + data);
-			response.end(param.callback + "(" + data + ")");
+			str += data;
+			//如果在这里直接打印数据，会有可能丢失数据
+			//response.end(param.callback + "(" + data + ")");
 		});
+		//监听数据成功后才去拼jsonp的数据
+		resquest.on('end', function() {
+			response.end(param['callback'] + "(" + str + ")");
+			//response.end(str);
+		})
 	}).on('error', function(e) {
 		console.log('problem with request: ' + e.message);
 	}).end();
