@@ -8,13 +8,13 @@
 
 	<body>
 		<form id="uploadForm">
-			<p>指定文件名： <input type="text" name="filename" value="" /></p>
-			<p>上传文件： <input type="file" name="logo" /></ p>
-			<p>上传文件： <input type="file" name="logo" /></ p>
+			<p>上传文件： <input type="file" name="logo" multiple="multiple" /></ p>
+			<!--也支持两个上传框同时接受两个图片，或者一个上传框接受多个图片 不过要加上 multiple="multiple"-->
+			<!--<p>上传文件： <input type="file" name="logo" /></ p>-->
 			<input type="button" value="上传" onclick="doUpload()" />
 		</form>
 	</body>
-	<script src="../js/jquery.js"></script>
+	<script src="./js/jquery.js"></script>
 	<script>
 		function doUpload() {
 			$.ajax({

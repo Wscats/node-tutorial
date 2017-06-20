@@ -27,7 +27,7 @@ var upload = multer({
 
 //单图上传
 //app.post('/upload-single', upload.single('logo'), function(req, res, next) {
-app.post('/upload-single', upload.array('logo', 2), function(req, res, next) {	
+app.post('/upload-single', upload.any(), function(req, res, next) {	
 	res.append("Access-Control-Allow-Origin","*");
 	res.send({
 		wscats_code: '0'
