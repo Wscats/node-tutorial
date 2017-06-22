@@ -1,9 +1,8 @@
 var http = require("http")
 var querystring = require("querystring")
-function agent(param,callback) {
+function agent(param, callback) {
 	var data = {
-		//图灵机器人需要的API KEY
-		key: 'c75ba576f50ddaa5fd2a87615d144ecf',
+		skill: 'Javascript',
 		//向图灵机器人发送的问题
 		name: param.name
 	};
@@ -36,6 +35,7 @@ function agent(param,callback) {
 }
 exports.agent = agent
 
+//执行
 /*agent({
 	name: "Wscats",
 })*/
