@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		function GetQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return unescape(r[2]);
+			return null;
+		}
+		GetQueryString("id");
+		console.log(GetQueryString("id"))
+		console.log(location.search)
+
+		function UrlSearch() {
+			var name, value;
+			var str = location.href; //取得整个地址栏
+			var num = str.indexOf("?")
+			str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+				console.log(str)
+			var arr = str.split("&"); //各个参数放到数组里
+			for(var i = 0; i < arr.length; i++) {
+				num = arr[i].indexOf("=");
+				if(num > 0) {
+					name = arr[i].substring(0, num);
+					value = arr[i].substr(num + 1);
+					this[name] = value;
+				}
+			}
+		}
+		var Request=new UrlSearch(); //实例化
+		console.log(Request.id)
+	</script>
+
+</html>

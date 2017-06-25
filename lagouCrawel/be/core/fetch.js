@@ -67,7 +67,7 @@ exports.fetchList = (function(config) {
 					"${$(arr[item - 1]).find(".industry").text().replace(/^\s+|\s+$/g, "")}",
 					"${$$(".job_bt").find("div").text()}"
 				)`, function(error, results, fields) {
-					if(error) throw error;
+					//if(error) throw error;
 				});
 			};
 			if(item < arr.length) {
