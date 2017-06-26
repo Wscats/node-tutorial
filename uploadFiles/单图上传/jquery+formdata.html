@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<form id="uploadForm">
+			<p>指定文件名： <input type="text" name="filename" value="" /></p>
+			<p>上传文件： <input type="file" name="logo" /></ p>
+			<input type="button" value="上传" onclick="doUpload()" />
+		</form>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script>
+		function doUpload() {
+			$.ajax({
+				url: 'http://localhost:3000/upload-single',
+				type: 'POST',
+				cache: false, //不必须
+				data: new FormData($('#uploadForm')[0]),
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					console.log(data)
+				}
+			})
+		}
+	</script>
+
+</html>

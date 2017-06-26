@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<ul id="ul"></ul>
+		<button onclick="loadMore()">查看更多</button>
+	</body>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script>
+		var page = 1;
+
+		function loadMore() {
+			$.ajax({
+				type: "get",
+				url: "http://localhost:8081/index",
+				async: true,
+				data: {
+					page: page++
+				},
+				dataType: "json",
+				success: function(data) {
+					console.log(data)
+					var html = data.jobs.map(function(item) {
+						return `<li>${item.position_name} ${item.company} ${item.salary} <a href="detail.html?id=${item.id}">${item.id}</a></li>`
+					}).join(" ")
+					console.log(html)
+					$("#ul").append(html)
+				}
+			});
+		}
+		loadMore()
+	</script>
+
+</html>

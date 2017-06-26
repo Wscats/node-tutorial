@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<body>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Username</th>
+				</tr>
+			</thead>
+			<tbody id="tbody">
+				<tr id="tableInfo">
+					
+				</tr>
+			</tbody>
+		</table>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script>
+		function ajax() {
+			$.ajax({
+				type: "post",
+				url: "http://localhost:12345/seek",
+				data: {
+					name: "laoxie",
+					skill: "PS",
+					age: 18
+				},
+				dataType:"json",
+				async: true,
+				success: function(data) {
+					console.log(data)
+					$.each(data.news, function(i, d) {
+						console.log(i)
+						//$('#tableInfo').css('display', 'inline');
+						//记得隐藏第一个li
+						$('#tbody').html('<tr><th scope="row">'+i+'</th><td>'+d.title+'</td><td>Otto</td><td>@mdo</td>d.title</tr>').appendTo('#tbody');
+					})
+					//$('#ul2>li:first').css('display', 'none');
+				}
+			});
+		}
+		ajax()
+	</script>
+
+</html>

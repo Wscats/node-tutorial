@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<head>
+		<title>原生jsonp例子</title>
+		<!--使用了CDN请求jQ-->
+		<script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			function CallJSONPServer(url) { 
+				//调用JSONP服务器，url为请求服务器地址
+				var oldScript = document.getElementById(url); 
+				//如果页面中注册了调用的服务器，则重新调用
+				if(oldScript) {
+					oldScript.setAttribute("src", url);
+					return;
+				}
+				var script = document.createElement("script"); 
+				//如果未注册该服务器，则注册并请求
+				script.setAttribute("type", "text/javascript");
+				script.setAttribute("src", url);
+				script.setAttribute("id", url);
+				document.body.appendChild(script);
+			}
+			
+			//执行带有数据的函数
+			function JSON_CALLBACK(data) {
+				console.log(data);
+				var $ul = $("<ul></ul>");
+				$.each(data, function(i, v) {
+					console.log(i);
+					console.log(v);
+					$("<li/>").text(v["id"] + " " + v["name"]).appendTo($ul)
+				});
+				$("#remote").append($ul);
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" value="获取远程数据" onclick="CallJSONPServer('jsonp.php')" />
+		<div id="remote"></div>
+	</body>
+
+</html>
