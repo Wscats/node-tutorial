@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
+	<script src="../../js/jquery.js"></script>
+	<script>
+		function ajax(callback) {
+			$.ajax({
+				type: "post",
+				url: "http://localhost:12345/",
+				data: {
+					name: "laoxie",
+					skill: "PS",
+					age: 18
+				},
+				async: true,
+				success: function(data) {
+					console.log(data);
+					callback(data)
+				}
+			});
+		}
+		ajax(function(data) {
+			console.log("发起一个ajax请求" + data)
+		})
+	</script>
+
+</html>

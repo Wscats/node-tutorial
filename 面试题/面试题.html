@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<ul>
+			<li>季卡说电话卡萨丁</li>
+			<li>爱神的箭卡萨丁</li>
+			<li>啊时间到了卡萨丁</li>
+		</ul>
+		
+		<p id="p"></p>
+	</body>
+	<script>
+		/*var link = document.getElementsByTagName("li");
+										for(var i = 0; i < link.length; i++) {
+											link[i].onclick = (function(i) {
+												return function() {
+													alert(i + 1)
+												}
+											})(i)
+										}*/
+
+		/*String.prototype.repeatify = function(time) {
+			var str = "";
+			for(var i = 0; i < time; i++) {
+				str += this
+			}
+			return str
+		}
+
+		console.log("abc".repeatify(2))*/
+
+		/*var arr = [1, [2, [
+			[3, 4], 5
+		], 6]];
+		var newArr = []
+
+		function kelihua(arr) {
+			for(var i = 0; i < arr.length; i++) {
+				if(typeof arr[i] == "number") {
+					newArr.push(arr[i])
+				} else {
+					kelihua(arr[i])
+				}
+			}
+		}
+		kelihua(arr)
+		console.log(newArr)*/
+
+		//<span style='color:red'>XXX</span>
+		var html = "那一年6.9，我依稀记得愚蠢的老谢挽着潇洒的老蓝的手，出现在天安门的某个角落里面，他对她说了一句you jump i jump";
+		var keyword = ["老谢", "6.9", "jump"];
+		for(var i = 0; i < keyword.length; i++) {
+			html = html.split(keyword[i]);
+			html = html.join("<span style='color:red'>"+keyword[i]+"</span>");
+			console.log(html)
+		}
+		
+		document.getElementById("p").innerHTML = html
+	</script>
+
+</html>

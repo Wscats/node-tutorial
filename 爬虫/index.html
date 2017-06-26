@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<p>Hello World</p>
+		<p id="p2"></p>
+	</body>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script>
+		$.ajax({
+			type: "get",
+			url: "../test.php",
+			data: {
+				name: "laoxie"
+			},
+			async: true,
+			success: function(data) {
+				$("#p2").html(data)
+			}
+		});
+	</script>
+
+</html>

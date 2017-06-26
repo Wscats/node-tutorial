@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button onclick="jsonp('http://localhost:12345/?name=laoxie&skill=ps&callback=JSON_CALLBACK')">Ok</button>
+	</body>
+	<script>
+		function JSON_CALLBACK(data){
+			console.log(data);
+			return data;
+		}
+	</script>
+	<script>
+		function jsonp(url){
+			var script = document.createElement("script");
+			//jsonp.php
+			script.src = url;
+			document.body.appendChild(script);
+		}
+	</script>
+</html>
