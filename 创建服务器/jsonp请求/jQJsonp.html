@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script src="../../js/jquery.js"></script>
+	<script>
+		$.ajax({
+			url:"http://localhost:12345",
+			type:"get",
+			dataType:"jsonp",
+			jsonpCallback:"JSON_CALLBACK",
+			success:function(data){
+				console.log(data)
+			}
+		})
+	</script>
+</html>

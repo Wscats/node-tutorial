@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title></title>
+		<link rel="stylesheet" href="css/weui.css" />
+		<link href="//www.lgstatic.com/m/css/dep/normalize.css-3.0.2/normalize.css?v=201706062006" rel="stylesheet">
+		<link rel="Shortcut Icon" href="//www.lgstatic.com/m/images/asset/common/img/favicon.ico?v=201706062006">
+		<link href="//www.lgstatic.com/m/css/asset/center/jobdetail/css/main.css?v=201706062006" rel="stylesheet">
+	</head>
+	<body>
+		<div id="content"></div>
+		<div class="weui-gallery">
+			<span class="weui-gallery__img" style="background-image: url(./images/pic_article.png);"></span>
+			<div class="weui-gallery__opr">
+				<a href="javascript:" class="weui-gallery__del">
+					<i class="weui-icon-delete weui-icon_gallery-delete"></i>
+				</a>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script>
+		function GetQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return unescape(r[2]);
+			return null;
+		}
+		$.ajax({
+			type: "post",
+			url: "http://localhost:8081/detail",
+			data: {
+				id: GetQueryString("id")
+			},
+			async: true,
+			dataType: "json",
+			success: function(data) {
+				console.log(data);
+				var detail = data.detail[0];
+				var html = `
+				<header id="header">职位详情
+				<div class="left"><span class="corner"></span></div>
+				<div class="right"> <span class="corner"></span></div>
+			</header>
+			<!-- 一键投递接口 -->
+			<div id="content">
+				<div class="postitle">
+					<h2 class="title">${detail.position_name}</h2>
+					<div class="collicon activeable">
+						<span class="icon notcoll"></span>
+						<span class="text">未收藏</span>
+					</div>
+				</div>
+
+				<div class="detail">
+					<div class="items">
+						<span class="item salary">
+                        <em class="icon"></em>
+                        <span class="text">${detail.salary}</span>
+						</span>
+						<span class="item workaddress">
+                        <em class="icon"></em>
+                        <span class="text">长沙</span>
+						</span>
+						<span class="item jobnature">
+                        <em class="icon"></em>
+                        <span class="text">全职</span>
+						</span>
+						<span class="item workyear">
+                        <em class="icon"></em>
+                        <span class="text">3-5年</span>
+						</span>
+						<span class="item education">
+                        <em class="icon"></em>
+                        <span class="text">
+                            大专及以上                        </span>
+						</span>
+					</div>
+					<!-- 诱惑 -->
+					<div class="temptation">
+						职位诱惑：薪资高,福利好,气氛佳,硬性条件优
+					</div>
+				</div>
+
+				<div class="company activeable">
+					<img src="//www.lgstatic.com/i/image/M00/BC/B4/Cgp3O1jI4GCAGiOuAAA4uOqKhhw662.png" alt="" class="logo">
+					<div class="desc">
+						<div class="dleft">
+							<h2 class="title">
+                        ${detail.company}
+                    </h2>
+							<p class="info">
+								电子商务,移动互联网 / 不需要融资 / 150-500人
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="positiondesc">
+					<header class="header">
+						职位描述
+					</header>
+					<div class="content">
+						<p>岗位职责：</p>
+						<p>1、负责能够独立运营公司相关平台，为粉丝策划与提供优质、有高度传播性的内容，策划以微信吸粉为主要目的的线上活动。</p>
+						<p>2、负责自媒体团队的统筹及公司官方自媒体平台运营，撰写新闻稿件、策划方案等，把控内容的策划、发布、管理及互动、圈粉 ，维护以微信为主要来源用户，增加用户活跃度，并通过不同形式的推广手段，提高同内及海淘平台的影响力和用户关注度；</p>
+						<p>3、挖掘网友粉丝的使用习惯、情感及体验感受，及时掌握新闻热点，协助完成专题策划、效果预估，落地执行，收尾总结，分析数据 ；</p>
+						<p>4、分析同行业微博，微信内容结构及话题热点，调研目标用户群体喜好，在此基础上定位客户需求及喜好，增长粉丝量，保证粉丝粘度；</p>
+						<p>5、研究网络热点话题，和同行业自媒体传播内容，对公司平台内容的实时调整和更新，能够根据公司运营需求，提出新媒体各方面的优化方案；</p>
+						<p>6、 说的了段子，写得了新闻并对UI有敏锐的嗅觉者优先。</p>
+						<p>任职要求：</p>
+						<p>1、针对自媒体有过知名互联网公司或大型公司的新媒体部门管理经验优先；</p>
+						<p>2、拥有高水准短文案以及软文撰写能力，创作力，有短视频、直播经验；具有较好的表达、沟通能力及扎实的文字功底和图片处理能力</p>
+						<p>3、具有较强的新闻、热点敏感性，执行力强，工作主动，有责任感，能承受较大的工作压力；</p>
+						<p>4、熟悉口碑营销的执行操作流程、各大网络平台相关管理规则及相关应用工具；</p>
+						<p>5、有大V资源、微信合作账号资源、达人交流群优先</p>
+					</div>
+				</div>
+
+				<div class="positioneval">
+					<div class="eval-title">
+						面试评价
+						<span id="total">(<span>0</span>)</span>
+					</div>
+					<ul class="list">
+						<li class="list-item-empty list-item">暂无面试评价</li>
+					</ul>
+					<a class="eval-all" href="/user/expsList_3188866.html" style="display: none;"></a>
+				</div>
+
+				<div class="deliver" id="deliver_resume">投个简历</div>
+
+				<div id="push_bottom" style="display: none;">
+					<div class="push_bottom_table">
+						<a class="push_bottom_download" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.alpha.lagouapk&amp;ckey=CK1337790743204" target="_blank">
+							<div class="push_bottom_row">
+								<div class="push_bottom_cell push_logo">
+									<img src="//www.lgstatic.com/m/images/asset/custom/list/img/download_logo_new.png" width="100%" alt="lagou.com">
+								</div>
+								<div class="push_bottom_cell push_tips">
+									<img src="//www.lgstatic.com/m/images/asset/custom/list/img/download_txt_new.png" width="100%" alt="拉勾 机会很多 挑满意的 手机投简历，在线聊Offer">
+								</div>
+								<div class="push_bottom_cell push_btn">
+									<img src="//www.lgstatic.com/m/images/asset/custom/list/img/download_btn_new.png" width="100%" alt="下载APP">
+								</div>
+							</div>
+							<div class="push_mascot">
+								<img class="push_mascot_img" src="//www.lgstatic.com/m/images/asset/custom/list/img/download_mascot.png" width="100%" alt="拉勾君">
+							</div>
+							<div class="close_btn">
+								<img class="close_btn_img" src="//www.lgstatic.com/m/images/asset/custom/list/img/download_btn_close.png" width="100%" alt="关闭">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+				`;
+				$("#content").html(html)
+			}
+		});
+	</script>
+
+</html>

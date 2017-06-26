@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "jade": "^1.11.0",
+    "mysql": "^2.13.0",
+    "weui": "^1.1.2"
+  }
+}

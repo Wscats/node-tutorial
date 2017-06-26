@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<form id="uploadForm">
+			<p>上传文件： <input type="file" name="logo" multiple="multiple" /></ p>
+			<!--也支持两个上传框同时接受两个图片，或者一个上传框接受多个图片 不过要加上 multiple="multiple"-->
+			<!--<p>上传文件： <input type="file" name="logo" /></ p>-->
+			<input type="button" value="上传" onclick="doUpload()" />
+		</form>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script>
+		function doUpload() {
+			$.ajax({
+				url: 'http://localhost:3200/upload-single',
+				type: 'POST',
+				cache: false, //不必须
+				data: new FormData($('#uploadForm')[0]),
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					console.log(data)
+				}
+			})
+		}
+	</script>
+</html>

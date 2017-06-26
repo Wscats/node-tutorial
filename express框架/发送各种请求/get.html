@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<script src="js/zepto.js"></script>
+	<body>
+	</body>
+	<script>
+		$.ajax({
+			type: "get",
+			url: "http://localhost:8081/index",
+			data: {
+				name: "laolan",
+				skill: "CSS"
+			},
+			async: true,
+			success: function(data) {
+				console.log(data)
+			}
+		});
+	</script>
+</html>

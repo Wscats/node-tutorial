@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script src="../js/jquery.js"></script>
+	<script>
+		function ajax() {
+			$.ajax({
+				type: "post",
+				url: "http://localhost:12345/insert",
+				data: {
+					text: "laoxie",
+					title: "PS",
+					channel_id: 18
+				},
+				async: true,
+				dataType:"json",
+				success: function(data) {
+					console.log(data);
+				}
+			});
+		}
+		ajax()
+	</script>
+
+</html>

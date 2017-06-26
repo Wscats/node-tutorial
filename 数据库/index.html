@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<body>
+		<table id="table">
+			<caption>Optional table caption.</caption>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Username</th>
+				</tr>
+			</thead>
+			<tbody id="tbody">
+				<!--<tr>
+					<th scope="row">1</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>@mdo</td>
+				</tr>-->
+			</tbody>
+		</table>
+		<form>
+	</body>
+	<script src="../js/jquery.js"></script>
+	<script>
+		function ajax(callback) {
+			$.ajax({
+				type: "post",
+				url: "http://localhost:12345/search",
+				data: {
+					name: "laoxie",
+					skill: "PS",
+					age: 18,
+					action: "insert"
+				},
+				async: true,
+				dataType: "json",
+				success: function(data) {
+					console.log(data);
+					var html = ""
+					$.each(data.news,function(i,d){
+						html+='<tr><th scope="row">'+d.id+'</th><td>'+d.channel_name+'</td><td>'+d.title+'</td><td>'+d.text+'</td><td><a href="detail.html?id='+d.id+'">修改</a></td><td><button name='+d.id+'>删除</button></td></tr>';
+					})
+					$("#tbody").html(html)
+				}
+			});
+		}
+		ajax()
+		$("#table").on("click",function(e){
+			console.log(e.target.name)
+		})
+	</script>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script>
+		$.ajax({
+				type: "post",
+				url: "http://localhost:12345/search",
+				data: {
+					name: "laoxie",
+					skill: "PS",
+					age: 18,
+					action: "insert"
+				},
+				async: true,
+				dataType: "json",
+				success: function(data) {}
+			});
+	</script>
+</html>
