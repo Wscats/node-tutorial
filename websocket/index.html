@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<input id="name" placeholder="你的名字" />
+		<button onclick="connect()">连接</button>
+		<br />
+		<select id="userList"></select>
+		<input id="message" />
+		<button onclick="send()">发送消息</button>
+		<p></p>
+	</body>
+	<script src="js/socket.js"></script>
+	<script>
+		var socket;
+
+		function connect() {
+			socket = io('http://localhost:6789');
+			var html = "";
+			var name = document.querySelector("#name").value;
+			socket.emit("addUser", name);
+
+			socket.on("toPeople", function(data) {
+				console.log(data)
+				html += (data + "<br/>")
+				document.querySelector("p").innerHTML = html;
+			})
+
+			socket.on("userList", function(data) {
+				var userList = JSON.parse(data);
+				var userListHtml = userList.socketArr.map(function(item) {
+					return `
+					<option value="${item.id}">${item.name}</option>
+					`
+				}).join("");
+				document.getElementById("userList").innerHTML = userListHtml;
+				console.log(userListHtml)
+				console.log(userList)
+			})
+			
+			socket.on("privateMessage", function(data) {
+				console.log(data)
+			})
+		}
+
+		function send() {
+			var message = document.querySelector("#message").value;
+			var toUser = document.querySelector("#userList").value;
+			var fromUser = socket.id;
+			socket.emit("chat", fromUser, message, toUser)
+		}
+	</script>
+
+</html>

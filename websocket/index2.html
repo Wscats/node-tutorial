@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<input id="input" />
+		<button onclick="send()">发送消息</button>
+		<p></p>
+	</body>
+	<script src="js/socket.js"></script>
+	<script>
+		var socket = io('http://localhost:6789');
+		socket.on("test", function(data) {
+			console.log(data)
+		})
+		var html = "";
+		socket.on("toPeople", function(data) {
+			console.log(data)
+			html += (data + "<br/>")
+			document.querySelector("p").innerHTML = (html);
+		})
+
+		function send() {
+			var text = document.querySelector("#input").value;
+			socket.emit("chat", text)
+		}
+	</script>
+</html>
