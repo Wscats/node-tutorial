@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 	</head>
-
 	<body>
 		<input id="name" placeholder="你的名字" />
 		<button onclick="connect()">连接</button>
@@ -18,19 +16,22 @@
 	<script src="js/socket.js"></script>
 	<script>
 		var socket;
-
 		function connect() {
 			socket = io('http://localhost:6789');
 			var html = "";
 			var name = document.querySelector("#name").value;
+			socket.on('connect', function() {
+				//连接成功
+				console.log("连接成功")
+			});
+			//用户上线
 			socket.emit("addUser", name);
-
 			socket.on("toPeople", function(data) {
 				console.log(data)
 				html += (data + "<br/>")
 				document.querySelector("p").innerHTML = html;
 			})
-
+			//刷新用户列表
 			socket.on("userList", function(data) {
 				var userList = JSON.parse(data);
 				var userListHtml = userList.socketArr.map(function(item) {
@@ -42,12 +43,14 @@
 				console.log(userListHtml)
 				console.log(userList)
 			})
-			
 			socket.on("privateMessage", function(data) {
 				console.log(data)
 			})
+			socket.on('disconnect', function(data) {
+				console.log("连接断开")
+			});
 		}
-
+		//发送私人消息
 		function send() {
 			var message = document.querySelector("#message").value;
 			var toUser = document.querySelector("#userList").value;
@@ -55,5 +58,4 @@
 			socket.emit("chat", fromUser, message, toUser)
 		}
 	</script>
-
 </html>
