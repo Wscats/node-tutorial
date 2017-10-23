@@ -1,0 +1,41 @@
+{
+  "name": "autumnswind",
+  "version": "0.2.2",
+  "description": "Convenient online can be used to fetch data, but also a chrome plugin.",
+  "main": "InsCrawlcb.js",
+  "directories": {
+    "example": "node InsCrawlcb.js s 200"
+  },
+  "scripts": {
+    "test": "node InsCrawlcb.js s 200"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AutumnsWind/GAF.git"
+  },
+  "dependencies": {
+    "cheerio": "0.19.0",
+    "request": "2.67.0"
+  },
+  "keywords": [
+    "autumnswind",
+    "node",
+    "autumn",
+    "crawl",
+    "fetch",
+    "zhihu",
+    "ins"
+  ],
+  "homepage": "https://github.com/AutumnsWind/GAF.git",
+  "author": {
+    "name": "AutumnsWind",
+    "email": "AutumnsWinds@gmail.com",
+    "url": "https://www.zhihu.com/people/sha-nuo-78"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AutumnsWind/GAF/issues/1"
+  },
+  "_from": "autumnswind@0.2.2",
+  "_resolved": "http://registry.npm.taobao.org/autumnswind/download/autumnswind-0.2.2.tgz"
+}

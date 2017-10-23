@@ -1,0 +1,44 @@
+{
+	"name": "Corrine Chen",
+	"manifest_version": 2,
+	"version": "1.3",
+	"icons": {
+		"128": "static/img/index.png"
+	},
+	"description": "你是风儿我是沙，你是哈密我是瓜，你的嘴巴我来擦，你的身体我来抓，你不理我我自杀。——嘻嘻，你的猪工程师哥哥嘉隆",
+	"browser_action": {
+		"default_icon": "static/img/index.png"
+	},
+	"permissions": [
+		"http://api.wunderground.com/api/",
+		"tabs",
+		"activeTab",
+		"notifications",
+		"storage"
+	],
+	/*"options_page": "static/html/options.html",*/
+	"browser_action": {
+		"default_icon": {
+			"19": "static/img/index.png",
+			"38": "static/img/index.png"
+		},
+		"default_title": "Love",
+		"default_popup": "static/html/setting/setting.html"
+	},
+	/*"background": {
+		"scripts": [
+			"static/js/background.js"
+		]
+	},*/
+	"content_scripts": [
+		{
+			"matches": [
+				"https://*/*"
+			],
+			"js": [
+				"static/js/min.js",
+				"static/js/autumnswind.js"
+			]
+		}
+	]
+}
