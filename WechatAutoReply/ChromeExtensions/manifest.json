@@ -3,41 +3,53 @@
 	"manifest_version": 2,
 	"version": "1.3",
 	"icons": {
+		"16": "static/img/index.png",
+		"48": "static/img/index.png",
 		"128": "static/img/index.png"
 	},
 	"description": "你是风儿我是沙，你是哈密我是瓜，你的嘴巴我来擦，你的身体我来抓，你不理我我自杀。——嘻嘻，你的猪工程师哥哥嘉隆",
 	"browser_action": {
 		"default_icon": "static/img/index.png"
 	},
+	/*权限设置*/
 	"permissions": [
 		"http://api.wunderground.com/api/",
 		"tabs",
 		"activeTab",
+		/*弹窗*/
 		"notifications",
-		"storage"
+		"storage",
+		/*网络请求*/
+		"webRequest",
+		"webRequestBlocking",
+		"http://*/*",
+		"https://*/*",
+		/*增加右键菜单*/
+		"contextMenus"
 	],
 	/*"options_page": "static/html/options.html",*/
 	"browser_action": {
-		"default_icon": {
+		/*"default_icon": {
 			"19": "static/img/index.png",
 			"38": "static/img/index.png"
-		},
+		},*/
+		"default_icon": "static/img/index.png",
 		"default_title": "Love",
 		"default_popup": "static/html/setting/setting.html"
 	},
-	/*"background": {
+	"background": {
 		"scripts": [
 			"static/js/background.js"
 		]
-	},*/
+	},
 	"content_scripts": [
 		{
-			"matches": [
-				"https://*/*"
-			],
+			"matches" : ["http://*/*", "https://*/*"],
+			"css":["static/css/index.css"],
 			"js": [
-				"static/js/min.js",
-				"static/js/autumnswind.js"
+				"static/js/jquery.js",
+				"static/js/bootstrap.js",
+				"static/js/index.js"
 			]
 		}
 	]
