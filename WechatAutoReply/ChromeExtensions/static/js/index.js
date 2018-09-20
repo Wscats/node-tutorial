@@ -51,11 +51,14 @@ chrome.extension.onMessage.addListener(
         break;
     }
     console.log("前端/后端/Popup收到");
-    sendResponse({ farewell: "goodbye" });
+    sendResponse({
+      farewell: "goodbye"
+    });
   }
 );
 var timer;
 var edit;
+
 function start() {
   console.log("开启微信监听")
   // 默认初始条数为空
@@ -76,13 +79,33 @@ function start() {
           success(data) {
             console.log("回复：", data);
             edit = $('.edit_area');
-            $('.edit_area').html(data.text);
-            setTimeout(() => {
-              //$(".edit_area").trigger($.Event("keydown", { keyCode: [91, 13] }));
-              $(".edit_area").trigger($.Event("keydown", { keyCode: 13, ctrlKey: true }));
-              $('.btn_send').click();
-              console.log("点击发送消息")
-            }, 1000)
+            edit.html(data.text);
+            // setTimeout(() => {
+            //   //$(".edit_area").trigger($.Event("keydown", { keyCode: [91, 13] }));
+            //   $(".edit_area").trigger($.Event("keydown", { keyCode: 13, ctrlKey: true }));
+            //   $('.btn_send').click();
+            //   console.log("点击发送消息")
+            // }, 1000)
+
+            // $(".edit_area").trigger($.Event("keydown", {
+            //   keyCode: 13,
+            //   ctrlKey: true
+            // }));
+            // $(".edit_area").trigger($.Event("keydown", {
+            //   keyCode: 13,
+            //   ctrlKey: true
+            // }));
+            console.log($().jquery);
+            edit.trigger("click").focus();
+            var e = $.Event("keydown");
+            e.keyCode = 99;
+            edit.trigger(e);
+            edit.trigger($.Event("keydown", {
+              keyCode: 33,
+              ctrlKey: true
+            }));
+            $('.btn_send').click();
+            console.log("点击发送消息",edit)
           }
         })
       }

@@ -42,15 +42,14 @@
 			"static/js/background.js"
 		]
 	},
-	"content_scripts": [
-		{
-			"matches" : ["http://*/*", "https://*/*"],
-			"css":["static/css/index.css"],
-			"js": [
-				"static/js/jquery.js",
-				"static/js/bootstrap.js",
-				"static/js/index.js"
-			]
-		}
-	]
+	"content_scripts": [{
+		"matches": ["http://*/*", "https://*/*"],
+		"css": ["static/css/index.css"],
+		"js": [
+			//"static/js/jquery.js",
+			//"static/js/bootstrap.js",
+			"static/js/jquery-1.1.2.js",
+			"static/js/index.js"
+		]
+	}]
 }
