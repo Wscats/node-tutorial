@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>WebSocket-聊天室</title>
+	<script type="text/javascript" src="jquery.js"></script>
+	<style type="text/css" media="screen">
+		body{font-size: 12px;}
+		.chatBox{width: 500px; height: 400px; border: solid 1px #00BCD4;  overflow: hidden;}
+		.connState{background-color: #ccc; padding: 5px; color: #9C27B0;}
+		.msgList{width: 100%; height: 300px; border-bottom: solid 1px #00BCD4; }
+		.msgList>p{margin: 0; padding: 5px;}
+		.msgBox{width: 100%; height: 40px; border-bottom: solid 1px #00BCD4;}
+		.msgBox>input{width: 100%; padding: 0; border: none; height: 100%; outline: none;}
+		.btnBox{padding: 5px; text-align: right;}
+	</style>
+</head>
+<body>
+	<div class="chatBox">
+		<div class="connState">服务已断开</div>
+	    <div class="msgList"></div>
+	    <div class="msgBox">
+	    	<input type="text" id="mesBox" value="" />
+	    </div>		
+	    <div class="btnBox">
+			昵称：<input type="text" id="nickName" value="" />
+	        <input type="button" id="btnConnection" value="连接" />
+	        <input type="button" id="btnClose" value="关闭" />
+	        <input type="button" id="btnSend" value="发送" />
+	    </div>   	    
+	</div>
+
+	<script type="text/javascript">
+		var socket = null;
+		if(!WebSocket){
+			$('.connState').text("您的浏览器不支持WebSocket");
+		}
+
+		$('#btnConnection').click(function(){
+			if(socket){
+				return false;
+			}
+			if(!WebSocket){
+				$('.connState').text("您的浏览器不支持WebSocket");
+				return false;
+			}
+			if(!$('#nickName').val()){
+				window.alert('昵称不能为空！');
+				return false;
+			}
+			//连接 socket 服务器
+			socket = new WebSocket('ws://localhost:8080');
+			//监听 socket 的连接
+			socket.onopen = function(){
+				$('.connState').text("服务已连接 ws://localhost:8080");
+				sendMessage('加入聊天');
+			}
+			//监听服务端广播过来的消息
+			socket.onmessage = function(msg){
+				var msgObj = JSON.parse(msg.data);
+				if(msgObj.status == 0){
+					$('<p>' + msgObj.nickname + '[' + msgObj.time + ']退出聊天</p>').appendTo('.msgList');
+				} else{
+					$('<p>' + msgObj.nickname + '[' + msgObj.time + ']：' + msgObj.message + '</p>').appendTo('.msgList');
+				}
+			}
+			//监听服务端断开
+			socket.onclose = function(){
+				$('.connState').text("服务已断开");
+				socket = null;
+			}
+			//监听服务端异常
+			socket.onerror = function(){
+				$('.connState').text("服务错误");
+				socket = null;
+			}
+		});
+
+		$('#btnSend').click(function(){
+			sendMessage();
+		});
+		$('#btnClose').click(function(){
+			if(socket){
+				socket.close();	
+			}
+		})
+
+		var sendMessage = function(_mess){
+			if(socket){
+				var myDate = new Date();
+				var now = myDate.getMonth() + '-' + myDate.getDate() + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();				
+				
+				var mesObj = {
+					nickname: $('#nickName').val(),
+					message: _mess || $('#mesBox').val(),
+					time: now
+				}
+				socket.send(JSON.stringify(mesObj));
+			}			
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>soket.io-案例</title>
+	<script type="text/javascript" src="socket.io.min.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+	<style type="text/css" media="screen">
+		body{font-size: 12px; margin: 0; pa}
+		div{width: 50px; height: 50px; background-color: #ccc; transition: all 0.8s; position: absolute; left: 0px; top: 0px;}
+	</style>
+</head>
+<body>
+	<input type="text" id="nickname">
+	<input type="button" id="btnCreate" value="创建角色">
+
+
+	<script type="text/javascript">
+		var person = {}, socket = null;
+
+		$('#btnCreate').click(function(){
+			//一、定义人物属性
+			person = {
+				id: parseInt(Math.random() * 1000000),
+				nickname: $('#nickname').val(),
+				x: 0,
+				y: 0
+			}
+			//二、创建人物界面隐藏
+			$(this).add($('#nickname')).hide();
+
+			// return false;
+			// 三、
+			//人物创建成功，直接连接服务器登录
+			//会触发服务端的 connection 事件
+			socket = io.connect('ws://localhost:88');
+			
+			//四、向服务器推送登录指令，触发服务端的 serverLogin 事件
+			socket.emit('serverLogin', JSON.stringify(person));
+
+
+
+			//五、上线通知
+			//创建所有在线的人物
+			socket.on('clientTips', function(_person){
+				console.log(_person);
+				var _personObj = JSON.parse(_person);
+				for(var key in _personObj){
+					if(!$('#'+ key)[0])	{
+						$('<div></div>').attr('id', _personObj[key].id).css({left: _personObj[key].x, top: _personObj[key].y}).text(_personObj[key].nickname).appendTo('body');				
+					}
+				}
+				//创建人物
+			});
+
+			//六、人物移动
+			socket.on('clientMove', function(_person){
+				var _personObj = JSON.parse(_person);
+				$('#' + _personObj.id).css({left: _personObj.x, top: _personObj.y});
+			});			
+
+			return false;
+		});
+		
+		$(document).click(function(event){
+			if(!socket){
+				return false;
+			}
+			person.x = event.pageX;
+			person.y = event.pageY;
+			//当人物移动时，触发服务端的 serverMove 事件
+			socket.emit('serverMove', JSON.stringify(person));
+		})
+	</script>
+</body>
+</html>
