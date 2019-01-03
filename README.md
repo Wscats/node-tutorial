@@ -1,7 +1,7 @@
 # Node.js 教程目录
 
 1. [Node.js 基础](https://github.com/wscats/node-tutorial/tree/master/tutorial/base)
-    - [认识 Node.js](https://github.com/wscats/node-tutorial/tree/master/tutorial/basics#认识 Node.js)
+    - [认识 Node.js](https://github.com/wscats/node-tutorial/tree/master/tutorial/basics#认识Node.js)
     - Node.js 版本介绍
     - 环境搭建
     - REPL(交互式解释器)
