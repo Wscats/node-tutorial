@@ -1,47 +1,74 @@
 let mysql = require('mysql');
+let config = require('./config.json');
 let pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
-    port: '8889', // 默认是3306
-    database: '1810'
+    host: config.host,
+    user: config.user,
+    port: config.port,
+    password: config.password,
+    database: config.database
 });
 let connect = () => {
     return new Promise((resolve, reject) => {
         pool.getConnection((err, connection) => {
-            if (err) throw err;
-            resolve({
-                connection
-            })
-        })
-    });
+            !err ? resolve(connection) : reject(err)
+        });
+    })
+}
+
+let find = (table, params) => {
+    return new Promise(async (resolve, reject) => {
+        let connection = await connect();
+        connection.query(`SELECT * FROM ${table} ${params?'where ?':''}`, [{
+            ...params
+        }], (err, results, fields) => {
+            !err ? resolve(results) : reject(err)
+            connection.release();
+        });
+    })
 }
 
 let insert = (table, params) => {
     return new Promise(async (resolve, reject) => {
-        let {
-            connection
-        } = await connect();
+        let connection = await connect();
         connection.query(`INSERT INTO ${table} SET ?`, [{
             ...params
-        }], (error, results, fields) => {
+        }], (err, results, fields) => {
+            !err ? resolve(results) : reject(err)
             connection.release();
-            error ? reject(error) : resolve(results)
-        });
+        })
+    })
+}
+
+let del = (table, params) => {
+    return new Promise(async (resolve, reject) => {
+        let connection = await connect();
+        connection.query(`DELETE FROM ${table} WHERE ?`, [{
+            ...params
+        }], (err, results, fields) => {
+            !err ? resolve(results) : reject(err)
+            connection.release();
+        })
+    })
+}
+
+let update = (table, params1, params2) => {
+    return new Promise(async (resolve, reject) => {
+        let connection = await connect();
+        connection.query(`UPDATE ${table} SET ? WHERE ?`, [{
+            ...params1
+        }, {
+            ...params2
+        }], (err, results, fields) => {
+            !err ? resolve(results) : reject(err)
+            connection.release();
+        })
     })
 }
 module.exports = {
     connect,
-    insert
+    find,
+    insert,
+    del,
+    update
 }
-
-// var db = require("./db.js");
-// (async function () {
-//     console.log(db)
-//     await db.insert('students', {
-//         name: "laoxie",
-//         skill: "ps",
-//         age: 16
-//     })
-// })()
