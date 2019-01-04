@@ -1,0 +1,5 @@
+{
+    "PORT":4008,
+    "DBhost":"mongodb://localhost:27017",
+    "database":"mytest"
+}
