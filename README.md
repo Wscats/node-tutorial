@@ -32,6 +32,7 @@
     - [Express 过滤器](https://github.com/wscats/node-tutorial/tree/master/tutorial/express/use)
     - [Express 文件上传](https://github.com/wscats/node-tutorial/tree/master/tutorial/express/multer)
     - [Express Multer实例](https://github.com/Wscats/node-tutorial/tree/master/uploadFiles)
+    - [Express https服务器](https://github.com/Wscats/node-tutorial/tree/master/server/httpsServer)
 5. Node.js 操作数据库
     - MongoDB 基础
     - [MongoDB 模块](https://github.com/Wscats/node-tutorial/issues/20)
