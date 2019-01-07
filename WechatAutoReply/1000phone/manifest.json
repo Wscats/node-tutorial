@@ -1,7 +1,7 @@
 {
 	"name": "1000Phone自动测评",
 	"manifest_version": 2,
-	"version": "6.66",
+	"version": "5.20",
 	"description": "千锋H5，值得拥有！lemon，姚帅，老谢，蓝少在广州等你来！",
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 	"icons": {
