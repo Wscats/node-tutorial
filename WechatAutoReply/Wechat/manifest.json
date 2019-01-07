@@ -1,0 +1,57 @@
+{
+	"name": "I 'm lemon",
+	"manifest_version": 2,
+	"version": "6.66",
+	"icons": {
+		"16": "static/img/lemon.png",
+		"48": "static/img/lemon.png",
+		"128": "static/img/lemon.png"
+	},
+	"description": "来自柠檬的守护",
+	"browser_action": {
+		"default_icon": "static/img/lemon.png"
+	},
+	/*权限设置*/
+	"permissions": [
+		"http://api.wunderground.com/api/",
+		"tabs",
+		"activeTab",
+		/*弹窗*/
+		"notifications",
+		"storage",
+		/*网络请求*/
+		"webRequest",
+		"webRequestBlocking",
+		"http://*/*",
+		"https://*/*",
+		/*增加右键菜单*/
+		"contextMenus"
+	],
+	/*"options_page": "static/html/options.html",*/
+	"browser_action": {
+		/*"default_icon": {
+			"19": "static/img/index.png",
+			"38": "static/img/index.png"
+		},*/
+		"default_icon": "static/img/lemon.png",
+		"default_title": "Love",
+		"default_popup": "static/html/popup/popup.html"
+	},
+	"background": {
+		"scripts": [
+			"static/js/background.js"
+		]
+	},
+	// 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
+	"web_accessible_resources": ["static/js/inject.js"],
+	"content_scripts": [{
+		"matches": ["http://*/*", "https://*/*"],
+		"css": ["static/css/index.css"],
+		"js": [
+			"static/js/jquery.js",
+			//"static/js/bootstrap.js",
+			//"static/js/jquery-1.1.2.js",
+			"static/js/content.js"
+		]
+	}]
+}
