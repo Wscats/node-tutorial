@@ -39,6 +39,7 @@
 	},
 	"background": {
 		"scripts": [
+			"static/js/jquery.js",
 			"static/js/background.js"
 		]
 	},

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src *">
+		<link rel="stylesheet" href="../css/popup.css" />
+		<!--<script src="https://wscats.github.io/angular-tutorial/control/start.js"></script>-->
+		<!--<script src="../js/bootstrap.bundle.js"></script>-->
+		<script src="../js/popup.js"></script>
+		<!--<script src="https://wscats.github.io/angular-tutorial/control/end.js"></script>-->
+		<style>
+			body {
+				margin-top: 20px;
+				margin-bottom: 20px;
+				width: 400px;
+			}
+		</style>
+		<title>Document</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">登录</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a id="dropdown" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">学习资料</a>
+					<div id="dropdown-menu" style="display: none;" class="dropdown-menu">
+						
+						<a target="_blank" class="dropdown-item" href="https://github.com/Wscats/angular-tutorial">Angular教程汇总</a>
+						<a target="_blank" class="dropdown-item" href="https://github.com/Wscats/vue-tutorial">Vue教程汇总</a>
+						<a target="_blank" class="dropdown-item" href="https://github.com/Wscats/react-tutorial">React教程汇总</a>
+						<div class="dropdown-divider"></div>
+						<a target="_blank" class="dropdown-item" href="https://github.com/Wscats/CV">简历技巧</a>
+						<a target="_blank" class="dropdown-item" href="https://github.com/Wscats/Good-Text-Share">前端参考资料汇总</a>
+						<!--<a class="dropdown-item" href="#">Separated link</a>-->
+					</div>
+				</li>
+				<!--<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li>-->
+				<!--<li class="nav-item">
+					<a class="nav-link disabled" href="#">未启动</a>
+				</li>-->
+			</ul>
+			<div class="input-group mb-3" style="margin-top: 15px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">身份证号</span>
+				</div>
+				<input type="text" id="username" class="form-control" placeholder="请输入学员身份证号" aria-label="Username" aria-describedby="basic-addon1">
+			</div>
+
+			<div class="input-group mb-3">
+				<input type="password" id="password" class="form-control" placeholder="请输入学员密码" aria-label="Recipient's username" aria-describedby="basic-addon2">
+				<div class="input-group-append">
+					<span class="input-group-text" id="basic-addon2">密码为后6位</span>
+				</div>
+			</div>
+			<button type="button" id="login" class="btn btn-primary btn-lg btn-block">进入学员后台</button>
+			<!--<a style="text-decoration:none" target="_blank" href="http://stu.1000phone.net/student.php/Public/login">学员后台系统</a>-->
+		</div>
+	</body>
+
+</html>

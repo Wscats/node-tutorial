@@ -11,6 +11,12 @@ document.querySelector('#btn').addEventListener('click', (e) => {
     });
 })
 
+document.querySelector('#btn2').addEventListener('click', (e) => {
+    console.log(e)
+    var bg = chrome.extension.getBackgroundPage();
+    bg.fetch(); // 访问bg的函数
+})
+
 function sendMessageToContentScript(message, callback) {
     chrome.tabs.query({
         active: true,

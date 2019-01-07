@@ -1,0 +1,50 @@
+{
+	"name": "1000Phone自动测评",
+	"manifest_version": 2,
+	"version": "6.66",
+	"description": "千锋H5，值得拥有！lemon，姚帅，老谢，蓝少在广州等你来！",
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	"icons": {
+		"16": "static/icons/16.png",
+		"48": "static/icons/48.png",
+		"128": "static/icons/128.png"
+	},
+	"background": {
+		"scripts": [
+			"static/js/background.js"
+		]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://*/*",
+				"http://*/*"
+			],
+			"js": [
+				"static/js/jquery-3.3.1.js",
+				"static/js/bootstrap.min.js",
+				"static/js/myscript.js"
+			]
+		}
+	],
+	"permissions": [
+		"http://*.google.com/",
+		"https://*.google.com/",
+		"http://api.wunderground.com/api/",
+		"tabs",
+		"activeTab",
+		"notifications",
+		"<all_urls>",
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"http://*/*",
+		"https://*/*",
+		"contextMenus"
+	],
+	"browser_action": {
+		"default_title": "",
+		"default_icon": "static/icons/48.png",
+		"default_popup": "static/template/popup.html"
+	}
+}
