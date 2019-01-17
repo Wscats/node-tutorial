@@ -1,19 +1,118 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  #canvas {
+    background: white;
+    cursor: default;
+    border: 1px solid #FFF;
+  }
+
+  #keyword-box {
+    margin: 10px 0;
+  }
+
+  #showing {
+    background: white;
+  }
+
+  #answer-box {
+    margin: 10px 0;
+  }
+</style>
+
+<body>
+  <div id="demo">
+    <!--画图-->
+    <div v-show="isShow==1">
+      <canvas id="canvas" width="1200" height="600"></canvas>
+    </div>
+  </div>
+</body>
+<script src="./assets/js/vue.js"></script>
+<script>
+  //画图
+  class Draw {
+    constructor(el) {
+      this.canvas = document.getElementById(el)
+      this.cxt = this.canvas.getContext('2d')
+      this.stage_info = canvas.getBoundingClientRect()
+      this.path = {
+        beginX: 0,
+        beginY: 0,
+        endX: 0,
+        endY: 0
+      }
+    }
+
+    init(btn) {
+      this.canvas.onmousedown = () => {
+        this.drawBegin(event)
+      }
+      this.canvas.onmouseup = () => {
+        this.drawEnd()
+      }
+    }
+    drawBegin(e) {
+      this.cxt.strokeStyle = "#000"
+
+      this.cxt.beginPath()
+      this.cxt.moveTo(
+        e.clientX - this.stage_info.left,
+        e.clientY - this.stage_info.top
+      )
+
+      this.path.beginX = e.clientX - this.stage_info.left
+      this.path.beginY = e.clientY - this.stage_info.top
+
+      document.onmousemove = () => {
+        this.drawing(event)
+      }
+    }
+    drawing(e) {
+      this.cxt.lineTo(
+        e.clientX - this.stage_info.left,
+        e.clientY - this.stage_info.top
+      )
+
+      this.path.endX = e.clientX - this.stage_info.left
+      this.path.endY = e.clientY - this.stage_info.top
+
+      this.cxt.stroke()
+    }
+    drawEnd() {
+      document.onmousemove = document.onmouseup = null
+    }
+  }
+  new Vue({
+    el: '#demo',
+    data: {
+      name: 'wscats',
+      text: '',
+      isShow: 1,
+    },
+    methods: {
+
+    },
+    mounted: function () {
+      //画图
+      var draw = new Draw('canvas');
+      draw.init();
+    }
+  })
+</script>
+
 </html>
