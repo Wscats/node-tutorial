@@ -12,7 +12,7 @@
     - [forever](https://github.com/wscats/node-tutorial/tree/master/tutorial/basics#forever)
     - [部署方案](https://github.com/Wscats/node-tutorial/issues/43)
     - [异步嵌套解决方案](https://github.com/Wscats/node-tutorial/issues/12)
-2. Node.js API
+2. Node.js API及常用第三方模块
     - [http 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/http)
     - [url 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/url)
     - [querystring 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/querystring)
@@ -20,15 +20,16 @@
     - [fs 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/fs)
     - [stream 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/stream)
     - [cheerio 模块](https://github.com/Wscats/node-tutorial/issues/9)
-    - [anyproxy 模块](https://github.com/Wscats/node-tutorial/issues/26)
+    - [anyproxy 模块(抓包工具)](https://github.com/Wscats/node-tutorial/issues/26)
+    - [mocha 模块(单元测试)](https://github.com/Wscats/node-tutorial/tree/master/mocha)
 3. Node.js 基础应用
     - [路由](https://github.com/wscats/node-tutorial/tree/master/tutorial/router)
     - [request](https://github.com/wscats/node-tutorial/tree/master/tutorial/request)
     - [http 小爬虫](https://github.com/wscats/node-tutorial/tree/master/tutorial/spider)
-    - [Async](https://github.com/wscats/node-tutorial/tree/master/tutorial/async)
-4. Express 
+    - [async](https://github.com/wscats/node-tutorial/tree/master/tutorial/async)
+4. Express 及其他服务器框架
     - [Express 基础应用](https://github.com/wscats/node-tutorial/tree/master/tutorial/express)
-    - [Express 基础配置](https://github.com/Wscats/node-tutorial/issues/8)
+    - [Express Koa 和 Egg 基础配置](https://github.com/Wscats/node-tutorial/issues/8)
     - [Express 过滤器](https://github.com/wscats/node-tutorial/tree/master/tutorial/express/use)
     - [Express 文件上传](https://github.com/wscats/node-tutorial/tree/master/tutorial/express/multer)
     - [Express Multer实例](https://github.com/Wscats/node-tutorial/tree/master/uploadFiles)
