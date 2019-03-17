@@ -14,6 +14,7 @@
     - [异步嵌套解决方案](https://github.com/Wscats/node-tutorial/issues/12)
 2. Node.js API及常用第三方模块
     - [http 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/http)
+    - [net 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/net)
     - [url 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/url)
     - [querystring 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/querystring)
     - [events 模块](https://github.com/wscats/node-tutorial/tree/master/tutorial/events)
