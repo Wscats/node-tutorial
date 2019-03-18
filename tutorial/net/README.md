@@ -123,19 +123,19 @@ server.on('error', (e) => {});
 
 |||
 |-|-|
-|socket.connect(path[, connectListener])|打开指定路径的 unix socket。通常情况不需要使用 net.createConnection 打开 socket。只有你实现了自己的 socket 时才会用到。|
-|socket.setEncoding([encoding])|设置编码|
-|socket.write(data[, encoding][, callback])|在 socket 上发送数据。第二个参数指定了字符串的编码，默认是 UTF8 编码。|
-|socket.end([data][, encoding])|半关闭 socket。例如，它发送一个 FIN 包。可能服务器仍在发送数据。|
-|socket.destroy()|确保没有 I/O 活动在这个套接字上。只有在错误发生情况下才需要。（处理错误等等）。|
-|socket.pause()|暂停读取数据。就是说，不会再触发 data 事件。对于控制上传非常有用。|
-|socket.resume()|调用 pause() 后想恢复读取数据。|
-|socket.setTimeout(timeout[, callback])|socket 闲置时间超过 timeout 毫秒后 ，将 socket 设置为超时。|
-|socket.setNoDelay([noDelay])|禁用纳格（Nagle）算法。默认情况下 TCP 连接使用纳格算法，在发送前他们会缓冲数据。将 noDelay 设置为 true 将会在调用 socket.write() 时立即发送数据。noDelay 默认值为 true。|
-|socket.setKeepAlive([enable][, initialDelay])|禁用/启用长连接功能，并在发送第一个在闲置 socket 上的长连接 probe 之前，可选地设定初始延时。默认为 false。 设定 initialDelay （毫秒），来设定收到的最后一个数据包和第一个长连接probe之间的延时。将 initialDelay 设为0，将会保留默认（或者之前）的值。默认值为0。|
-|socket.address()|操作系统返回绑定的地址，协议族名和服务器端口。返回的对象有 3 个属性，比如{ port: 12346, family: 'IPv4', address: '127.0.0.1' }。|
-|socket.unref()|如果这是事件系统中唯一一个活动的服务器，调用 unref 将允许程序退出。如果服务器已被 unref，则再次调用 unref 并不会产生影响。|
-|socket.ref()|与 unref 相反，如果这是唯一的服务器，在之前被 unref 了的服务器上调用 ref 将不会让程序退出（默认行为）。如果服务器已经被 ref，则再次调用 ref 并不会产生影响。|
+|`socket.connect(path[, connectListener])`|打开指定路径的 unix socket。通常情况不需要使用 net.createConnection 打开 socket。只有你实现了自己的 socket 时才会用到。|
+|`socket.setEncoding([encoding])`|设置编码|
+|`socket.write(data[, encoding][, callback])`|在 socket 上发送数据。第二个参数指定了字符串的编码，默认是 UTF8 编码。|
+|`socket.end([data][, encoding])`|半关闭 socket。例如，它发送一个 FIN 包。可能服务器仍在发送数据。|
+|`socket.destroy()`|确保没有 I/O 活动在这个套接字上。只有在错误发生情况下才需要。（处理错误等等）。|
+|`socket.pause()`|暂停读取数据。就是说，不会再触发 data 事件。对于控制上传非常有用。|
+|`socket.resume()`|调用 pause() 后想恢复读取数据。|
+|`socket.setTimeout(timeout[, callback])`|socket 闲置时间超过 timeout 毫秒后 ，将 socket 设置为超时。|
+|`socket.setNoDelay([noDelay])`|禁用纳格（Nagle）算法。默认情况下 TCP 连接使用纳格算法，在发送前他们会缓冲数据。将 noDelay 设置为 true 将会在调用 socket.write() 时立即发送数据。noDelay 默认值为 true。|
+|`socket.setKeepAlive([enable][, initialDelay])`|禁用/启用长连接功能，并在发送第一个在闲置 socket 上的长连接 probe 之前，可选地设定初始延时。默认为 false。 设定 initialDelay （毫秒），来设定收到的最后一个数据包和第一个长连接probe之间的延时。将 initialDelay 设为0，将会保留默认（或者之前）的值。默认值为0。|
+|`socket.address()`|操作系统返回绑定的地址，协议族名和服务器端口。返回的对象有 3 个属性，比如{ port: 12346, family: 'IPv4', address: '127.0.0.1' }。|
+|`socket.unref()`|如果这是事件系统中唯一一个活动的服务器，调用 unref 将允许程序退出。如果服务器已被 unref，则再次调用 unref 并不会产生影响。|
+|`socket.ref()`|与 unref 相反，如果这是唯一的服务器，在之前被 unref 了的服务器上调用 ref 将不会让程序退出（默认行为）。如果服务器已经被 ref，则再次调用 ref 并不会产生影响。|
 
 
 `new net.Socket([options])`构造一个新的`socket`对象。
