@@ -1,0 +1,15 @@
+{
+  "name": "https-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "https.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mkdirp": "^0.5.1",
+    "node-forge": "^0.8.2"
+  }
+}
