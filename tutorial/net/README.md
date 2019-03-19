@@ -266,6 +266,43 @@ server.on('error', (e) => {
     }
 });
 ```
+用`postman`测试，记录在`message.txt`的格式为
+```js
+POST /abc HTTP/1.1
+Content-Type: multipart/form-data; boundary=--------------------------879095998142409176007484
+abc: 123
+bbb: ccc
+ddd: eee
+token: eyJkYXRhIjp7ImlucHV0RW1haWwiOiJsZW1vbiIsImlucHV0UGFzc3dvcmQiOiIxMjMifSwiY3JlYXRlZCI6MTU0NzA0MTEyMCwiZXhwIjo2MH0=.jP/Nm3RMzy6MGnH5uHWuvTkFZp94Bm5tMfDhhdRxlaM=
+cache-control: no-cache
+Postman-Token: 97b4950a-1169-407b-8787-ab238d3954d4
+User-Agent: PostmanRuntime/7.6.0
+Accept: */*
+Host: localhost:3000
+cookie: csrfToken=58RWUaRa3ZuA2uIp7cxn34pC
+accept-encoding: gzip, deflate
+content-length: 157
+Connection: keep-alive
+
+----------------------------879095998142409176007484
+Content-Disposition: form-data; name="x"
+
+x
+----------------------------879095998142409176007484--
+```
+从[net源码](https://github.com/nodejs/node/blob/master/lib/_http_server.js)中我们也可以看到这些设置，从中我们得知`http`模块是真的基于`net`模块实现的
+```js
+var statusLine = `HTTP/1.1 ${statusCode} ${this.statusMessage}${CRLF}`; // line 252
+
+function Server(options, requestListener) {
+  net.Server.call(this, { allowHalfOpen: true });
+  if (requestListener) {
+    this.on('request', requestListener);
+  }
+} // line 283
+
+net.Server.call(this, { allowHalfOpen: true }); //line 298
+```
 
 # 参考文档
 

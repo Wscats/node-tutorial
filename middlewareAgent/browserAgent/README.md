@@ -164,6 +164,11 @@ httpTunnel.on('connect', (req, cltSocket, head) => {
 选择**代理**，只勾选`网页代理(HTTP)`，设置右边的**网页代理服务器**和**安全网页代理设置**，可以把它设置为`127.0.0.1:6789`
 <img src="./assets/mac-proxy3.png">
 
+# 基于MITM原理实现的第三方模块
+
+- [anyproxy](https://github.com/alibaba/anyproxy)
+- [node-mitmproxy](https://github.com/wuchangming/node-mitmproxy)
+
 # 参考文档
 
 - [基于Node.js的HTTPS MITM(中间人)代理的原理和实现](https://github.com/wuchangming/https-mitm-proxy-handbook)

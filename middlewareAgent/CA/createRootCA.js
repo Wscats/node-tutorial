@@ -66,6 +66,6 @@ console.log(keyPem);
 console.log(`公钥存放路径：\n ${certPath}\n`);
 console.log(`私钥存放路径：\n ${keyPath}\n`);
 
-mkdirp.sync(path.join(__dirname, '../../rootCA'));
+mkdirp.sync(path.join(__dirname, '../CA/rootCA'));
 fs.writeFileSync(certPath, certPem);
 fs.writeFileSync(keyPath, keyPem);

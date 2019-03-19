@@ -36,7 +36,6 @@ const caKey = forge.pki.privateKeyFromPem(caKeyPem);
  * @return {[type]}            [description]
  */
 function createFakeHttpsWebSite(domain, successFun) {
-
     const fakeCertObj = createFakeCertificateByDomain(caKey, caCert, domain)
     var fakeServer = new https.Server({
         key: fakeCertObj.key,

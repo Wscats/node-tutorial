@@ -7,8 +7,8 @@ const mkdirp = require('mkdirp');
 // CNanme
 var domain = 'github.com';
 
-var caCertPem = fs.readFileSync(path.join(__dirname, '../../rootCA/rootCA.crt'));
-var caKeyPem = fs.readFileSync(path.join(__dirname, '../../rootCA/rootCA.key.pem'));
+var caCertPem = fs.readFileSync(path.join(__dirname, './rootCA/rootCA.crt'));
+var caKeyPem = fs.readFileSync(path.join(__dirname, './rootCA/rootCA.key.pem'));
 var caCert = forge.pki.certificateFromPem(caCertPem);
 var caKey = forge.pki.privateKeyFromPem(caKeyPem);
 
@@ -81,6 +81,6 @@ console.log(certPem);
 console.log(keyPem);
 
 
-mkdirp.sync(path.join(__dirname, '../../cert'));
-fs.writeFileSync(path.join(__dirname, '../../cert/my.crt'), certPem);
-fs.writeFileSync(path.join(__dirname, '../../cert/my.key.pem'), keyPem);
+mkdirp.sync(path.join(__dirname, './cert'));
+fs.writeFileSync(path.join(__dirname, './cert/my.crt'), certPem);
+fs.writeFileSync(path.join(__dirname, './cert/my.key.pem'), keyPem);
