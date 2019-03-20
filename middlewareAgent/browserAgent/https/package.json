@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "node-forge": "^0.8.2"
+    "express": "^4.16.4",
+    "ip": "^1.1.5",
+    "morgan": "^1.9.1",
+    "node-forge": "^0.8.2",
+    "request": "^2.88.0"
   }
 }
