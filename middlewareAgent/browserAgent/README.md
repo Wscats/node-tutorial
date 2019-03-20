@@ -63,6 +63,7 @@ httpMitmProxy.on('request', (req, res) => {
     })
 })
 ```
+具体源代码请看[这里](https://github.com/Wscats/node-tutorial/blob/master/middlewareAgent/browserAgent/http/http.js)
 
 # HTTPS代理实现
 
@@ -147,20 +148,25 @@ httpTunnel.on('connect', (req, cltSocket, head) => {
   });
 });
 ```
-不获取明文的代理，这种方式就是利用`http`得到请求信息然后借助`net`模块模拟客户端的`TCP`请求
+具体源代码请看[这里](https://github.com/Wscats/node-tutorial/blob/master/middlewareAgent/browserAgent/https/https.js)
+
+
+不获取明文的代理，这种方式就是利用`http`得到请求信息然后借助`net`模块模拟客户端的`TCP`请求，这个实现方式跟Node官方文档的[connect事件例子](http://nodejs.cn/api/http.html#http_event_connect)非常相似
 ```js
-// node.js 中基于express 实现简单http代理服务
 const url = require('url');
 const http = require('http');
 const net = require('net');
-const config = {
-    port: 6789
-};
 const {
     port
-} = config;
-
-const server = http.createServer();
+} = config = {
+    port: 6789
+};
+const server = http.createServer((req, res) => {
+    // 代理HTTP
+    const ip = res.socket.remoteAddress;
+    const port = res.socket.remotePort;
+    res.end(`您的 IP 地址是 ${ip}，您的源端口是 ${port}`);
+});
 
 // HTTP 隧道 代理HTTPS 流量 但由于加密 不能处理
 server.on('connect', (req, socket) => {
@@ -185,11 +191,9 @@ server.on('connect', (req, socket) => {
     socket.pipe(clientSocket);
 
 });
-
 // 开启server 监听指定端口
 server.listen(port, () => {
-    // 打印当前ip 地址和port
-    console.log(`address: ${server.address()}:${server.port}`);
+    console.log('server start');
 });
 server.on('error', (e) => {
     if (e.code == 'EADDRINUSE') {
@@ -202,6 +206,53 @@ server.on('error', (e) => {
     }
 });
 ```
+具体源代码请看[这里](https://github.com/Wscats/node-tutorial/blob/master/middlewareAgent/browserAgent/https/https4.js)
+
+# 生成CA证书
+
+## 根证书
+
+具体代码请看：[生成根证书](https://github.com/Wscats/node-tutorial/blob/master/middlewareAgent/CA/createRootCA.js)
+
+执行完`npm run createRootCA`后，CA根证书的公私钥会生成到项目根路径的rootCA文件夹下
+
+|||
+|-|-|
+|公钥文件|rootCA/rootCA.crt|
+|私钥文件|rootCA/rootCA.key.pem|
+
+## 安装CA根证书
+
+⚠️注意：
+
+- 1.必须要按照上面步骤先生成CA证书相关文件
+- 2.每一次生成的证书和密钥都是独一无二的。
+
+在MAC系统下找到**钥匙串访问**，然后双击打开证书文件`rootCA/rootCA.crt`完成安装，并且有可能需要在**信任-使用此证书时**里面设置**始终信任**。
+
+<img src="./assets/mac-proxy4.png">
+
+或者在项目根路径下执行下面命令，然后输入用户密码或者指纹后即可安装成功。
+
+```bash
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain rootCA/rootCA.crt
+```
+
+## 子证书
+
+执行完`npm run createCertByRootCA`后，CA子证书的公私钥会生成到项目根路径的cert文件夹下
+
+|||
+|-|-|
+|公钥文件|cert/my.crt|
+|私钥文件|cert/my.key.pem|
+
+另外和CA根证书最大的不同是，该子证书是用CA根证书的私钥签名，而CA根证书是用自己的私钥自签名。这也从代码的角度认识到了证书链的原理
+```js
+// 用CA根证书私钥签名
+cert.sign(caKey, forge.md.sha256.create());
+```
+配合HTTP隧道和证书实现HTTPS代理，具体源代码请看[https.js](https://github.com/Wscats/node-tutorial/blob/master/middlewareAgent/browserAgent/https/https.js)和[createFakeHttpsWebSite.js](https://github.com/Wscats/node-tutorial/blob/master/middlewareAgent/browserAgent/https/createFakeHttpsWebSite.js)
 
 # 设置代理
 

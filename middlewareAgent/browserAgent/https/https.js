@@ -28,14 +28,18 @@ httpTunnel.on('error', (e) => {
 httpTunnel.on('connect', (req, cltSocket, head) => {
     // connect to an origin server
     var srvUrl = url.parse(`http://${req.url}`);
-
     console.log(`CONNECT ${srvUrl.hostname}:${srvUrl.port}`);
-
     createFakeHttpsWebSite(srvUrl.hostname, (port) => {
         var srvSocket = net.connect(port, '127.0.0.1', () => {
             cltSocket.write('HTTP/1.1 200 Connection Established\r\n' +
                 'Proxy-agent: MITM-proxy\r\n' +
                 '\r\n');
+            cltSocket.on('error', (e) => {
+                console.error(e);
+            })
+            cltSocket.on('data', (data) => {
+                // console.log(data.toString());
+            });
             srvSocket.write(head);
             srvSocket.pipe(cltSocket);
             cltSocket.pipe(srvSocket);

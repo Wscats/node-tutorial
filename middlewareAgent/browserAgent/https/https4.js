@@ -1,15 +1,17 @@
-// node.js 中基于express 实现简单http代理服务
 const url = require('url');
 const http = require('http');
 const net = require('net');
-const config = {
-    port: 6789
-};
 const {
     port
-} = config;
-
-const server = http.createServer();
+} = config = {
+    port: 6789
+};
+const server = http.createServer((req, res) => {
+    // 代理HTTP
+    const ip = res.socket.remoteAddress;
+    const port = res.socket.remotePort;
+    res.end(`您的 IP 地址是 ${ip}，您的源端口是 ${port}`);
+});
 
 // HTTP 隧道 代理HTTPS 流量 但由于加密 不能处理
 server.on('connect', (req, socket) => {
@@ -34,11 +36,9 @@ server.on('connect', (req, socket) => {
     socket.pipe(clientSocket);
 
 });
-
 // 开启server 监听指定端口
 server.listen(port, () => {
-    // 打印当前ip 地址和port
-    console.log(`address: ${server.address()}:${server.port}`);
+    console.log('server start');
 });
 server.on('error', (e) => {
     if (e.code == 'EADDRINUSE') {
