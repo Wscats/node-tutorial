@@ -62,14 +62,38 @@ function createFakeHttpsWebSite(domain, successFun) {
             method: req.method,
             port: req.headers.host.split(':')[1] || 80,
             path: urlObject.path,
-            headers: req.headers
+            headers: req.headers,
+            // key: pki.privateKeyToPem(fakeCertObj.key),
+            // cert: pki.certificateToPem(fakeCertObj.cert),
         };
         res.writeHead(200, {
             'Content-Type': 'text/html;charset=utf-8'
         });
+        // console.log(req);
         res.write(`<html><body>我是伪造的: ${options.protocol}//${options.hostname} 站点</body></html>`);
         res.end();
+        // const trueReq = https.request(options);
+        // trueReq.end();
+        // res.end();
+        // 根据客户端请求，向真正的目标服务器发起请求。
+        // let realReq = https.request(options, (realRes) => {
+        //     console.log(realRes);
+        //     // realRes.pipe(res);
+        // }).end().on('error', function (e) {
+        //     console.log(e);
+        // });
+
+        // 通过pipe的方式把客户端请求内容转发给目标服务器
+        // res.pipe(realReq);
+        // realReq.pipe(res);
+
+        // realReq.on('error', (e) => {
+        //     console.error(e);
+        // })
     });
+    fakeServer.on('upgrade', (req, socket, head) => {
+
+    })
     fakeServer.on('error', (e) => {
         console.error(e);
     });

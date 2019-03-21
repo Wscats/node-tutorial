@@ -127,7 +127,7 @@ httpTunnel.on('error', (e) => {
         console.error(e);
     }
 });
-
+// http服务器必须在connect里面才能监听到https请求
 // https的请求通过http隧道方式转发
 httpTunnel.on('connect', (req, cltSocket, head) => {
   // connect to an origin server
