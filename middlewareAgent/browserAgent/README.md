@@ -129,6 +129,7 @@ httpTunnel.on('error', (e) => {
 });
 // http服务器必须在connect里面才能监听到https请求
 // https的请求通过http隧道方式转发
+// 这里就是上面第一步：客户端像http代理发起CONNECT请求
 httpTunnel.on('connect', (req, cltSocket, head) => {
   // connect to an origin server
   var srvUrl = url.parse(`http://${req.url}`);
