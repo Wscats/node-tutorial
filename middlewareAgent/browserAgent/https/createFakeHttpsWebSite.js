@@ -51,9 +51,13 @@ function createFakeHttpsWebSite(domain, successFun) {
 
     fakeServer.listen(0, () => {
         var address = fakeServer.address();
+        console.log('触发fakeServer请求');
+        // 触发net.conect的tcp连接
+        // 然后在该https的服务器`request`阶段监听
         successFun(address.port);
     });
     fakeServer.on('request', (req, res) => {
+        console.log('响应fakeServer请求');
         // 解析客户端请求
         var urlObject = url.parse(req.url);
         let options = {
@@ -70,6 +74,9 @@ function createFakeHttpsWebSite(domain, successFun) {
             'Content-Type': 'text/html;charset=utf-8'
         });
         // console.log(req);
+        // req.on('data', (chunk) => {
+        //     console.log(chunk.toString());
+        // });
         res.write(`<html><body>我是伪造的: ${options.protocol}//${options.hostname} 站点</body></html>`);
         res.end();
         // const trueReq = https.request(options);
