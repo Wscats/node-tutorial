@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<p>利用二进制blob，配合node的http和fs模块实现上传文件</p>
+	<p>后续还可以使用blob.slice方法实现分块上传</p>
+	<input type="file" id="file" name="logo" />
+</body>
+<script>
+	var fileNode = document.getElementById("file");
+	fileNode.onchange = function () {
+		var xmlhttp = new XMLHttpRequest();
+		//设置回调，当请求的状态发生变化时，就会被调用  
+		xmlhttp.onreadystatechange = function () {
+			//上传成功，返回的文件名，设置到父节点的背景中  
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				console.log(xmlhttp.responseText);
+			}
+		}
+		// file继承于blob格式，可以从原型链观察得出，所以file也是一种blob
+		var blob = fileNode.files[0];
+		console.log(blob);
+		//设置请求，true：表示异步  
+		xmlhttp.open("post", "http://localhost:8877", true);
+		xmlhttp.setRequestHeader('Content-Type', 'application/octet-stream');
+		//提交请求，可以直接把二进制内容放到请求体里面发送到后端
+		xmlhttp.send(blob);
+		//清除掉，否则下一次选择同样的文件就进入不到onchange函数中了  
+		fileNode.value = null;
+	}
+</script>
+
+</html>
