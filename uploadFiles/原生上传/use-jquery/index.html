@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+    <p>利用二进制blob，配合node的http和fs模块实现上传文件</p>
+    <p>后续还可以使用blob.slice方法实现分块上传</p>
+    <input type="file" id="file" name="logo" />
+</body>
+<script src="jquery.js"></script>
+<script>
+    var fileNode = document.getElementById("file");
+    fileNode.onchange = function () {
+        $.ajax({
+            url: "http://localhost:8877",
+            type: "POST",
+            dataType: "binary",
+            data: fileNode.files[0],
+            headers: {
+                'Content-Type': 'application/octet-stream',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            processData: false,
+        }).done(function (data) {
+            console.log(data);
+        })
+        fileNode.value = null;
+    }
+</script>
+
+</html>
