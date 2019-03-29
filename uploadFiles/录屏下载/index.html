@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo -- 录制视频，通过RTCPeerConnection展示在web界面上</title>
+</head>
+<body>
+    <div id="buttonDiv">
+        <button id="record">Start Recording</button>
+        <button id="download">download</button>
+    </div>
+    <script>
+        // 查看支持的格式
+        var types = ["video/webm",
+            "audio/webm",
+            "video/webm\;codecs=vp8",
+            "video/webm\;codecs=daala",
+            "video/webm\;codecs=h264",
+            "audio/webm\;codecs=opus",
+            "video/mpeg"
+        ];
+        for (var i in types) {
+            console.log("Is " + types[i] + " supported? " + (MediaRecorder.isTypeSupported(types[i]) ? "Maybe!" :
+                "Nope :("));
+        }
+
+        // 录屏逻辑
+        let mediaRecorder;
+        let recordedBlobs;
+
+        let recordButton = document.getElementById("record");
+        let downloadButton = document.getElementById("download");
+        downloadButton.disabled = true;
+
+        recordButton.onclick = () => {
+            if (recordButton.textContent === "Start Recording") {
+                recordedBlobs = [];
+                let options = {
+                    mimeType: "video/webm"
+                };
+                mediaRecorder = new MediaRecorder(window.stream, options); // 设置音频录入源、格式
+
+                console.log("Created MediaRecorder", mediaRecorder, "with options", options);
+                recordButton.textContent = "Stop Recording";
+                downloadButton.disabled = true;
+                mediaRecorder.onstop = function (event) {
+                    console.log("Recorder stopped: ", event);
+                };
+                mediaRecorder.ondataavailable = function (event) {
+                    // 这个会不断输出，录像的片段
+                    // console.log(event);
+                    if (event.data && event.data.size > 0) {
+                        recordedBlobs.push(event.data);
+                    }
+                }; // 存放获取的数据
+                mediaRecorder.start(10); //  开始录制 collect 10ms of data
+                console.log("MediaRecorder started", mediaRecorder);
+            } else {
+                mediaRecorder.stop();
+                recordButton.textContent = "Start Recording";
+                downloadButton.disabled = false;
+            }
+        };
+
+        navigator.mediaDevices.getDisplayMedia({
+                video: true,
+                audio: false
+            })
+            .then(function (stream) {
+                console.log(stream);
+                recordButton.disabled = false;
+                window.stream = stream; // 录制视频的时候要用到
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+        // 下载视频
+        downloadButton.onclick = function download() {
+            let blob = new Blob(recordedBlobs, {
+                type: "video/webm"
+            });
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = "test.webm";
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function () {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100)
+        };
+    </script>
+</body>
+
+</html>
