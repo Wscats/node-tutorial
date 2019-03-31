@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<p>利用二进制blob，配合node的http和fs模块实现上传文件</p>
+	<p>后续还可以使用blob.slice方法实现分块上传</p>
+	<input type="file" id="file" name="logo" multiple />
+</body>
+<script>
+	var fileNode = document.getElementById("file");
+	fileNode.onchange = function () {
+		var blobs = fileNode.files;
+		var length = fileNode.files.length;
+		for (let index = 0; index < length; index++) {
+			console.log(blobs[index].name);
+			let xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					console.log(xmlhttp.responseText);
+				}
+			}
+			xmlhttp.open(`POST`, `http://localhost:8877?name=${blobs[index].name}`, true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/octet-stream');
+			//提交请求，可以直接把二进制内容放到请求体里面发送到后端
+			xmlhttp.send(blobs[index]);
+		}
+		fileNode.value = null;
+	}
+</script>
+
+</html>
