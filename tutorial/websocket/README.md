@@ -14,7 +14,7 @@ TCP 协议可以总结几个特点：
 
 # 认识 WebSocket
 WebSocket 目前由 W3C 进行标准化。WebSocket 已经受到 Firefox 4、Chrome 4、Opera 10.70 以及Safari 5 等浏览器的支持。
-如果在前端我们可以把 AJAX 请求当作一个 HTTP 协议的实现，那么，WebSocket 就是 TCP 协议的一种实现。
+如果在前端我们可以把 AJAX 请求当作一个 HTTP 协议的实现，那么，WebSocket 就是 UDP 协议的一种实现。
 
 # 服务端 API
 - 安装第三方模块 ws：`npm install ws`
