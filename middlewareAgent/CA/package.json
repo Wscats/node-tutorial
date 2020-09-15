@@ -10,6 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "mkdirp": "^0.5.1",
-    "node-forge": "^0.8.2"
+    "node-forge": "^0.10.0"
   }
 }
