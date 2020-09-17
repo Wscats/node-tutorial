@@ -20,7 +20,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^4.0.1"
+    "electron": "^10.1.1"
   },
   "dependencies": {
     "vue": "^2.5.22"
