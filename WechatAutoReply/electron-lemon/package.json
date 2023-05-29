@@ -20,6 +20,6 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^18.3.7"
+    "electron": "^24.4.0"
   }
 }
