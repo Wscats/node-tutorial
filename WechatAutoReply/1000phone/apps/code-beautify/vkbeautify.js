@@ -1,3 +1,5 @@
+'use strict';
+
 /**
 * vkBeautify - javascript plugin to pretty-print or minify text in XML, JSON, CSS and SQL formats.
 *  
@@ -48,7 +50,7 @@
 
 function createShiftArr(step) {
 
-	var space = '    ';
+	let space = '    ';
 	
 	if ( isNaN(parseInt(step)) ) {  // argument is string
 		space = step;
@@ -69,7 +71,7 @@ function createShiftArr(step) {
 		}
 	}
 
-	var shift = ['\n']; // array of shifts
+	let shift = ['\n']; // array of shifts
 	for(ix=0;ix<100;ix++){
 		shift.push(shift[ix]+space); 
 	}
@@ -83,7 +85,7 @@ function vkbeautify(){
 
 vkbeautify.prototype.xml = function(text,step) {
 
-	var ar = text.replace(/>\s{0,}</g,"><")
+	let ar = text.replace(/>\s{0,}</g,"><")
 				 .replace(/</g,"~::~<")
 				 .replace(/\s*xmlns\:/g,"~::~xmlns:")
 				 .replace(/\s*xmlns\=/g,"~::~xmlns=")
@@ -112,12 +114,12 @@ vkbeautify.prototype.xml = function(text,step) {
 			} else 
 			// <elm></elm> //
 			if( /^<\w/.exec(ar[ix-1]) && /^<\/\w/.exec(ar[ix]) &&
-				/^<[\w:\-\.\,]+/.exec(ar[ix-1]) == /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/','')) { 
+				/^<[\w:\-\.\,]+/.exec(ar[ix-1]) === /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/','')) { 
 				str += ar[ix];
 				if(!inComment) deep--;
 			} else
 			 // <elm> //
-			if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) == -1 && ar[ix].search(/\/>/) == -1 ) {
+			if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) === -1 && ar[ix].search(/\/>/) === -1 ) {
 				str = !inComment ? str += shift[deep++]+ar[ix] : str += ar[ix];
 			} else 
 			 // <elm>...</elm> //
@@ -146,12 +148,12 @@ vkbeautify.prototype.xml = function(text,step) {
 			}
 		}
 		
-	return  (str[0] == '\n') ? str.slice(1) : str;
+	return  (str[0] === '\n') ? str.slice(1) : str;
 }
 
 vkbeautify.prototype.json = function(text,step) {
 
-	var step = step ? step : this.step;
+	const step = step ? step : this.step;
 	
 	if (typeof JSON === 'undefined' ) return text; 
 	
@@ -163,7 +165,7 @@ vkbeautify.prototype.json = function(text,step) {
 
 vkbeautify.prototype.css = function(text, step) {
 
-	var ar = text.replace(/\s{1,}/g,' ')
+	let ar = text.replace(/\s{1,}/g,' ')
 				.replace(/\{/g,"{~::~")
 				.replace(/\}/g,"~::~}~::~")
 				.replace(/\;/g,";~::~")
@@ -259,7 +261,7 @@ function split_sql(str, tab) {
 
 vkbeautify.prototype.sql = function(text,step) {
 
-	var ar_by_quote = text.replace(/\s{1,}/g," ")
+	const ar_by_quote = text.replace(/\s{1,}/g," ")
 							.replace(/\'/ig,"~::~\'")
 							.split('~::~'),
 		len = ar_by_quote.length,
@@ -310,7 +312,7 @@ vkbeautify.prototype.sql = function(text,step) {
 					deep--;
 				}
 			} 
-			var junk = 0;
+			const junk = 0;
 		}
 
 		str = str.replace(/^\n{1,}/,'').replace(/\n{1,}/g,"\n");
@@ -320,7 +322,7 @@ vkbeautify.prototype.sql = function(text,step) {
 
 vkbeautify.prototype.xmlmin = function(text, preserveComments) {
 
-	var str = preserveComments ? text
+	let str = preserveComments ? text
 							   : text.replace(/\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>/g,"")
 									 .replace(/[ \r\n\t]{1,}xmlns/g, ' xmlns');
 	return  str.replace(/>\s{0,}</g,"><"); 
@@ -336,7 +338,7 @@ vkbeautify.prototype.jsonmin = function(text) {
 
 vkbeautify.prototype.cssmin = function(text, preserveComments) {
 	
-	var str = preserveComments ? text
+	const str = preserveComments ? text
 							   : text.replace(/\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\//g,"") ;
 
 	return str.replace(/\s{1,}/g,' ')

@@ -1,3 +1,5 @@
+'use strict';
+
 // 检测jQuery
 document.getElementById('check_jquery').addEventListener('click', function()
 {
@@ -5,7 +7,7 @@ document.getElementById('check_jquery').addEventListener('click', function()
 	// 简单例子：检测被检查页面是否使用了jQuery
 	chrome.devtools.inspectedWindow.eval("jQuery.fn.jquery", function(result, isException)
 	{
-		var html = '';
+		let html = '';
 		if (isException) html = '当前页面没有使用jQuery。';
 		else html = '当前页面使用了jQuery，版本为：'+result;
 		alert(html);
@@ -39,7 +41,7 @@ document.getElementById('get_all_resources').addEventListener('click', function(
 	});
 });
 
-var myconsole = 
+const myconsole = 
 {
 	_log: function(obj)
 	{

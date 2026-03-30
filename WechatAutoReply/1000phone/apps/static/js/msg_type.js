@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper MSG_TYPE
  */

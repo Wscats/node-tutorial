@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Uglifyjs3 Js压缩
  * @type {{compress}}

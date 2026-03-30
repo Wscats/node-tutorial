@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper Full Page Capture
  * @type {{scroll}}

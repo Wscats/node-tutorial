@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间
  */
@@ -9,7 +11,7 @@ baidu.fcphelper = (function(){
 	 * 创建一个Accordion
 	 * @param {Object} data
 	 */
-	var _creatResultItem = function(data){
+	const _creatResultItem = function(data){
 		return '\
 			<h3 class="rst-title">\
 				<a href="#">' + data.title + '：\
@@ -26,10 +28,10 @@ baidu.fcphelper = (function(){
 	 * @param {Object} start
 	 * @param {Object} end
 	 */
-	var _get_issue_suggestion = function(perfix,start,end){
+	const _get_issue_suggestion = function(perfix,start,end){
 		
-		var tempArr = [];
-		var tempInt = 0;
+		let tempArr = [];
+		let tempInt = 0;
 		
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
@@ -37,8 +39,8 @@ baidu.fcphelper = (function(){
 				'<td class="td-content-title">&nbsp;</td>'+
 				'<td class="td-content-content">描述（Description）</td>' +
 				'</tr></thead><tbody>');
-		var addTr = function(_t_title,_t_content) {
-			var _cls = tempInt % 2 == 0 ? 'tr-content-even' : '';
+		let addTr = function(_t_title,_t_content) {
+			const _cls = tempInt % 2 === 0 ? 'tr-content-even' : '';
 			tempArr.push('<tr class="' + _cls + '"><th class="td-linenum" rowspan="2">' + (++tempInt) + '</th>' +
 					'<td class="td-content-title"><span class="-x-issue">问题</span></td>' + 
 					'<td class="td-content-content -c-x-issue">' + _t_title + '</td></tr>');
@@ -48,7 +50,7 @@ baidu.fcphelper = (function(){
 		};
 		
 		var key;
-		for(var i = start;i <= end;i++) {
+		for(let i = start;i <= end;i++) {
 			key = ('0000' + i);
 			key = perfix + '_' + key.substr(key.length - 4);
 			addTr(baidu.i18n.getMessage(key),baidu.i18n.getMessage(key + '_suggestion'));
@@ -65,9 +67,9 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _js_getCookie = function(respData,title,allContent) {
-		var tempArr = [];
-		var tempInt = 0;
+	const _js_getCookie = function(respData,title,allContent) {
+		let tempArr = [];
+		let tempInt = 0;
 		
 		tempArr.push('<div>' + baidu.i18n.getMessage('msg0042',[document.cookie.getBytes()]) + '。如下是和整个站点相关的cookie：</div><br />');
 		
@@ -80,7 +82,7 @@ baidu.fcphelper = (function(){
 				'<td class="td-cookie-expires">过期时间（expires）</td>' +
 				'<td class="td-cookie-op">操作</td>' +
 				'</tr></thead><tbody>');
-		var d = new Date() - 1;
+		let d = new Date() - 1;
 		jQuery.each(respData.cookies,function(i,cookie){
 			tempInt++;
 			tempArr.push('<tr>'+
@@ -111,8 +113,8 @@ baidu.fcphelper = (function(){
 			var $this = jQuery(this);
 			
 			var $tr = $this.parent().parent();
-			var key = $tr.children('.td-cookie-name').html().trim();
-			var storeId = jQuery('#hid-storeId-' + key).val().trim();
+			const key = $tr.children('.td-cookie-name').html().trim();
+			const storeId = jQuery('#hid-storeId-' + key).val().trim();
 			
 			//remove cookie
 			chrome.runtime.sendMessage({
@@ -122,8 +124,8 @@ baidu.fcphelper = (function(){
 					"storeId" : storeId
 				},function(cookie){
 					var $table = $this.parent().parent().parent();
-					var idx = $table.index($tr) - 1;
-					var x = 0;
+					const idx = $table.index($tr) - 1;
+					let x = 0;
 					$tr.remove();
 					//更改序号
 					$table.find('td.td-cookie-linenum').each(function(i,td){
@@ -142,17 +144,17 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _js_getScriptTag = function(respData,title,allContent) {
+	const _js_getScriptTag = function(respData,title,allContent) {
 		
-		var tempArr = [];
-		var tempInt = 0;
+		let tempArr = [];
+		let tempInt = 0;
 		
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
 				'<td>序号（Num）</td>'+
 				'<td class="td-content">描述（Description）</td>' +
 				'</tr></thead><tbody>');
-		var addTr = function(_content){
+		let addTr = function(_content){
 			tempArr.push('<tr>'+
 				'<th class="td-linenum">' + ++tempInt + '</th>'+
 				'<td class="td-content">' + _content + '</td></tr>');
@@ -170,9 +172,9 @@ baidu.fcphelper = (function(){
 		
 		//JS文件被压缩？
 		if(respData.jsMinified.count > 0) {
-			var t = [];
+			let t = [];
 			jQuery.each(respData.jsMinified.files,function(k,item){
-				if(item.href == '#') {
+				if(item.href === '#') {
 					t.push(baidu.i18n.getMessage('msg0047',[item.fileName]));
 				} else {
 					t.push(baidu.i18n.getMessage('msg0062',[item.href,item.fileName]));
@@ -183,11 +185,11 @@ baidu.fcphelper = (function(){
 
 		//tangram
 		if(respData.tangram.length > 0) {
-			var t = [];
+			let t = [];
 			jQuery.each(respData.tangram,function(i,item){
 				t.push(item);
 			});
-			if(t.length == 1) {
+			if(t.length === 1) {
 				addTr(baidu.i18n.getMessage('msg0054',[t.join('')]));
 			} else {
 				addTr(baidu.i18n.getMessage('msg0055',[t.join('、')]));
@@ -196,12 +198,12 @@ baidu.fcphelper = (function(){
 		
 		//重复引入的文件
 		if(respData.duplicatedFiles.length) {
-			var dupFile = [];
-			var dupHref = [];
-			var txt = [];
+			let dupFile = [];
+			let dupHref = [];
+			let txt = [];
 			jQuery.each(respData.duplicatedFiles,function(i,item){
 				if(item.dupFiles) {	//不同地址的文件，但内容重复
-					var t = [];
+					let t = [];
 					jQuery.each(item.dupFiles,function(j,f){
 						t.push(baidu.i18n.getMessage('msg0069',[f,f]));
 					});
@@ -233,8 +235,8 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _html_getHTMLDeprecatedTag = function(respData,title,allContent) {
-		var isEmpty = true;
+	const _html_getHTMLDeprecatedTag = function(respData,title,allContent) {
+		let isEmpty = true;
 		for(var k in respData.HTMLBase.HTMLDeprecatedTag) {
 			isEmpty = false;
 			break;
@@ -243,8 +245,8 @@ baidu.fcphelper = (function(){
 			return;
 		}
 		
-		var tempArr = [];
-		var tempInt = 0;
+		let tempArr = [];
+		let tempInt = 0;
 		
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
@@ -273,8 +275,8 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _html_getHTMLDeprecatedAttribute = function(respData,title,allContent){
-		var isEmpty = true;
+	const _html_getHTMLDeprecatedAttribute = function(respData,title,allContent){
+		let isEmpty = true;
 		for(var k in respData.HTMLBase.HTMLDeprecatedAttribute) {
 			isEmpty = false;
 			break;
@@ -283,8 +285,8 @@ baidu.fcphelper = (function(){
 			return;
 		}
 		
-		var tempArr = [];
-		var tempInt = 0; 
+		let tempArr = [];
+		let tempInt = 0; 
 		
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
@@ -297,7 +299,7 @@ baidu.fcphelper = (function(){
 				'<th class="td-linenum">' + key + '</th>' +
 				'<td class="td-content"><span class="x-detail">' +
 				(function(){
-					var arr = [];
+					let arr = [];
 					jQuery.each(item,function(k,v){
 						arr.push(baidu.i18n.getMessage('msg0007',[ v,k ]));
 					});
@@ -318,16 +320,16 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _html_getLink = function(respData,title,allContent){
-		var notInHead = respData.LINK.notInHead;
+	const _html_getLink = function(respData,title,allContent){
+		const notInHead = respData.LINK.notInHead;
 		
-		if(notInHead.length == 0) return;
+		if(notInHead.length === 0) return;
 		
-		var ct = '';
+		let ct = '';
 		ct = '<div>' + baidu.i18n.getMessage('msg0021',[notInHead.length,
 				'head']) + '</div>';
 		ct += (function(d){
-			var arr = ['<table>'];
+			let arr = ['<table>'];
 			arr.push('<thead><tr>'+
 					'<td>序号（Num）</td>'+
 					'<td class="td-content">描述（Description）</td>' +
@@ -356,13 +358,13 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _html_getTagIncludeCase = function(respData,title,allContent){
+	const _html_getTagIncludeCase = function(respData,title,allContent){
 		
-		if(respData.tagInclude.length == 0) return;
+		if(respData.tagInclude.length === 0) return;
 		
-		var ct = '';
+		const ct = '';
 		ct += (function(d){
-			var arr = ['<table>'];
+			let arr = ['<table>'];
 			arr.push('<thead><tr>'+
 					'<td>序号（Num）</td>'+
 					'<td class="td-content">描述（Description）</td>' +
@@ -389,11 +391,11 @@ baidu.fcphelper = (function(){
 	 * DocumentMode
 	 * @param {Object} respData
 	 */
-	var _html_getDocMode = function(respData){
-		var tempArr = [];
-	    var quirksMode = '<strong>混杂模式</strong>';
-	    var standardsMode = '<em>标准模式</em>';
-	    var mode = (respData.documentMode.WebKit == 'S') ? standardsMode : quirksMode;
+	const _html_getDocMode = function(respData){
+		let tempArr = [];
+	    const quirksMode = '<strong>混杂模式</strong>';
+	    const standardsMode = '<em>标准模式</em>';
+	    const mode = (respData.documentMode.WebKit === 'S') ? standardsMode : quirksMode;
 	
 	    if (respData.documentMode.hasDocType) {
 			tempArr.push(baidu.i18n.getMessage('msg0009'));
@@ -405,16 +407,16 @@ baidu.fcphelper = (function(){
 	            tempArr.push(baidu.i18n.getMessage('msg0011',[mode,quirksMode]));
 	        }
 	        
-	        if (respData.documentMode.IE == respData.documentMode.WebKit) {
+	        if (respData.documentMode.IE === respData.documentMode.WebKit) {
 	            tempArr.push(baidu.i18n.getMessage('msg0012',[mode]));
-	            if (respData.documentMode.WebKit == 'Q') {
+	            if (respData.documentMode.WebKit === 'Q') {
 	            	tempArr.push(baidu.i18n.getMessage('msg0013'));
 	            }
 	        } else {
 	            if (!respData.documentMode.isUnusualDocType) {
 	                if (respData.documentMode.IE) {
-						var $1 = (respData.documentMode.IE == 'Q') ? quirksMode : standardsMode;
-						var $2 = (respData.documentMode.WebKit == 'Q') ? quirksMode : standardsMode;
+						var $1 = (respData.documentMode.IE === 'Q') ? quirksMode : standardsMode;
+						var $2 = (respData.documentMode.WebKit === 'Q') ? quirksMode : standardsMode;
 	            		tempArr.push(baidu.i18n.getMessage('msg0014',[$1,$2]));
 	            		tempArr.push(baidu.i18n.getMessage('msg0013'));
 	                } else {
@@ -439,16 +441,16 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _html_getDom = function(respData,title,allContent) {
-		var tempArr = [];
-		var tempInt = 0;
+	const _html_getDom = function(respData,title,allContent) {
+		let tempArr = [];
+		let tempInt = 0;
 		
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
 				'<td>序号（Num）</td>'+
 				'<td class="td-content">描述（Description）</td>' +
 				'</tr></thead><tbody>');
-		var addTr = function(text) {
+		let addTr = function(text) {
 			tempArr.push('<tr><th class="td-linenum">' + (++tempInt) + '</th>' +
 					'<td class="td-content">' + text + '</td></tr>');
 		};
@@ -463,7 +465,7 @@ baidu.fcphelper = (function(){
 		addTr(baidu.i18n.getMessage('msg0063',[respData.DOM.maxDepth.depth,respData.DOM.maxDepth.xpath]));
 		
 		//title标签检测
-		if(respData.title.length == 0) {
+		if(respData.title.length === 0) {
 			addTr(baidu.i18n.getMessage('msg0049') + baidu.i18n.getMessage('msg0052'));
 		} else if(respData.title.length > 1) {
 			addTr(baidu.i18n.getMessage('msg0051') + baidu.i18n.getMessage('msg0052'));
@@ -473,7 +475,7 @@ baidu.fcphelper = (function(){
 		
 		//img标签的src=''
 		if(respData.imgTag.length > 0) {
-			var t = '';
+			let t = '';
 			jQuery.each(respData.imgTag,function(i,k){
 				t = '';
 				t += k.id ? '#' + k.id : '';
@@ -500,7 +502,7 @@ baidu.fcphelper = (function(){
 		
 		//重复性的ID
 		if(respData.ID.count) {
-			var id_arr = [];
+			const id_arr = [];
 			jQuery.each(respData.ID.ids,function(id,v){
 				id_arr.push(baidu.i18n.getMessage('msg0064',[id,v]));
 			});
@@ -519,7 +521,7 @@ baidu.fcphelper = (function(){
 		
 		//未闭合的标签
 		if(respData.unClosedTags.length > 0) {
-			var t = [];
+			let t = [];
 			jQuery.each(respData.unClosedTags,function(k,item){
 				t.push(baidu.i18n.getMessage('msg0046',[item]));
 			});
@@ -541,16 +543,16 @@ baidu.fcphelper = (function(){
 	 * @param {Object} title
 	 * @param {Object} allContent
 	 */
-	var _css_getCssUsage = function(respData){
+	const _css_getCssUsage = function(respData){
 		
-		var _cssTitles = [
+		const _cssTitles = [
 			baidu.i18n.getMessage('msg0039'),
 			baidu.i18n.getMessage('msg0040'),
 			baidu.i18n.getMessage('msg0041')
 		];
 		
-		var _getCssTable = function(d){
-			var arr = ['<table>'];
+		const _getCssTable = function(d){
+			const arr = ['<table>'];
 			arr.push('<thead><tr>'+
 					'<td>序号（Num）</td>'+
 					'<td class="td-content">选择器（CSS Selector）</td>' +
@@ -570,7 +572,7 @@ baidu.fcphelper = (function(){
 		
 		//style标签内的css检测、link引入的css检测
 		jQuery.each(respData.styles,function(i,style){
-			var allContent = [];
+			let allContent = [];
 			jQuery.each(style.content,function(j,v){
 				allContent.push(_creatResultItem({
 					title : _cssTitles[j],
@@ -587,23 +589,23 @@ baidu.fcphelper = (function(){
 	 * 汇总css文件中用到的所有背景图片
 	 * @param {Object} respData
 	 */
-	var _css_getBackgroundImages = function(respData,allContent){
-		var tempArr = [];
-		var lineNum = 0;
-		var tempInt = 0;
+	const _css_getBackgroundImages = function(respData,allContent){
+		let tempArr = [];
+		const lineNum = 0;
+		let tempInt = 0;
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
 				'<td>序号（Num）</td>'+
 				'<td class="td-content">描述（Description）</td>' +
 				'</tr></thead><tbody>');
-		var addTr = function(text) {
+		let addTr = function(text) {
 			tempArr.push('<tr><th class="td-linenum">' + (++lineNum) + '</th>' +
 					'<td class="td-content">' + text + '</td></tr>');
 		};
 		//CSS背景图片的使用情况
 		if(respData.backgroundImages.length) {
-			var a = [];
-			var d = new Date() - 1;
+			let a = [];
+			const d = new Date() - 1;
 			jQuery.each(respData.backgroundImages,function(i,item){
 				a = ['<div class="table-css-bg -t-c-b-' + d + '" style="display:none;">'];
 				jQuery.each(item.bgImages,function(j,b){
@@ -615,10 +617,10 @@ baidu.fcphelper = (function(){
 			});
 		
 			jQuery('#fe-helper-box .-x-expand-' + d).on('click',function(){
-				var _this = jQuery(this);
-				var _table = _this.parent().next();
+				const _this = jQuery(this);
+				const _table = _this.parent().next();
 				
-				if(_table.css('display') == 'none') {
+				if(_table.css('display') === 'none') {
 					_table.slideDown(300);
 					_this.html('收起');
 				} else {
@@ -628,7 +630,7 @@ baidu.fcphelper = (function(){
 			});
 
 			jQuery('#fe-helper-box .-t-c-b-' + d + ' div').on('mouseover',function(e){
-				var imgTooltip = jQuery('#fe-img-tootip');
+				let imgTooltip = jQuery('#fe-img-tootip');
 				if(!imgTooltip[0]) {
 					imgTooltip = jQuery('<img id="fe-img-tootip" src="' + jQuery(this).html().trim() + '" alt="load image failed" />').appendTo('body');
 				} else {
@@ -641,7 +643,7 @@ baidu.fcphelper = (function(){
 					'max-height' : 500
 				}).show();
 			}).on('mouseout',function(e){
-				var imgTooltip = jQuery('#fe-img-tootip');
+				const imgTooltip = jQuery('#fe-img-tootip');
 				imgTooltip.hide();
 			})
 		}
@@ -660,28 +662,28 @@ baidu.fcphelper = (function(){
 	 * css检测结果汇总
 	 * @param {Object} respData
 	 */
-	var _css_totalDetectResult = function(respData){
-		var tempArr = [];
-		var tempInt = 0;
-		var allContent = [];
+	const _css_totalDetectResult = function(respData){
+		const tempArr = [];
+		const tempInt = 0;
+		let allContent = [];
 		tempArr.push('<table>');
 		tempArr.push('<thead><tr>'+
 				'<td>序号（Num）</td>'+
 				'<td class="td-content">描述（Description）</td>' +
 				'</tr></thead><tbody>');
-		var addTr = function(text) {
+		const addTr = function(text) {
 			tempArr.push('<tr><th class="td-linenum">' + (++tempInt) + '</th>' +
 					'<td class="td-content">' + text + '</td></tr>');
 		};
 		
 		//重复引入的文件
 		if(respData.duplicatedFiles.length) {
-			var dupFile = [];
-			var dupHref = [];
-			var txt = [];
+			const dupFile = [];
+			const dupHref = [];
+			const txt = [];
 			jQuery.each(respData.duplicatedFiles,function(i,item){
 				if(item.dupFiles) {	//不同地址的文件，但内容重复
-					var t = [];
+					let t = [];
 					jQuery.each(item.dupFiles,function(j,f){
 						t.push(baidu.i18n.getMessage('msg0069',[f,f]));
 					});
@@ -701,9 +703,9 @@ baidu.fcphelper = (function(){
 		
 		//CSS文件压缩
 		if(respData.cssMinified.count > 0) {
-			var t = [];
+			let t = [];
 			jQuery.each(respData.cssMinified.files,function(k,item){
-				if(item.href == '#') {
+				if(item.href === '#') {
 					t.push(baidu.i18n.getMessage('msg0047',[item.fileName]));
 				} else {
 					t.push(baidu.i18n.getMessage('msg0062',[item.href,item.fileName]));
@@ -714,7 +716,7 @@ baidu.fcphelper = (function(){
 		
 		//css expression
 		if(respData.expressions.length) {
-			var a = [],t = 0;
+			const a = [],t = 0;
 			jQuery.each(respData.expressions,function(i,item){
 				a.push(baidu.i18n.getMessage('msg0059',[item.fileName,item.count]));
 				t += item.count;
@@ -741,9 +743,9 @@ baidu.fcphelper = (function(){
 	/**
 	 * HTML侦测，通过调用baidu.html.detect方法进行
 	 */
-	var _detectHTML = function(){
+	const _detectHTML = function(){
 		baidu.html.detect(function(respData){
-			var content = [];
+			const content = [];
 			
 			//html.HTMLDeprecatedTag
 			_html_getHTMLDeprecatedTag(respData,baidu.i18n.getMessage('msg0006'),content);
@@ -768,7 +770,7 @@ baidu.fcphelper = (function(){
 	/**
 	 * CSS侦测，通过调用baidu.css.detect方法进行
 	 */
-	var _detectCSS = function(){
+	const _detectCSS = function(){
 		baidu.css.detect(function(respData){
 			
 			//执行检测并查创建tab
@@ -784,9 +786,9 @@ baidu.fcphelper = (function(){
 	/**
 	 * Javascript侦测，通过调用baidu.js.detect方法进行
 	 */
-	var _detectJavascript = function(){
+	const _detectJavascript = function(){
 		baidu.js.detect(function(respData){
-			var allContent = [];
+			const allContent = [];
 			
 			//cookies
 			_js_getCookie(respData,baidu.i18n.getMessage('msg0031'),allContent);
@@ -802,9 +804,9 @@ baidu.fcphelper = (function(){
 	/**
 	 * 增加HTML、CSS、Javascript的问题及建议tab
 	 */
-	var _addIssueSuggestionTab = function(){
+	const _addIssueSuggestionTab = function(){
 		
-		var _getBtnString = function(_text){
+		const _getBtnString = function(_text){
 			return '<a class="-f-h-get-more-" href="#" onclick="return false;">' + _text + '&gt;&gt;</a>';
 		};
 		
@@ -816,7 +818,7 @@ baidu.fcphelper = (function(){
 			} 
 			
 			var $allTabs = jQuery( "#fe-helper-main-tab>div");
-			var index = $allTabs.index( jQuery( '#fe-helper-tab-HTML-issue-sug' ) );
+			let index = $allTabs.index( jQuery( '#fe-helper-tab-HTML-issue-sug' ) );
 			jQuery('#fe-helper-main-tab').tabs( "select" , index );
 		});
 		
@@ -828,7 +830,7 @@ baidu.fcphelper = (function(){
 			} 
 
 			var $allTabs = jQuery( "#fe-helper-main-tab>div");
-			var index = $allTabs.index( jQuery( '#fe-helper-tab-CSS-issue-sug' ) );
+			let index = $allTabs.index( jQuery( '#fe-helper-tab-CSS-issue-sug' ) );
 			jQuery('#fe-helper-main-tab').tabs( "select" , index );
 		});
 		
@@ -840,7 +842,7 @@ baidu.fcphelper = (function(){
 			}
 
 			var $allTabs = jQuery( "#fe-helper-main-tab>div");
-			var index = $allTabs.index( jQuery( '#fe-helper-tab-Javascript-issue-sug' ) );
+			const index = $allTabs.index( jQuery( '#fe-helper-tab-Javascript-issue-sug' ) );
 			jQuery('#fe-helper-main-tab').tabs( "select" , index );
 		});
 	};
@@ -849,7 +851,7 @@ baidu.fcphelper = (function(){
 	/**
 	 * 初始化静态文件
 	 */
-	var _initStaticFile = function(){
+	const _initStaticFile = function(){
 		//////////先做一些准备工作/////////////////////
 		//css初始化
 		baidu.css.init();
@@ -861,7 +863,7 @@ baidu.fcphelper = (function(){
 	 * 初始化页面
 	 * @return {[type]}
 	 */
-	var _initHtml = function(callback){
+	const _initHtml = function(callback){
 		//html初始化
 		baidu.html.init(callback);
 	};
@@ -869,7 +871,7 @@ baidu.fcphelper = (function(){
 	/**
 	 * 执行FCPHelper检测
 	 */
-	var _detect = function(){
+	const _detect = function(){
 		//显示进度条
 		baidu.fcptabs.createProgressBar();
 		

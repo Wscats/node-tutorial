@@ -1,3 +1,5 @@
+'use strict';
+
 const forge = require('node-forge');
 const pki = forge.pki;
 const fs = require('fs');
@@ -5,15 +7,15 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 
 // CNanme
-var domain = 'github.com';
+const domain = 'github.com';
 
-var caCertPem = fs.readFileSync(path.join(__dirname, './rootCA/rootCA.crt'));
-var caKeyPem = fs.readFileSync(path.join(__dirname, './rootCA/rootCA.key.pem'));
-var caCert = forge.pki.certificateFromPem(caCertPem);
-var caKey = forge.pki.privateKeyFromPem(caKeyPem);
+const caCertPem = fs.readFileSync(path.join(__dirname, './rootCA/rootCA.crt'));
+const caKeyPem = fs.readFileSync(path.join(__dirname, './rootCA/rootCA.key.pem'));
+const caCert = forge.pki.certificateFromPem(caCertPem);
+const caKey = forge.pki.privateKeyFromPem(caKeyPem);
 
-var keys = pki.rsa.generateKeyPair(1024);
-var cert = pki.createCertificate();
+const keys = pki.rsa.generateKeyPair(1024);
+const cert = pki.createCertificate();
 cert.publicKey = keys.publicKey;
 
 cert.serialNumber = (new Date()).getTime() + '';
@@ -22,7 +24,7 @@ cert.validity.notBefore.setFullYear(cert.validity.notBefore.getFullYear() - 1);
 cert.validity.notAfter = new Date();
 cert.validity.notAfter.setFullYear(cert.validity.notAfter.getFullYear() + 1);
 
-var attrs = [{
+const attrs = [{
     name: 'commonName',
     value: domain
 }, {
@@ -75,8 +77,8 @@ cert.setExtensions([{
 }]);
 cert.sign(caKey, forge.md.sha256.create());
 
-var certPem = pki.certificateToPem(cert);
-var keyPem = pki.privateKeyToPem(keys.privateKey);
+const certPem = pki.certificateToPem(cert);
+const keyPem = pki.privateKeyToPem(keys.privateKey);
 console.log(certPem);
 console.log(keyPem);
 

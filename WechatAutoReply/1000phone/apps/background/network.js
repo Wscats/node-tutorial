@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 后端网络处理，ajax等
  * @author zhaoxianlie
@@ -90,9 +92,9 @@ module.exports = (() => {
             for (let i = 0, le = cookies.length; i < le; i++) {
                 let url = _urlFromCookie(cookies[i]);
                 let name = cookies[i].name;
-                if (url == request.url && name == request.name) {
+                if (url === request.url && name === request.name) {
                     chrome.cookies.remove({"url": url, "name": name});
-                    if (callback && typeof callback == "function") {
+                    if (callback && typeof callback === "function") {
                         callback.call(null);
                     }
                     return;
@@ -111,9 +113,9 @@ module.exports = (() => {
             for (let i = 0, le = cookies.length; i < le; i++) {
                 let url = _urlFromCookie(cookies[i]);
                 let name = cookies[i].name;
-                if (url == request.url && name == request.name) {
+                if (url === request.url && name === request.name) {
                     chrome.cookies.set(request);
-                    if (callback && typeof callback == "function") {
+                    if (callback && typeof callback === "function") {
                         callback.call(null);
                     }
                     return;

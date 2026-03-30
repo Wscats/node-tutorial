@@ -1,7 +1,9 @@
+'use strict';
+
 $(function() {
 
 	// 加载设置
-	var defaultConfig = {color: 'white'}; // 默认配置
+	const defaultConfig = {color: 'white'}; // 默认配置
 	chrome.storage.sync.get(defaultConfig, function(items) {
 		document.body.style.backgroundColor = items.color;
 	});
@@ -19,20 +21,20 @@ $('#open_background').click(e => {
 
 // 调用后台JS
 $('#invoke_background_js').click(e => {
-	var bg = chrome.extension.getBackgroundPage();
+	let bg = chrome.extension.getBackgroundPage();
 	bg.testBackground();
 });
 
 // 获取后台页标题
 $('#get_background_title').click(e => {
-	var bg = chrome.extension.getBackgroundPage();
+	let bg = chrome.extension.getBackgroundPage();
 	alert(bg.document.title);
 });
 
 // 设置后台页标题
 $('#set_background_title').click(e => {
-	var title = prompt('请输入background的新标题：', '这是新标题');
-	var bg = chrome.extension.getBackgroundPage();
+	let title = prompt('请输入background的新标题：', '这是新标题');
+	const bg = chrome.extension.getBackgroundPage();
 	bg.document.title = title;
 	alert('修改成功！');
 });
@@ -40,7 +42,7 @@ $('#set_background_title').click(e => {
 // 自定义窗体大小
 $('#custom_window_size').click(() => {
 	chrome.windows.getCurrent({}, (currentWindow) => {
-		var startLeft = 10;
+		const startLeft = 10;
 		chrome.windows.update(currentWindow.id, 
 		{
 			left: startLeft * 10,
@@ -48,7 +50,7 @@ $('#custom_window_size').click(() => {
 			width: 800,
 			height: 600
 		});
-		var inteval = setInterval(() => {
+		const inteval = setInterval(() => {
 			if(startLeft >= 40) clearInterval(inteval);
 			chrome.windows.update(currentWindow.id, {left: (++startLeft) * 10});
 		}, 50);
@@ -126,7 +128,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 // popup与content-script建立长连接
 $('#connect_to_content_script').click(() => {
 	getCurrentTabId((tabId) => {
-		var port = chrome.tabs.connect(tabId, {name: 'test-connect'});
+		const port = chrome.tabs.connect(tabId, {name: 'test-connect'});
 		port.postMessage({question: '你是谁啊？'});
 		port.onMessage.addListener(function(msg) {
 			alert('收到长连接消息：'+msg.answer);

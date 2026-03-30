@@ -1,7 +1,9 @@
-var express = require('express');
-var bodyParser = require('body-parser')
-var app = express();
-var mysql = require("mysql");
+'use strict';
+
+const express = require('express');
+const bodyParser = require('body-parser')
+const app = express();
+const mysql = require("mysql");
 var connection;
 
 function createConnection() {
@@ -30,7 +32,7 @@ app.get('/index', function(req, res) {
 		createConnection()
 		connection.connect();
 		console.log(req.query)
-		var pageCount = (req.query.page - 1) * 10;
+		const pageCount = (req.query.page - 1) * 10;
 		//SELECT * FROM jobs WHERE position_id = 3067990 LIMIT 100,10
 		//SELECT * FROM jobs LIMIT 0,10
 		console.log('SELECT * FROM jobs LIMIT ' + pageCount + ',10')
@@ -38,7 +40,7 @@ app.get('/index', function(req, res) {
 			if(error) throw error;
 			//results =>array类型
 			console.log('The solution is: ', results);
-			var obj = {
+			const obj = {
 				jobs: results
 			}
 			res.send(JSON.stringify(obj));
@@ -60,10 +62,10 @@ app.all('/test', function(req, res) {
 	res.send('进入到test页面');
 })
 
-var server = app.listen(8081, function() {
+const server = app.listen(8081, function() {
 	//测试
 	//测试
-	var host = server.address().address
-	var port = server.address().port
+	const host = server.address().address
+	const port = server.address().port
 	console.log("应用实例，访问地址为 http://%s:%s", host, port)
 })

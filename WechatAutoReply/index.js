@@ -1,3 +1,5 @@
+'use strict';
+
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -18,7 +20,7 @@ function createWindow() {
 
 	ipcMain.on("answer", function(event, data) {
 		console.log(data)
-		var data = {
+		const data = {
 			key: 'c75ba576f50ddaa5fd2a87615d144ecf',
 			info: data
 		};
@@ -29,12 +31,12 @@ function createWindow() {
 			method: 'GET'
 		}, function(resquest) {
 			resquest.setEncoding('utf8');
-			var str = '';
+			const str = '';
 			resquest.on('data', function(data) {
 				str += data;
 			});
 			resquest.on('end', function() {
-				var answer = JSON.parse(str).text;
+				const answer = JSON.parse(str).text;
 				mainWindow.webContents.executeJavaScript(`
 					$(".edit_area").html("${answer}");
 					$(".edit_area").trigger($.Event("keydown", { keyCode: 13,ctrlKey: true}));
@@ -48,15 +50,15 @@ function createWindow() {
 
 	mainWindow.loadURL("https://wx2.qq.com");
 	mainWindow.webContents.executeJavaScript(`
-		var answerNum = 2;
+		let answerNum = 2;
 		setInterval(function(){
-			var newAnswerNum = document.querySelectorAll(".content").length
-			if(answerNum == document.querySelectorAll(".content").length){
+			const newAnswerNum = document.querySelectorAll(".content").length
+			if(answerNum === document.querySelectorAll(".content").length){
 			}else{
 				if(document.querySelectorAll(".content")[newAnswerNum-2]){
 					console.log("有新回复")
 					if(document.querySelectorAll(".content")[newAnswerNum-2].querySelector(".left")){
-						var content = document.querySelectorAll(".content")[newAnswerNum-2].getElementsByTagName("pre")[0].innerHTML;
+						const content = document.querySelectorAll(".content")[newAnswerNum-2].getElementsByTagName("pre")[0].innerHTML;
 						console.log(content);
 						require("electron").ipcRenderer.send("answer",content);
 					}

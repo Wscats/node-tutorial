@@ -1,3 +1,5 @@
+'use strict';
+
 chrome.browserAction.onClicked.addListener(function(tab) {
   console.log(1)
   console.log(2)

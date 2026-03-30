@@ -1,8 +1,10 @@
-var fs = require("fs");
-var data = '';
+'use strict';
+
+const fs = require("fs");
+const data = '';
 
 // 创建可读流
-var readerStream = fs.createReadStream('input.txt');
+const readerStream = fs.createReadStream('input.txt');
 // console.log(readerStream);
 
 

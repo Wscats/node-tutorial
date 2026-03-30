@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间
  */
@@ -12,12 +14,12 @@ baidu.fcptabs = (function(){
 	/**
 	 * 存储临时变量
 	 */
-	var _tempvar = {};
+	const _tempvar = {};
 	
 	/**
 	 * 创建主面板
 	 */
-	var _createMainTab = function(){
+	const _createMainTab = function(){
 		//首先检测面板箱是否存在
 		var $tabBox = jQuery("#fe-helper-box");
 		var $mainTab = jQuery("#fe-helper-main-tab");
@@ -52,7 +54,7 @@ baidu.fcptabs = (function(){
 					height : jQuery(window).height() - 80
 				});
 				
-				var _t_id = 'fe-helper-acc-' + _tempvar.type;
+				let _t_id = 'fe-helper-acc-' + _tempvar.type;
 				
 				jQuery( ui.panel ).append( "<div id='" + _t_id + "'>" + _tempvar.tabContent + "</div>" );
 									
@@ -69,8 +71,8 @@ baidu.fcptabs = (function(){
 					});
 					
 					//.rst-content
-					var _rst_content = jQuery("#" + _t_id + " .rst-content");
-					var _height = jQuery(window).height() - 120 - _rst_content.length * 30;
+					let _rst_content = jQuery("#" + _t_id + " .rst-content");
+					let _height = jQuery(window).height() - 120 - _rst_content.length * 30;
 					_rst_content.css({
 						height : _height
 					});
@@ -81,11 +83,11 @@ baidu.fcptabs = (function(){
 		//对新产生的tab，增加移除事件
 		jQuery( "#fe-helper-main-ul span.ui-icon-close" ).on( "click", function() {
 			var $allTabs = jQuery( "#fe-helper-main-ul li");
-			var index = $allTabs.index( jQuery( this ).parent() ) - 3;
+			let index = $allTabs.index( jQuery( this ).parent() ) - 3;
 			$mainTab.tabs( "remove", index );
 			
 			//如果所有tab都关闭了，则关闭整个tabBox
-			if($allTabs.length == 4) {
+			if($allTabs.length === 4) {
 				_tempvar.tabBox.remove();
 			}
 		});
@@ -128,7 +130,7 @@ baidu.fcptabs = (function(){
 	 * @param {Object} tabContent 面板内容
 	 * @param {Object} isAccordion 是否生成Accordion
 	 */
-	var _addTab = function(type,tabTitle,tabContent,isAccordion) {
+	const _addTab = function(type,tabTitle,tabContent,isAccordion) {
 		//保存这个值，创建tab时用到
 		_tempvar.type = type;
 		_tempvar.tabContent = tabContent;
@@ -146,7 +148,7 @@ baidu.fcptabs = (function(){
 	 * @param {Object} type 面板的类型：HTML，CSS，Javascript
 	 * @param {Object} tabContent HTML面板内容
 	 */
-	var _addIssueSuggestionTab = function(type,tabContent) {
+	const _addIssueSuggestionTab = function(type,tabContent) {
 		//创建面板
 		return _addTab(type + '-issue-sug',baidu.i18n.getMessage('msg0061',[type]),tabContent,false);
 	};
@@ -155,7 +157,7 @@ baidu.fcptabs = (function(){
 	 * 根据不同的标题，在页面上增加HTML面板
 	 * @param {Object} tabContent HTML面板内容
 	 */
-	var _addHtmlTab = function(tabContent) {
+	const _addHtmlTab = function(tabContent) {
 		//创建面板
 		return _addTab('html',baidu.i18n.getMessage('msg0001'),tabContent,true);
 	};
@@ -164,7 +166,7 @@ baidu.fcptabs = (function(){
 	 * 在页面上创建Javascript面板
 	 * @param {Object} tabContent HTML面板内容
 	 */
-	var _addJavascriptTab = function(tabContent) {
+	const _addJavascriptTab = function(tabContent) {
 		//创建新的面板
 		return _addTab('js',baidu.i18n.getMessage('msg0003'),tabContent,true);
 	};
@@ -174,7 +176,7 @@ baidu.fcptabs = (function(){
 	 * @param {Object} tabTitle 面板标题
 	 * @param {Object} tabContent 面板内容
 	 */
-	var _addCssTab = function(tabTitle,tabContent) {
+	const _addCssTab = function(tabTitle,tabContent) {
 		//保存这个值，创建tab时用到
 		_tempvar.cssTabContent = tabContent;
 		_tempvar.cssTabCount = _tempvar.cssTabCount || 0;
@@ -191,7 +193,7 @@ baidu.fcptabs = (function(){
 			_tempvar.cssTab.tabs({
 				tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
 				add: function( event, ui ) {
-					var _t_id = 'fe-helper-css-acc-' + _tempvar.cssTabCount;
+					const _t_id = 'fe-helper-css-acc-' + _tempvar.cssTabCount;
 					jQuery( ui.panel ).append( "<div id='" + _t_id + "'>" + _tempvar.cssTabContent + "</div>" );
 					jQuery("#" + _t_id).accordion({
 						collapsible: true,
@@ -199,8 +201,8 @@ baidu.fcptabs = (function(){
 					});
 					
 					//.rst-content
-					var _rst_content = jQuery("#" + _t_id + " .rst-content");
-					var _height = jQuery(window).height() - 180 - _rst_content.length * 30;
+					const _rst_content = jQuery("#" + _t_id + " .rst-content");
+					const _height = jQuery(window).height() - 180 - _rst_content.length * 30;
 					_rst_content.css({
 						height : _height
 					});
@@ -210,7 +212,7 @@ baidu.fcptabs = (function(){
 			//对新产生的tab，增加移除事件
 			jQuery( "#fe-helper-css-ul span.ui-icon-close" ).on( "click", function() {
 				var $allTabs = jQuery( "#fe-helper-css-ul li");
-				var index = $allTabs.index( jQuery( this ).parent() );
+				const index = $allTabs.index( jQuery( this ).parent() );
 				_tempvar.cssTab.tabs( "remove", index );
 			});
 		}
@@ -225,9 +227,9 @@ baidu.fcptabs = (function(){
 	/**
 	 * 创建进度条
 	 */
-	var _createProgressBar = function(){
+	const _createProgressBar = function(){
 		
-		var _startTime = new Date();
+		const _startTime = new Date();
 
 		//先创建主面板
 		baidu.fcptabs.createMainTab();
@@ -248,7 +250,7 @@ baidu.fcptabs = (function(){
 		});
 		
 		//进度条背景
-		var pbarGif = chrome.extension.getURL('code-standards/pbar-ani.gif');
+		const pbarGif = chrome.extension.getURL('code-standards/pbar-ani.gif');
 		jQuery('#fe-helper-progress-bar-img').css({
 			'background' : 'url(' + pbarGif + ') repeat-x'
 		});
@@ -258,7 +260,7 @@ baidu.fcptabs = (function(){
 				.progressbar({
 					value : 0,
 					complete : function(event,ui){
-						var _pbImg = jQuery('#fe-helper-progress-bar-img').html('页面检测完成，共计耗时：' + (new Date() - _startTime) / 1000 + ' s');
+						const _pbImg = jQuery('#fe-helper-progress-bar-img').html('页面检测完成，共计耗时：' + (new Date() - _startTime) / 1000 + ' s');
 						//完成以后展示检测结果
 						_tempvar.tabBox.show('slide',{},500);
 						jQuery('#f-h-p-m').fadeOut(500);
@@ -275,7 +277,7 @@ baidu.fcptabs = (function(){
 	 * 更新进度条
 	 * @param {Object} _value
 	 */
-	var _updateProgressBar = function(_value){
+	const _updateProgressBar = function(_value){
 		_tempvar.progressbar.progressbar('value',_value);
 	};
 	

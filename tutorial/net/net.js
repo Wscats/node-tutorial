@@ -1,3 +1,5 @@
+'use strict';
+
 let net = require('net');
 let server = net.createServer();
 // 新版用server.getConnections(callback)代替

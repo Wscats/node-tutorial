@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 编码规范检测
  * @author 赵先烈

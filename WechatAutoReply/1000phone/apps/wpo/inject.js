@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 计算并保存网页加载时间
  * @author zhaoxianlie

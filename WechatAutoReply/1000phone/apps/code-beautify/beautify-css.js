@@ -72,8 +72,8 @@
     function beautifyWebWorker() {
         function Beautifier(source_text, options) {
             options = options || {};
-            var indentSize = options.indent_size || 4;
-            var indentCharacter = options.indent_char || ' ';
+            let indentSize = options.indent_size || 4;
+            const indentCharacter = options.indent_char || ' ';
 
             // compatibility
             if (typeof indentSize === "string") {
@@ -82,10 +82,10 @@
 
 
             // tokenizer
-            var whiteRe = /^\s+$/;
-            var wordRe = /[\w$\-_]/;
+            const whiteRe = /^\s+$/;
+            const wordRe = /[\w$\-_]/;
 
-            var pos = -1, ch;
+            let pos = -1, ch;
 
             function next() {
                 ch = source_text.charAt(++pos);
@@ -97,7 +97,7 @@
             }
 
             function eatString(comma) {
-                var start = pos;
+                let start = pos;
                 while (next()) {
                     if (ch === "\\") {
                         next();
@@ -112,7 +112,7 @@
             }
 
             function eatWhitespace() {
-                var start = pos;
+                let start = pos;
                 while (whiteRe.test(peek())) {
                     pos++;
                 }
@@ -120,14 +120,14 @@
             }
 
             function skipWhitespace() {
-                var start = pos;
+                let start = pos;
                 do {
                 } while (whiteRe.test(next()));
                 return pos !== start + 1;
             }
 
             function eatComment() {
-                var start = pos;
+                const start = pos;
                 next();
                 while (next()) {
                     if (ch === "*" && peek() === "/") {
@@ -145,9 +145,9 @@
             }
 
             // printer
-            var indentString = source_text.match(/^[\r\n]*[\t ]*/)[0];
-            var singleIndent = Array(indentSize + 1).join(indentCharacter);
-            var indentLevel = 0;
+            let indentString = source_text.match(/^[\r\n]*[\t ]*/)[0];
+            const singleIndent = Array(indentSize + 1).join(indentCharacter);
+            let indentLevel = 0;
 
             function indent() {
                 indentLevel++;
@@ -159,7 +159,7 @@
                 indentString = indentString.slice(0, -indentSize);
             }
 
-            var print = {};
+            const print = {};
             print["{"] = function (ch) {
                 print.singleSpace();
                 output.push(ch);
@@ -190,14 +190,14 @@
                     output.push(' ');
                 }
             };
-            var output = [];
+            const output = [];
             if (indentString) {
                 output.push(indentString);
             }
             /*_____________________--------------------_____________________*/
 
             while (true) {
-                var isAfterSpace = skipWhitespace();
+                const isAfterSpace = skipWhitespace();
 
                 if (!ch) {
                     break;
@@ -256,12 +256,12 @@
             }
 
 
-            var sweetCode = output.join('').replace(/[\n ]+$/, '');
+            const sweetCode = output.join('').replace(/[\n ]+$/, '');
             return sweetCode;
         }
 
         self.onmessage = function (evt) {
-            var result = Beautifier(evt.data.source_text, evt.data.options);
+            const result = Beautifier(evt.data.source_text, evt.data.options);
             self.postMessage(result);
         };
     }

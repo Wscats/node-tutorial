@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间：baidu.FL
  */

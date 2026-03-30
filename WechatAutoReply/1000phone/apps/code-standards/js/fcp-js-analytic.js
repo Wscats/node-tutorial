@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间：baidu.jsAnalytic
  */
@@ -24,7 +26,7 @@ baidu.jsAnalytic = function(){
 	
 	this._digits = /[0-9]/g;
 	
-	this._punct = /\+|-|\*|\/|%|&|\+\+|\-\-|=|\+=|\-=|\*=|\/=|%=|==|===|!=|!==|>|<|>=|<=|>>|<<|>>>|>>>=|>>=|<<=|&&|&=|\||\|\||!|!!|,|:|\?|\^|\^=|_|\|=|::/g;
+	this._punct = /\+|-|\*|\/|%|&|\+\+|\-\-|=|\+=|\-=|\*=|\/=|%=|===|===|!==|!==|>|<|>=|<=|>>|<<|>>>|>>>=|>>=|<<=|&&|&=|\||\|\||!|!!|,|:|\?|\^|\^=|_|\|=|::/g;
 	
 	/**
 	 * 主方法
@@ -104,7 +106,7 @@ baidu.jsAnalytic = function(){
 			//正则
 			$tokenCount = this._output.length;
 			if ($tokenCount){
-				var _tem = this._output[$tokenCount - 1];
+				const _tem = this._output[$tokenCount - 1];
 				$lastText = _tem[0];
 				$lastType = _tem[1];
 			}else {

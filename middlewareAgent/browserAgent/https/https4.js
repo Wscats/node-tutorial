@@ -1,3 +1,5 @@
+'use strict';
+
 const url = require('url');
 const http = require('http');
 const net = require('net');
@@ -41,10 +43,10 @@ server.listen(port, () => {
     console.log('server start');
 });
 server.on('error', (e) => {
-    if (e.code == 'EADDRINUSE') {
+    if (e.code === 'EADDRINUSE') {
         console.error('HTTP中间人代理启动失败！！');
         console.error(`端口：${port}，已被占用。`);
-    } else if (e.code == 'ECONNRESET') {
+    } else if (e.code === 'ECONNRESET') {
         console.error(e);
     } else {
         console.error(e);

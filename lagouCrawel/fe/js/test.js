@@ -1,11 +1,13 @@
+'use strict';
+
 function UrlSearch() {
 	var name, value;
-	var str = location.href; //取得整个地址栏
-	var num = str.indexOf("?")
+	let str = location.href; //取得整个地址栏
+	let num = str.indexOf("?")
 	str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
 	console.log(str)
-	var arr = str.split("&"); //各个参数放到数组里
-	for(var i = 0; i < arr.length; i++) {
+	const arr = str.split("&"); //各个参数放到数组里
+	for(let i = 0; i < arr.length; i++) {
 		num = arr[i].indexOf("=");
 		if(num > 0) {
 			name = arr[i].substring(0, num);
@@ -14,5 +16,5 @@ function UrlSearch() {
 		}
 	}
 }
-var Request = new UrlSearch(); //实例化
+const Request = new UrlSearch(); //实例化
 console.log(Request.id)

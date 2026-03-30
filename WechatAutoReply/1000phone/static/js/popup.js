@@ -1,3 +1,5 @@
+'use strict';
+
 window.onload = function() {
 	let username = document.getElementById("username");
 	let password = document.getElementById("password");
@@ -45,7 +47,7 @@ window.onload = function() {
 }
 
 //在popup.js 中调用 backgourd.js 中的变量和方法，很重要
-var bg = chrome.extension.getBackgroundPage();
+const bg = chrome.extension.getBackgroundPage();
 
 console.log(bg);
 

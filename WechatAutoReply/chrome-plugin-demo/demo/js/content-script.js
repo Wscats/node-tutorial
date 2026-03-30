@@ -1,3 +1,5 @@
+'use strict';
+
 ﻿console.log('这是content script!');
 
 // 注意，必须设置了run_at=document_start 此段代码才会生效
@@ -6,24 +8,24 @@ document.addEventListener('DOMContentLoaded', function()
 	// 注入自定义JS
 	injectCustomJs();
 	// 给谷歌搜索结果的超链接增加 _target="blank"
-	if(location.host == 'www.google.com.tw')
+	if(location.host === 'www.google.com.tw')
 	{
-		var objs = document.querySelectorAll('h3.r a');
-		for(var i=0; i<objs.length; i++)
+		const objs = document.querySelectorAll('h3.r a');
+		for(let i=0; i<objs.length; i++)
 		{
 			objs[i].setAttribute('_target', 'blank');
 		}
 		console.log('已处理谷歌超链接！');
 	}
-	else if(location.host == 'www.baidu.com')
+	else if(location.host === 'www.baidu.com')
 	{
 		function fuckBaiduAD()
 		{
 			if(document.getElementById('my_custom_css')) return;
-			var temp = document.createElement('style');
+			let temp = document.createElement('style');
 			temp.id = 'my_custom_css';
 			(document.head || document.body).appendChild(temp);
-			var css = `
+			const css = `
 			/* 移除百度右侧广告 */
 			#content_right{display:none;}
 			/* 覆盖整个屏幕的相关推荐 */
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function()
 
 function initCustomPanel()
 {
-	var panel = document.createElement('div');
+	const panel = document.createElement('div');
 	panel.className = 'chrome-plugin-demo-panel';
 	panel.innerHTML = `
 		<h2>injected-script操作content-script演示区：</h2>
@@ -77,7 +79,7 @@ function initCustomPanel()
 function injectCustomJs(jsPath)
 {
 	jsPath = jsPath || 'js/inject.js';
-	var temp = document.createElement('script');
+	const temp = document.createElement('script');
 	temp.setAttribute('type', 'text/javascript');
 	// 获得的地址类似：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/js/inject.js
 	temp.src = chrome.extension.getURL(jsPath);
@@ -93,8 +95,8 @@ function injectCustomJs(jsPath)
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 {
 	console.log('收到来自 ' + (sender.tab ? "content-script(" + sender.tab.url + ")" : "popup或者background") + ' 的消息：', request);
-	if(request.cmd == 'update_font_size') {
-		var ele = document.createElement('style');
+	if(request.cmd === 'update_font_size') {
+		let ele = document.createElement('style');
 		ele.innerHTML = `* {font-size: ${request.size}px !important;}`;
 		document.head.appendChild(ele);
 	}
@@ -115,11 +117,11 @@ function sendMessageToBackground(message) {
 // 监听长连接
 chrome.runtime.onConnect.addListener(function(port) {
 	console.log(port);
-	if(port.name == 'test-connect') {
+	if(port.name === 'test-connect') {
 		port.onMessage.addListener(function(msg) {
 			console.log('收到长连接消息：', msg);
 			tip('收到长连接消息：' + JSON.stringify(msg));
-			if(msg.question == '你是谁啊？') port.postMessage({answer: '我是你爸！'});
+			if(msg.question === '你是谁啊？') port.postMessage({answer: '我是你爸！'});
 		});
 	}
 });
@@ -127,17 +129,17 @@ chrome.runtime.onConnect.addListener(function(port) {
 window.addEventListener("message", function(e)
 {
 	console.log('收到消息：', e.data);
-	if(e.data && e.data.cmd == 'invoke') {
+	if(e.data && e.data.cmd === 'invoke') {
 		eval('('+e.data.code+')');
 	}
-	else if(e.data && e.data.cmd == 'message') {
+	else if(e.data && e.data.cmd === 'message') {
 		tip(e.data.data);
 	}
 }, false);
 
 
 function initCustomEventListen() {
-	var hiddenDiv = document.getElementById('myCustomEventDiv');
+	let hiddenDiv = document.getElementById('myCustomEventDiv');
 	if(!hiddenDiv) {
 		hiddenDiv = document.createElement('div');
 		hiddenDiv.style.display = 'none';
@@ -145,16 +147,16 @@ function initCustomEventListen() {
 		document.body.appendChild(hiddenDiv);
 	}
 	hiddenDiv.addEventListener('myCustomEvent', function() {
-		var eventData = document.getElementById('myCustomEventDiv').innerText;
+		const eventData = document.getElementById('myCustomEventDiv').innerText;
 		tip('收到自定义事件：' + eventData);
 	});
 }
 
-var tipCount = 0;
+let tipCount = 0;
 // 简单的消息通知
 function tip(info) {
 	info = info || '';
-	var ele = document.createElement('div');
+	const ele = document.createElement('div');
 	ele.className = 'chrome-plugin-simple-tip slideInLeft';
 	ele.style.top = tipCount * 70 + 20 + 'px';
 	ele.innerHTML = `<div>${info}</div>`;

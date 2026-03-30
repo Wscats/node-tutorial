@@ -1,3 +1,5 @@
+'use strict';
+
 //http://stu.1000phone.net/student.php/Public/login
 //362524199301274017
 let stu = {
@@ -41,7 +43,7 @@ switch (href) {
 			let xhr = new XMLHttpRequest();
 			xhr.open("GET", "https://wscats.github.io/angular-tutorial/control/core.json", true);
 			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4) {
+				if (xhr.readyState === 4) {
 					console.log(JSON.parse(xhr.responseText));
 					stu.commit = stu.commit.concat(JSON.parse(xhr.responseText).commit);
 					document.querySelectorAll("textarea")[0].value = stu.commit[Math.floor(Math.random() * stu.commit.length)];
@@ -64,7 +66,7 @@ switch (href) {
 			let xhr = new XMLHttpRequest();
 			xhr.open("GET", "https://wscats.github.io/angular-tutorial/control/core.json", true);
 			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4) {
+				if (xhr.readyState === 4) {
 					console.log(JSON.parse(xhr.responseText));
 					stu.commit = stu.commit.concat(JSON.parse(xhr.responseText).commit);
 					document.querySelectorAll("textarea")[0].value = stu.commit[Math.floor(Math.random() * stu.commit.length)];
@@ -79,12 +81,12 @@ switch (href) {
 }
 
 function GetRequest() {
-	var url = location.search; //获取url中"?"符后的字串  
-	var theRequest = new Object();
-	if (url.indexOf("?") != -1) {
-		var str = url.substr(1);
+	const url = location.search; //获取url中"?"符后的字串  
+	const theRequest = new Object();
+	if (url.indexOf("?") !== -1) {
+		const str = url.substr(1);
 		strs = str.split("&");
-		for (var i = 0; i < strs.length; i++) {
+		for (let i = 0; i < strs.length; i++) {
 			theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
 		}
 	}
@@ -94,7 +96,7 @@ function GetRequest() {
 /*let xhr = new XMLHttpRequest();
 xhr.open("GET", "https://wscats.github.io/angular-tutorial/control/core.json", true);
 xhr.onreadystatechange = function() {
-	if(xhr.readyState == 4) {
+	if(xhr.readyState === 4) {
 		console.log(JSON.parse(xhr.responseText));
 		stu.commit = stu.commit.concat(JSON.parse(xhr.responseText).commit);
 		console

@@ -1,3 +1,5 @@
+'use strict';
+
 
 /**
  * 注册命名空间
@@ -12,17 +14,17 @@ baidu.html = (function(){
 	/**
 	 * 页面源代码
 	 */
-	var _pageSource = '';					
+	let _pageSource = '';					
 	
 	/**
 	 * 结果集
 	 */
-	var _summaryInformation = null;
+	let _summaryInformation = null;
 	
 	/**
 	 * 初始化侦测结果
 	 */
-	var _initSummaryInformation = function(){
+	const _initSummaryInformation = function(){
 	    _summaryInformation = {
 	        HTMLBase: {	
 	            HTMLDeprecatedAttribute: {},	//过期的属性
@@ -72,7 +74,7 @@ baidu.html = (function(){
 	 * 检测某个标签是否为过时的标签
 	 * @param {Object} tagName
 	 */
-	var _isHTMLDeprecatedTag = function(tagName) {
+	const _isHTMLDeprecatedTag = function(tagName) {
 	  return baidu.FlConst.HTML_DEPRECATED_TAGS[tagName.toLowerCase()];
 	};
 	
@@ -81,7 +83,7 @@ baidu.html = (function(){
 	 * @param {Object} tagName 待检测的标签
 	 * @param {Object} attrName 待检测的属性
 	 */
-	var _isHTMLDeprecatedAttribute = function(tagName, attrName){
+	const _isHTMLDeprecatedAttribute = function(tagName, attrName){
 		tagName = tagName.toLowerCase();
 		attrName = attrName.toLowerCase();
 	    return (baidu.FlConst.HTML_DEPRECATED_ATTRIBUTES[attrName] && baidu.FlConst.HTML_DEPRECATED_ATTRIBUTES[attrName][tagName]);
@@ -92,11 +94,11 @@ baidu.html = (function(){
 	 * 将检测到的过时标签记录到结果集中
 	 * @param {Object} element
 	 */
-	var _detectDeprecatedTag = function(element){
-	    var tagName = element.tagName.toLowerCase();
+	const _detectDeprecatedTag = function(element){
+	    let tagName = element.tagName.toLowerCase();
 	    
         if (_isHTMLDeprecatedTag(tagName)) {
-		    var HTMLDeprecatedTag = _summaryInformation.HTMLBase.HTMLDeprecatedTag;
+		    const HTMLDeprecatedTag = _summaryInformation.HTMLBase.HTMLDeprecatedTag;
 		    if (!HTMLDeprecatedTag[tagName]) {
 		        HTMLDeprecatedTag[tagName] = 0;
 		    }
@@ -109,12 +111,12 @@ baidu.html = (function(){
 	 * 将检测到的过时属性记录到结果集中
 	 * @param {Object} element
 	 */
-	var _detectDeprecatedAttribute = function(element){
-        var tagName = element.tagName.toLowerCase();
-        var attributes = element.attributes;
-	    var HTMLDeprecatedAttribute = _summaryInformation.HTMLBase.HTMLDeprecatedAttribute;
-        for (var j = 0, c = attributes.length; j < c; ++j) {
-            var attrName = attributes[j].name;
+	const _detectDeprecatedAttribute = function(element){
+        const tagName = element.tagName.toLowerCase();
+        const attributes = element.attributes;
+	    const HTMLDeprecatedAttribute = _summaryInformation.HTMLBase.HTMLDeprecatedAttribute;
+        for (const j = 0, c = attributes.length; j < c; ++j) {
+            const attrName = attributes[j].name;
             if (_isHTMLDeprecatedAttribute(tagName, attrName)) {
 			    if (!HTMLDeprecatedAttribute[attrName]) {
 			        HTMLDeprecatedAttribute[attrName] = {};
@@ -134,10 +136,10 @@ baidu.html = (function(){
 	 * @param {Object} rootNode 以该节点作为根节点开始进行搜索
 	 * @param {Integer} nodeFilter	过滤器，从NodeFilter中获得
 	 */
-	var _getNodes = function(rootNode, nodeFilter){
-	    var nodeIterator = document.createNodeIterator(rootNode, nodeFilter, null, false);
-	    var nodes = [];
-	    var node = nodeIterator.nextNode();
+	const _getNodes = function(rootNode, nodeFilter){
+	    const nodeIterator = document.createNodeIterator(rootNode, nodeFilter, null, false);
+	    let nodes = [];
+	    let node = nodeIterator.nextNode();
 	    while (node) {
 	        nodes.push(node);
 	        node = nodeIterator.nextNode();
@@ -148,14 +150,14 @@ baidu.html = (function(){
 	/**
 	 * 侦测IE条件注释
 	 */
-	var _detectIECondComm = function(){
-	    var nodes = _getNodes(document.documentElement, NodeFilter.SHOW_COMMENT);
+	const _detectIECondComm = function(){
+	    const nodes = _getNodes(document.documentElement, NodeFilter.SHOW_COMMENT);
 		//仅IE支持的注释
-	    var ieCondCommRegExp = /\[\s*if\s*[^\]][\s\w]*\]/i;
+	    const ieCondCommRegExp = /\[\s*if\s*[^\]][\s\w]*\]/i;
 		//FF的注释中不能出现'--'
-		var ffNotSupportComReg = /--/g;
-	    for (var i = 0, c = nodes.length; i < c; ++i) {
-	        var currentNode = nodes[i];
+		const ffNotSupportComReg = /--/g;
+	    for (let i = 0, c = nodes.length; i < c; ++i) {
+	        const currentNode = nodes[i];
 	        if (ieCondCommRegExp.test(currentNode.nodeValue)) {
 	            _summaryInformation.DOM.IECondComm.push(currentNode.nodeValue);
 	        }
@@ -169,15 +171,15 @@ baidu.html = (function(){
 	/**
 	 * 侦测documentMode
 	 */
-	var _detectCompatMode = function() {
+	const _detectCompatMode = function() {
 		_summaryInformation.documentMode = baidu.doctype.getDocMode();
 	};
 	
 	/**
 	 * 检测重复的ID
 	 */
-	var _detectDuplicatedID = function(ids){
-		var ID = _summaryInformation.ID;
+	const _detectDuplicatedID = function(ids){
+		const ID = _summaryInformation.ID;
 		for(var id in ids) {
 			if(ids[id] > 1) {
 				ID.ids[id] = ids[id];
@@ -189,7 +191,7 @@ baidu.html = (function(){
 	/**
 	 * 检测页面DOM节点的最大深度
 	 */
-	var _detectDomMaxDepth = function(dom){
+	const _detectDomMaxDepth = function(dom){
 		//如果不是html节点，则直接退出
 		if(dom.nodeType !== 1 || !dom.tagName) return;
 		
@@ -197,8 +199,8 @@ baidu.html = (function(){
 		if(dom.id === 'fe-helper-tab-box' || dom.id === 'fe-helper-pb-mask') return;
 		
 		//最大深度记录
-		var maxDepth = _summaryInformation.DOM.maxDepth;
-		var depth = 0;
+		const maxDepth = _summaryInformation.DOM.maxDepth;
+		let depth = 0;
 		var curTag , xpath = [];
 
 		//深度遍历
@@ -206,7 +208,7 @@ baidu.html = (function(){
 			//扩展屏蔽
 			if(dom.id === 'fe-helper-tab-box' || dom.id === 'fe-helper-pb-mask') return;
             //忽略SVG节点
-            if(dom.tagName.toLowerCase() == 'svg') continue;
+            if(dom.tagName.toLowerCase() === 'svg') continue;
 
             try{
                 if(dom.id) {	//如果该节点有id，则拼接id
@@ -234,18 +236,18 @@ baidu.html = (function(){
 	/**
 	 * 扫描整个页面的所有元素，侦测并记录结果
 	 */
-	var _scanAllElements = function(){
+	const _scanAllElements = function(){
 		//所有节点
-	    var elementList = _getNodes(document.documentElement, NodeFilter.SHOW_ELEMENT);
+	    const elementList = _getNodes(document.documentElement, NodeFilter.SHOW_ELEMENT);
 	    //所有节点个数
 	    _summaryInformation.DOM.count = elementList.length;
 		
 		//定义一个对象，用来标记节点的ID，当某一个节点的ID值大于1时，表示ID重复
-		var objDomId = {};
+		const objDomId = {};
 	    
 		//页面扫描
-	    for (var i = 0, len = elementList.length; i < len; ++i) {
-	        var element = elementList[i];
+	    for (let i = 0, len = elementList.length; i < len; ++i) {
+	        const element = elementList[i];
 			//侦测过时的标签
 	        _detectDeprecatedTag(element);
 	        
@@ -269,18 +271,18 @@ baidu.html = (function(){
 	/**
 	 * 检测页面上的link标签
 	 */
-	var _detectLink = function(){
+	const _detectLink = function(){
 	    //获取页面上所有的link标签
-	    var allLink = document.querySelectorAll('link');
+	    const allLink = document.querySelectorAll('link');
 	    //获取head标签内的link标签
-	    var inHeadLink = document.querySelectorAll('head link');
+	    const inHeadLink = document.querySelectorAll('head link');
 		
 		//不在Head标签内的Link
-		var notInHeadLink = [];
+		const notInHeadLink = [];
 		jQuery.each(allLink,function(i,link){
-			var isNotInHead = true;
+			let isNotInHead = true;
 			jQuery.each(inHeadLink,function(j,temp){
-				if(link.href == temp.href) {
+				if(link.href === temp.href) {
 					isNotInHead = false;
 				}
 			});
@@ -293,16 +295,16 @@ baidu.html = (function(){
 	/**
 	 * 侦测页面上的title标签
 	 */
-	var _detectTitle = function(){
-		var allTitle = document.querySelectorAll('title');
-		var inHeadTitle = document.querySelectorAll('head title');
-		var flag = false;
+	const _detectTitle = function(){
+		const allTitle = document.querySelectorAll('title');
+		const inHeadTitle = document.querySelectorAll('head title');
+		let flag = false;
 		
-		var titles = [];
+		const titles = [];
 		jQuery.each(allTitle,function(i,t){
 			flag = false;
 			jQuery.each(inHeadTitle,function(j,k){
-				if(t == k) {
+				if(t === k) {
 					flag = true;
 					return false;
 				}
@@ -318,16 +320,16 @@ baidu.html = (function(){
 	/**
 	 * 检测页面上是否存在src未空的img标签
 	 */
-	var _detectImgTags = function(){
+	const _detectImgTags = function(){
 		//这里只检测src属性为空的img标签，如果img标签没有设置src属性，如<img />，则跳过检测
-		var allImgTags = document.querySelectorAll('img[src]');
+		const allImgTags = document.querySelectorAll('img[src]');
 		
-		var imgTags = [];
-		var reg = /.*src=\"(.*)\".*/;
-		var arr = [];
+		const imgTags = [];
+		let reg = /.*src=\"(.*)\".*/;
+		let arr = [];
 		jQuery.each(allImgTags,function(i,k){
 			arr = reg.exec(k.outerHTML);
-			if(!arr || arr[1].trim() == '') {
+			if(!arr || arr[1].trim() === '') {
 				imgTags.push(k);
 			}
 		});
@@ -338,9 +340,9 @@ baidu.html = (function(){
 	 * 对input[type=text],input[type=password]进行监测
 	 * 不能以size属性来确定其尺寸
 	 */
-	var _detectInputBox = function(){
-		var inputBoxs = document.querySelectorAll('input[type=text],input[type=password]');
-		var invalidInput = _summaryInformation.DOM.invalidInput;
+	const _detectInputBox = function(){
+		const inputBoxs = document.querySelectorAll('input[type=text],input[type=password]');
+		const invalidInput = _summaryInformation.DOM.invalidInput;
 		jQuery.each(inputBoxs,function(i,input){
 			if(input.getAttribute('size')) {
 				invalidInput.count++;
@@ -353,10 +355,10 @@ baidu.html = (function(){
      * 获取某个节点的outerhtml，超过40个字符，则以...代替
      * @param {} elm
      */
-    var getOuterHtmlEllipsis = function(elm) {
-        var reg = /(<[^>]+>)/g;
-        var arr = reg.exec(elm.outerHTML);
-        var rst = arr ? arr[1] : elm.outerHTML;
+    const getOuterHtmlEllipsis = function(elm) {
+        const reg = /(<[^>]+>)/g;
+        const arr = reg.exec(elm.outerHTML);
+        let rst = arr ? arr[1] : elm.outerHTML;
         rst = rst.length > 40 ? rst.substr(0,40) + '...' : rst;
         return rst.replace(/</g,'&lt;').replace(/>/g,'&gt;');
     };
@@ -364,10 +366,10 @@ baidu.html = (function(){
 	/**
 	 * 检测标签的包含情况：是否有inline-tag包含了block-tag
 	 */
-	var _detectTagIncludeCase = function(){
-		var tagInclude = _summaryInformation.tagInclude;
-		var tempArr = null;
-		var inlineElm = null;
+	const _detectTagIncludeCase = function(){
+		const tagInclude = _summaryInformation.tagInclude;
+		let tempArr = null;
+		let inlineElm = null;
 		//遍历inline-tag
 		jQuery.each(baidu.FlConst.INLINE_HTML_ELEMENT,function(i,inlineTag){
 			//遍历block-tag
@@ -391,13 +393,13 @@ baidu.html = (function(){
 	 * 检测页面上是否有没有闭合的标签
 	 * Chrome会自动补全未闭合的标签，所以通过innerHTML获取到的HTML内容已经是闭合的了
 	 */
-	var _detectTagUnClosed = function(){
-		var html = _pageSource;
+	const _detectTagUnClosed = function(){
+		const html = _pageSource;
 		
 		//开始进行html代码词法分析
-		var htmlInstance = new baidu.htmlAnalytic();
-		var rst = htmlInstance.getUnclosedTags(html);
-		for(var i = 0;i < rst.length;i++){
+		const htmlInstance = new baidu.htmlAnalytic();
+		const rst = htmlInstance.getUnclosedTags(html);
+		for(let i = 0;i < rst.length;i++){
 			_summaryInformation.unClosedTags.push(rst[i].outerHTML.replace(/</g,'&lt;').replace(/>/g,'&gt;'));
 		}
 	};
@@ -405,9 +407,9 @@ baidu.html = (function(){
 	/**
 	 * 检测HTML代码是否压缩过
 	 */
-	var _detectHtmlMinify = function(){
-		var lines = _pageSource.split(/\n/);
-		var average_length_perline = _pageSource.length / lines.length;
+	const _detectHtmlMinify = function(){
+		const lines = _pageSource.split(/\n/);
+		const average_length_perline = _pageSource.length / lines.length;
 		if (average_length_perline < 150) {
 			_summaryInformation.htmlMinified = false;
 		}
@@ -416,7 +418,7 @@ baidu.html = (function(){
 	/**
 	 * 获取本页面的源代码
 	 */
-	var _getPageSource = function(callback){
+	const _getPageSource = function(callback){
 		chrome.runtime.sendMessage({
 			type : MSG_TYPE.GET_HTML,
 			link : location.href.split('#')[0]
@@ -436,7 +438,7 @@ baidu.html = (function(){
 	/**
 	 * 初始化
 	 */
-	var _init = function(callback){
+	const _init = function(callback){
 		
 		//获取本页源代码
 		_getPageSource(callback);
@@ -448,7 +450,7 @@ baidu.html = (function(){
 	 * @param {Function} callback 侦测完毕后的回调方法，形如：function(data){}
 	 * @config {Object} data 就是_summaryInformation
 	 */
-	var _detect = function (callback){
+	const _detect = function (callback){
 		//初始化结果集
 		_initSummaryInformation();
 		//扫描整个页面
@@ -473,7 +475,7 @@ baidu.html = (function(){
 		_detectHtmlMinify();
 		
 		//执行回调
-		if(callback && typeof callback == "function") {
+		if(callback && typeof callback === "function") {
 			callback.call(null,_summaryInformation);
 		}
 	};

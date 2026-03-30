@@ -1,3 +1,5 @@
+'use strict';
+
 const settings = require('electron-settings')
 
 document.body.addEventListener('click', (event) => {

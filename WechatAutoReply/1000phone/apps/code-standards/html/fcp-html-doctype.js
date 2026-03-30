@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间
  */
@@ -8,7 +10,7 @@ baidu.namespace.register("baidu.doctype");
  * @author zhaoxianlie 
  */
 baidu.doctype = (function(){
-	var documentMode = {
+	const documentMode = {
 	    //在未定义DTD的时候，浏览器默认将以混杂模式进行渲染
 	    IE: 'Q',
 	    WebKit: 'Q',
@@ -31,9 +33,9 @@ baidu.doctype = (function(){
 	 * @param {string} systemId 值为：document.doctype.systemId
 	 */
 	function fixDocTypeOfNASA(name, publicId, systemId){
-	    if (name.toLowerCase() == "\"xmlns:xsl='http://www.w3.org/1999/xsl/transform'\"" &&
-	    publicId == '' &&
-	    systemId == '') {
+	    if (name.toLowerCase() === "\"xmlns:xsl='http://www.w3.org/1999/xsl/transform'\"" &&
+	    publicId === '' &&
+	    systemId === '') {
 	        documentMode.IE = 'S';
 	        documentMode.WebKit = 'Q';
 	        documentMode.isUnusualDocType = false;
@@ -76,7 +78,7 @@ baidu.doctype = (function(){
 	 * 试图在某个Comment前面找到一个非IE注释的开始
 	 */
 	function getPreviousRevealedOpeningConditionalComment(node){
-	    var prev = node.previousSibling;
+	    let prev = node.previousSibling;
 	    for (; prev; prev = prev.previousSibling) {
 	        if (isNotIERevealedOpeningConditionalComment(prev.nodeValue)) {
 	            return prev;
@@ -89,20 +91,20 @@ baidu.doctype = (function(){
 	 * 检测文档头DTD前面是否有注释
 	 */
 	function checkForCommentBeforeDTD(){
-	    var result = {
+	    let result = {
 	        hasCommentBeforeDTD: false,
 	        hasConditionalCommentBeforeDTD: false
 	    };
-	    var doctype = document.doctype;
+	    let doctype = document.doctype;
 	    if (!doctype) {
 	        return result;
 		}
 	    
 		//从<html>向上搜索，进行检测
-	    var prev = doctype.previousSibling;
+	    let prev = doctype.previousSibling;
 	    for (; prev; prev = prev.previousSibling) {
-	        if (prev.nodeType == Node.COMMENT_NODE) {
-	            var nodeValue = prev.nodeValue;
+	        if (prev.nodeType === Node.COMMENT_NODE) {
+	            const nodeValue = prev.nodeValue;
 	            //向上搜索的过程中，如果碰到某个Comment是注释的结束部分，再继续搜索其上是否存在注释的开始部分
 	            if (isRevealedClosingConditionalComment(nodeValue)) {
 	                prev = getPreviousRevealedOpeningConditionalComment(prev);
@@ -114,7 +116,7 @@ baidu.doctype = (function(){
 	                continue;
 	            }
 	            // 判断某个Comment是否为一个条件注释
-	            var isConditionalComm = isConditionalComment(nodeValue);
+	            const isConditionalComm = isConditionalComment(nodeValue);
 	            if (!isConditionalComm) {
 	                result.hasCommentBeforeDTD = true;
 	                continue;
@@ -133,13 +135,13 @@ baidu.doctype = (function(){
 	 */
 	function processDoctypeDetectionResult(){
 		//获取doctype
-	    var doctype = document.doctype;
+	    const doctype = document.doctype;
 		
-	    var compatMode = document.compatMode.toLowerCase();
+	    const compatMode = document.compatMode.toLowerCase();
 	    documentMode.hasDocType = (doctype) ? true : false;
 	    
 		// 如果页面是以混杂模式渲染的，则compatMode为BackCompat
-	    documentMode.WebKit = (compatMode == 'backcompat') ? 'Q' : 'S';
+	    documentMode.WebKit = (compatMode === 'backcompat') ? 'Q' : 'S';
 	    documentMode.IE = documentMode.WebKit;
 		
 	    // 如果文档压根儿就没有写doctype，则不需要继续侦测了
@@ -148,12 +150,12 @@ baidu.doctype = (function(){
 	    }
 
 		//下面三个是doctype中最重要的组成部分
-	    var name = doctype ? doctype.name.toLowerCase() : '';
-	    var publicId = doctype ? doctype.publicId : '';
-	    var systemId = doctype ? doctype.systemId : '';
+	    const name = doctype ? doctype.name.toLowerCase() : '';
+	    const publicId = doctype ? doctype.publicId : '';
+	    const systemId = doctype ? doctype.systemId : '';
 
 	    // 非正常工作模式
-	    if (name != 'html') {
+	    if (name !== 'html') {
 	        documentMode.IE = undefined;
 	        documentMode.isUnusualDocType = true;
 	    } else {
@@ -180,8 +182,8 @@ baidu.doctype = (function(){
 	    fixDocTypeOfNASA(name, publicId, systemId);
 		
 	    // 判断文档头前面是否存在注释
-	    if (documentMode.IE != 'Q') {
-	        var result = checkForCommentBeforeDTD();
+	    if (documentMode.IE !== 'Q') {
+	        const result = checkForCommentBeforeDTD();
 	        if (result.hasConditionalCommentBeforeDTD) {
 	            documentMode.IE = undefined;
 	            documentMode.hasConditionalCommentBeforeDTD = true;

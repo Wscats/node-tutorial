@@ -1,3 +1,5 @@
+'use strict';
+
 exports.config = {
 	//初始化起点页
 	page: 1,

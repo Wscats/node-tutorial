@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FE-Helper ContentScripts
  * @author zhaoxianlie@baidu.com

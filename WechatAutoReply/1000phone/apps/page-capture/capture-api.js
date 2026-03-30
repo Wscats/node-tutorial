@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * chrome extension页面截屏API
  *

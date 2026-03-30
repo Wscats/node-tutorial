@@ -1,3 +1,5 @@
+'use strict';
+
 // const getNum = (value) => {
 //     return value * 2
 // }

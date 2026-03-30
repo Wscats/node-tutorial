@@ -27,8 +27,8 @@
     * to work around bugs in some JS interpreters.
     */
     function safeAdd (x, y) {
-        var lsw = (x & 0xffff) + (y & 0xffff)
-        var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
+        const lsw = (x & 0xffff) + (y & 0xffff)
+        const msw = (x >> 16) + (y >> 16) + (lsw >> 16)
         return (msw << 16) | (lsw & 0xffff)
     }
 
@@ -71,10 +71,10 @@
         var oldb
         var oldc
         var oldd
-        var a = 1732584193
-        var b = -271733879
-        var c = -1732584194
-        var d = 271733878
+        let a = 1732584193
+        let b = -271733879
+        let c = -1732584194
+        let d = 271733878
 
         for (i = 0; i < x.length; i += 16) {
             olda = a
@@ -163,8 +163,8 @@
     */
     function binl2rstr (input) {
         var i
-        var output = ''
-        var length32 = input.length * 32
+        let output = ''
+        const length32 = input.length * 32
         for (i = 0; i < length32; i += 8) {
             output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xff)
         }
@@ -177,12 +177,12 @@
     */
     function rstr2binl (input) {
         var i
-        var output = []
+        let output = []
         output[(input.length >> 2) - 1] = undefined
         for (i = 0; i < output.length; i += 1) {
             output[i] = 0
         }
-        var length8 = input.length * 8
+        const length8 = input.length * 8
         for (i = 0; i < length8; i += 8) {
             output[i >> 5] |= (input.charCodeAt(i / 8) & 0xff) << (i % 32)
         }
@@ -201,9 +201,9 @@
     */
     function rstrHMACMD5 (key, data) {
         var i
-        var bkey = rstr2binl(key)
-        var ipad = []
-        var opad = []
+        let bkey = rstr2binl(key)
+        const ipad = []
+        const opad = []
         var hash
         ipad[15] = opad[15] = undefined
         if (bkey.length > 16) {
@@ -221,8 +221,8 @@
     * Convert a raw string to a hex string
     */
     function rstr2hex (input) {
-        var hexTab = '0123456789abcdef'
-        var output = ''
+        const hexTab = '0123456789abcdef'
+        const output = ''
         var x
         var i
         for (i = 0; i < input.length; i += 1) {

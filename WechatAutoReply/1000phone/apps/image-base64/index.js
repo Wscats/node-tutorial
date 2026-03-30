@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper Image Base64 Tools
  */

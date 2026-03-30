@@ -1,9 +1,11 @@
-var fs = require("fs");
-var data = '中国';
+'use strict';
+
+const fs = require("fs");
+const data = '中国';
 
 // 创建一个可以写入的流，写入到文件 output.txt 中
-// var writerStream = fs.createWriteStream('output.txt', {'flags': 'a'}); //追加文本
-var writerStream = fs.createWriteStream('output.txt');
+// let writerStream = fs.createWriteStream('output.txt', {'flags': 'a'}); //追加文本
+const writerStream = fs.createWriteStream('output.txt');
 
 // 使用 utf8 编码写入数据
 writerStream.write(data,'UTF8');

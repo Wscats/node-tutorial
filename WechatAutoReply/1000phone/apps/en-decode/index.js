@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper 信息编解码
  */
@@ -67,7 +69,7 @@ new Vue({
             let htmlArr = txt.replace(/\\/g, "\\\\").replace(/\\/g, "\\/").replace(/\'/g, "\\\'").split('\n');
             let len = htmlArr.length;
             let outArr = [];
-            outArr.push("var htmlCodes = [\n");
+            outArr.push("const htmlCodes = [\n");
             htmlArr.forEach((value, index) => {
                 if (value !== "") {
                     if (index === len - 1) {

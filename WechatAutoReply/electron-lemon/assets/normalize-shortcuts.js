@@ -1,3 +1,5 @@
+'use strict';
+
 const normalize = require('electron-shortcut-normalizer')
 let shortcuts = document.querySelectorAll('kbd.normalize-to-platform')
 

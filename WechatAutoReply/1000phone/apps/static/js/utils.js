@@ -1,3 +1,5 @@
+'use strict';
+
 window.baidu = {
     namespace: {
 
@@ -8,14 +10,14 @@ window.baidu = {
          */
         register: function (fullNS) {
             //命名空间合法性校验依据
-            var reg = /^[_$a-z]+[_$a-z0-9]*/i;
+            const reg = /^[_$a-z]+[_$a-z0-9]*/i;
 
             // 将命名空间切成N部分, 比如baidu.libs.Firefox等
-            var nsArray = fullNS.split('.');
-            var sEval = "";
-            var sNS = "";
-            var _tmpObj = [window];
-            for (var i = 0; i < nsArray.length; i++) {
+            const nsArray = fullNS.split('.');
+            const sEval = "";
+            const sNS = "";
+            const _tmpObj = [window];
+            for (let i = 0; i < nsArray.length; i++) {
                 //命名空间合法性校验
                 if (!reg.test(nsArray[i])) {
                     throw new Error("Invalid namespace:" + nsArray[i] + "");
@@ -23,7 +25,7 @@ window.baidu = {
                 }
 
                 _tmpObj[i + 1] = _tmpObj[i][nsArray[i]];
-                if (typeof _tmpObj[i + 1] == 'undefined') {
+                if (typeof _tmpObj[i + 1] === 'undefined') {
                     _tmpObj[i + 1] = new Object();
                 }
             }
@@ -33,7 +35,7 @@ window.baidu = {
     i18n: {
         getMessage: function (msgId, arr) {
             if (arr) {
-                for (var i = 0, len = arr.length; i < len; i++) {
+                for (let i = 0, len = arr.length; i < len; i++) {
                     arr[i] = '' + arr[i];
                 }
                 return chrome.i18n.getMessage(msgId, arr);
@@ -48,8 +50,8 @@ window.baidu = {
  * 获取某字符串的字节数
  */
 String.prototype.getBytes = function () {
-    var stream = this.replace(/\n/g, 'xx').replace(/\t/g, 'x');
-    var escapedStr = encodeURIComponent(stream);
+    const stream = this.replace(/\n/g, 'xx').replace(/\t/g, 'x');
+    const escapedStr = encodeURIComponent(stream);
     return escapedStr.replace(/%[A-Z0-9][A-Z0-9]/g, 'x').length;
 }
 

@@ -1,6 +1,8 @@
+'use strict';
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(sender.tab ?"from a content script:" + sender.tab.url :"from the extension");
-  if (request.cmd == 'test') {
+  if (request.cmd === 'test') {
     console.log($("img"))
     console.log(request.value)
     console.log("监听所有input输入框")

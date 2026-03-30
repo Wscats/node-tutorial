@@ -1,3 +1,5 @@
+'use strict';
+
 exports.types = {
 	"css": "text/css",
 	"gif": "image/gif",

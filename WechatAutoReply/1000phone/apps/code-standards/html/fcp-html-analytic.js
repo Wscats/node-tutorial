@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间：baidu.htmlAnalytic
  */
@@ -68,7 +70,7 @@ baidu.htmlAnalytic = function(){
 	 * @param int $type
 	 */
 	this.run = function($content, $type){
-		if($type == undefined) $type = 1;
+		if($type === undefined) $type = 1;
 		this.content = $content.trim().replace(/\r\n/g, "\n");
 		if (this.content.indexOf('<?xml') > -1){
 			return [[$content, baidu.FL.HTML_XML]];
@@ -249,7 +251,7 @@ baidu.htmlAnalytic = function(){
 	 * @param {Object} $orign
 	 */
 	this._getUnformated = function($char, $orign){
-		if($orign == undefined) $orign = '';
+		if($orign === undefined) $orign = '';
 		if ($orign.indexOf($char) > -1) return '';
 		var $resultString = '';
 		do {
@@ -259,7 +261,7 @@ baidu.htmlAnalytic = function(){
 			$c = this.content[this.parsePos];
 			$resultString += $c;
 			this.parsePos++;
-		}while ($resultString.indexOf($char) == -1);
+		}while ($resultString.indexOf($char) === -1);
 		//增加一个字符的容错机制,如：value="""，这里一不小心多写了个引号
 		if ($char.length === 1){
 			while ($char === this.content[this.parsePos]){
@@ -276,7 +278,7 @@ baidu.htmlAnalytic = function(){
 	 * @param {Integer} $type 0:script，1：style
 	 */
 	this._getScriptOrStyleContent = function($char, $type){
-		var $tokenText = $type == 1 ? '</script>' : '</style>';
+		var $tokenText = $type === 1 ? '</script>' : '</style>';
 		var $tokenLength = $tokenText.length;
 		if (this.content.substr( this.parsePos - 1, $tokenLength).toLowerCase() === $tokenText){
 			return '';
@@ -314,7 +316,7 @@ baidu.htmlAnalytic = function(){
 	 * @param {Integer} $type 0:textarea，1：pre
 	 */
 	this._getTextareaOrPreContent = function($char, $type){
-		var $tokenText = $type == 1 ? '</textarea>' : '</pre>';
+		var $tokenText = $type === 1 ? '</textarea>' : '</pre>';
 		var $tokenLength = $tokenText.length;
 		if (this.content.substr( this.parsePos - 1, $tokenLength).toLowerCase() === $tokenText){
 			return '';
@@ -391,7 +393,7 @@ baidu.htmlAnalytic = function(){
 				}
 				$name = $attr = '';
 			}else{
-				if ($char !== ' ' && $char != "\n" && $char != "\r" && $char != "\t") $attr += $char;
+				if ($char !== ' ' && $char !== "\n" && $char !== "\r" && $char !== "\t") $attr += $char;
 			}
 		}
 		if ($attr){
@@ -409,8 +411,8 @@ baidu.htmlAnalytic = function(){
 	 * @param {Object} $tag
 	 */
 	this._in_array = function($array,$tag){
-		for(var i = 0,len = $array.length;i < len;i++){
-			if($tag.trim() == $array[i]) return true;
+		for(let i = 0,len = $array.length;i < len;i++){
+			if($tag.trim() === $array[i]) return true;
 		}
 		return false;
 	};
@@ -421,9 +423,9 @@ baidu.htmlAnalytic = function(){
 	 * @param {Object} $type 0:开始标签，1：结束标签
 	 */
 	this._getTagName = function($tagOuterHtml,$type){
-		var reg_start = /^<([^\s\/>]+)\s*\/?/g;
-		var reg_end = /^<\/([^\s]+)>/g;
-		var tagAttrs = ($type == 0 ? reg_start : reg_end).exec($tagOuterHtml);
+		const reg_start = /^<([^\s\/>]+)\s*\/?/g;
+		const reg_end = /^<\/([^\s]+)>/g;
+		const tagAttrs = ($type === 0 ? reg_start : reg_end).exec($tagOuterHtml);
 		return tagAttrs ? tagAttrs[1] : '';
 	};
 	
@@ -435,8 +437,8 @@ baidu.htmlAnalytic = function(){
 		
 		//给Array增加remove方法
 	    Array.prototype.remove = function(str){
-	        for (var index = this.length - 1; index >= 0; index--) {
-	            if (str == this[index].tagName) {
+	        for (let index = this.length - 1; index >= 0; index--) {
+	            if (str === this[index].tagName) {
 	                this.splice(index,1);
 	                return true;
 	            }
@@ -445,9 +447,9 @@ baidu.htmlAnalytic = function(){
 	    };
 	    
 	    //HTML词法分析
-	    var analyticRst = this.run(str);
-	    var rawHtml = [];
-	    for(var i = 0,len = analyticRst.length;i < len;i++){
+	    const analyticRst = this.run(str);
+	    const rawHtml = [];
+	    for(let i = 0,len = analyticRst.length;i < len;i++){
 	    	if(analyticRst[i][1] === baidu.FL.HTML_PRE_START ||
 	    		analyticRst[i][1] === baidu.FL.HTML_PRE_END ||
 	    		analyticRst[i][1] === baidu.FL.HTML_TEXTAREA_START ||
@@ -459,12 +461,12 @@ baidu.htmlAnalytic = function(){
 	    		}
 	    }
 	    
-	    var tag = ''; // 标签
-	    var startUncloseTags = []; // "开始标签栈"，前不闭合，如有</div>而前面没有<div>
-	    var endUncloseTags = []; // "结束标签栈"，后不闭合，如有<div>而后面没有</div>
+	    let tag = ''; // 标签
+	    const startUncloseTags = []; // "开始标签栈"，前不闭合，如有</div>而前面没有<div>
+	    const endUncloseTags = []; // "结束标签栈"，后不闭合，如有<div>而后面没有</div>
 	    
 	    //开始分析
-	    for(var i = 0,len = rawHtml.length;i < len;i++) {
+	    for(let i = 0,len = rawHtml.length;i < len;i++) {
 	    	//开始标签
 	    	if(rawHtml[i][1] !== baidu.FL.HTML_PRE_END && 
 	    			rawHtml[i][1] !== baidu.FL.HTML_TEXTAREA_END && 
@@ -491,10 +493,10 @@ baidu.htmlAnalytic = function(){
 	    }
 	    
 		//结果	    
-		var rst = [],temp = endUncloseTags.concat(startUncloseTags);
+		const rst = [],temp = endUncloseTags.concat(startUncloseTags);
 		//后不闭合\前不闭合，此处过滤自动闭合的标签
-		for(var i = 0,len = temp.length;i < len;i++) {
-			if((!this._in_array(this.singleTag ,temp[i].tagName.toLowerCase()) || temp[i].type == 0)
+		for(let i = 0,len = temp.length;i < len;i++) {
+			if((!this._in_array(this.singleTag ,temp[i].tagName.toLowerCase()) || temp[i].type === 0)
 				&& !this._in_array(this.closeTagWhiteList ,temp[i].tagName.toLowerCase())) {
 				rst.push(temp[i]);
 			}

@@ -1,4 +1,6 @@
-var fs = require('fs');
+'use strict';
+
+const fs = require('fs');
 
 // console.log("准备写入文件");
 //参数1：文件路径

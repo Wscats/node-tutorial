@@ -1,3 +1,5 @@
+'use strict';
+
 function isLogListDetail(arr, $, $$, item, isLog) {
 	if(isLog) {
 		//职位列表项信息

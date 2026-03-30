@@ -1,9 +1,11 @@
+'use strict';
+
 //来自百度的API历史上的今天
 //http://apistore.baidu.com/apiworks/servicedetail/1728.html
-var http = require('http');
+const http = require('http');
 //处理字符串的模块
-var querystring = require('querystring');
-var data = {
+const querystring = require('querystring');
+const data = {
 	//月份
 	yue: '1',
 	//日期

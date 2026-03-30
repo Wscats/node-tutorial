@@ -1,6 +1,8 @@
-var url = require('url');
+'use strict';
 
-var _parse = url.parse('http://www.dk-lan.com:8080/p/a/t/h?query=string#hash', false, false);
+const url = require('url');
+
+const _parse = url.parse('http://www.dk-lan.com:8080/p/a/t/h?query=string#hash', false, false);
 
 console.log(_parse);
 
@@ -47,7 +49,7 @@ hash: 锚点部分（即：“#”及其后的部分）
 例如: '#hash'
  */
 
-var urlObj = { 
+const urlObj = { 
   	protocol: 'http:',
     slashes: true,
     hostname: 'dk-lan.com',
@@ -56,7 +58,7 @@ var urlObj = {
     search: '?query=string',
     path: '/nodejs?query=string'
 }
-var result = url.format(urlObj);
+const result = url.format(urlObj);
 console.log(result);
 
 //输出结果：http://dk-lan.com:80?query=string#hash

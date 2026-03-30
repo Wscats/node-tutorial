@@ -58,7 +58,7 @@
 
             expand-strict: put brace on own line even in such cases:
 
-                var a =
+                let a =
                 {
                     a: 5,
                     b: 6
@@ -98,7 +98,7 @@
         });
     }
 
-    var beautifyWebWorker = function () {
+    const beautifyWebWorker = function () {
         function Beautifier(js_source_text, options) {
             "use strict";
             var input, output, token_text, token_type, last_type, last_last_text, indent_string;
@@ -108,13 +108,13 @@
             var wanted_newline, n_newlines, output_wrapped, output_space_before_token, whitespace_before_token;
             var input_length;
             var handlers, MODE, opt;
-            var preindent_string = '';
+            const preindent_string = '';
 
             whitespace = "\n\r\t ".split('');
             wordchar = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$'.split('');
             digits = '0123456789'.split('');
 
-            punct = '+ - * / % & ++ -- = += -= *= /= %= == === != !== > < >= <= >> << >>> >>>= >>= <<= && &= | || ! !! , : ? ^ ^= |= ::';
+            punct = '+ - * / % & ++ -- = += -= *= /= %= === === !== !== > < >= <= >> << >>> >>>= >>= <<= && &= | || ! !! , : ? ^ ^= |= ::';
             punct += ' <%= <% %> <?= <? ?>'; // try to be a good boy and try not to break the markup language identifiers
             punct = punct.split(' ');
 
@@ -301,7 +301,7 @@
                 //return s.split(/\x0d\x0a|\x0a/);
 
                 s = s.replace(/\x0d/g, '');
-                var out = [],
+                let out = [],
                     idx = s.indexOf("\n");
                 while (idx !== -1) {
                     out.push(s.substring(0, idx));
@@ -319,7 +319,7 @@
             }
 
             function _last_index_of(arr, find) {
-                var i = arr.length - 1;
+                let i = arr.length - 1;
                 if (i < 0) {
                     i += arr.length;
                 }
@@ -337,9 +337,9 @@
             function allow_wrap_or_preserved_newline(force_linewrap) {
                 force_linewrap = (force_linewrap === undefined) ? false : force_linewrap;
                 if (opt.wrap_line_length && !force_linewrap) {
-                    var current_line = '';
-                    var proposed_line_length = 0;
-                    var start_line = _last_index_of(output, '\n') + 1;
+                    let current_line = '';
+                    let proposed_line_length = 0;
+                    const start_line = _last_index_of(output, '\n') + 1;
                     // never wrap the first token of a line.
                     if (start_line < output.length) {
                         current_line = output.slice(start_line).join('');
@@ -408,7 +408,7 @@
 
                 // Never indent your first output indent at the start of the file
                 if (flags.last_text !== '') {
-                    for (var i = 0; i < level; i += 1) {
+                    for (let i = 0; i < level; i += 1) {
                         output.push(indent_string);
                     }
                 }
@@ -416,7 +416,7 @@
 
             function print_token_space_before() {
                 if (output_space_before_token && output.length) {
-                    var last_output = output[output.length - 1];
+                    const last_output = output[output.length - 1];
                     if (!just_added_newline() && last_output !== ' ' && last_output !== indent_string) { // prevent occassional duplicate space
                         output.push(' ');
                     }
@@ -477,8 +477,8 @@
             }
 
             function all_lines_start_with(lines, c) {
-                for (var i = 0; i < lines.length; i++) {
-                    var line = trim(lines[i]);
+                for (let i = 0; i < lines.length; i++) {
+                    const line = trim(lines[i]);
                     if (line.charAt(0) !== c) {
                         return false;
                     }
@@ -491,7 +491,7 @@
             }
 
             function in_array(what, arr) {
-                for (var i = 0; i < arr.length; i += 1) {
+                for (let i = 0; i < arr.length; i += 1) {
                     if (arr[i] === what) {
                         return true;
                     }
@@ -500,7 +500,7 @@
             }
 
             function unescape_string(s) {
-                var esc = false,
+                let esc = false,
                     out = '',
                     pos = 0,
                     s_hex = '',
@@ -564,8 +564,8 @@
             }
 
             function is_next(find) {
-                var local_pos = parser_pos;
-                var c = input.charAt(local_pos);
+                let local_pos = parser_pos;
+                let c = input.charAt(local_pos);
                 while (in_array(c, whitespace) && c !== find) {
                     local_pos++;
                     if (local_pos >= input_length) {
@@ -588,7 +588,7 @@
                 wanted_newline = false;
                 whitespace_before_token = [];
 
-                var c = input.charAt(parser_pos);
+                let c = input.charAt(parser_pos);
                 parser_pos += 1;
 
                 while (in_array(c, whitespace)) {
@@ -626,10 +626,10 @@
                     // small and surprisingly unugly hack for 1E-10 representation
                     if (parser_pos !== input_length && c.match(/^[0-9]+[Ee]$/) && (input.charAt(parser_pos) === '-' || input.charAt(parser_pos) === '+')) {
 
-                        var sign = input.charAt(parser_pos);
+                        const sign = input.charAt(parser_pos);
                         parser_pos += 1;
 
-                        var t = get_next_token();
+                        const t = get_next_token();
                         c += sign + t[0];
                         return [c, 'TK_WORD'];
                     }
@@ -661,9 +661,9 @@
                 }
 
                 if (c === '/') {
-                    var comment = '';
+                    let comment = '';
                     // peek for comment /* ... */
-                    var inline_comment = true;
+                    let inline_comment = true;
                     if (input.charAt(parser_pos) === '*') {
                         parser_pos += 1;
                         if (parser_pos < input_length) {
@@ -708,7 +708,7 @@
                             (in_array(last_type, ['TK_COMMENT', 'TK_START_EXPR', 'TK_START_BLOCK',
                                 'TK_END_BLOCK', 'TK_OPERATOR', 'TK_EQUALS', 'TK_EOF', 'TK_SEMICOLON', 'TK_COMMA'
                             ]))))) { // regexp
-                    var sep = c,
+                    const sep = c,
                         esc = false,
                         has_char_escapes = false;
 
@@ -719,7 +719,7 @@
                             //
                             // handle regexp separately...
                             //
-                            var in_char_class = false;
+                            let in_char_class = false;
                             while (esc || in_char_class || input.charAt(parser_pos) !== sep) {
                                 resulting_string += input.charAt(parser_pos);
                                 if (!esc) {
@@ -800,7 +800,7 @@
                     // Spidermonkey-specific sharp variables for circular references
                     // https://developer.mozilla.org/En/Sharp_variables_in_JavaScript
                     // http://mxr.mozilla.org/mozilla-central/source/js/src/jsscan.cpp around line 1935
-                    var sharp = '#';
+                    const sharp = '#';
                     if (parser_pos < input_length && in_array(input.charAt(parser_pos), digits)) {
                         do {
                             c = input.charAt(parser_pos);
@@ -962,7 +962,7 @@
             function handle_start_block() {
                 set_mode(MODE.BlockStatement);
 
-                var empty_braces = is_next('}');
+                const empty_braces = is_next('}');
 
                 if (opt.brace_style === "expand-strict") {
                     if (!empty_braces) {
@@ -1078,7 +1078,7 @@
                             n_newlines = 1;
                         }
 
-                        for (var i = 0; i < 2 - n_newlines; i++) {
+                        for (let i = 0; i < 2 - n_newlines; i++) {
                             print_newline(true);
                         }
                     }
@@ -1177,7 +1177,7 @@
                         output_space_before_token = true;
                     } else if (last_type !== 'TK_END_EXPR') {
                         if ((last_type !== 'TK_START_EXPR' || token_text !== 'var') && flags.last_text !== ':') {
-                            // no need to force newline on 'var': for (var x = 0...)
+                            // no need to force newline on 'var': for (const x = 0...)
                             if (token_text === 'if' && flags.last_word === 'else' && flags.last_text !== '{') {
                                 // no newline for } else if {
                                 output_space_before_token = true;
@@ -1259,7 +1259,7 @@
             function handle_comma() {
                 if (flags.var_line) {
                     if (is_expression(flags.mode) || last_type === 'TK_END_BLOCK') {
-                        // do not break on comma, for(var a = 1, b = 2)
+                        // do not break on comma, for(const a = 1, b = 2)
                         flags.var_line_tainted = false;
                     }
 
@@ -1298,8 +1298,8 @@
             }
 
             function handle_operator() {
-                var space_before = true;
-                var space_after = true;
+                let space_before = true;
+                let space_after = true;
                 if (is_special_word(flags.last_text)) {
                     // "return" had a special handling in TK_WORD. Now we need to return the favor
                     output_space_before_token = true;
@@ -1373,7 +1373,7 @@
             }
 
             function handle_block_comment() {
-                var lines = split_newlines(token_text);
+                const lines = split_newlines(token_text);
                 var j; // iterator for this case
 
                 if (all_lines_start_with(lines.slice(1), '*')) {
@@ -1455,8 +1455,8 @@
         }
 
         self.onmessage = function (evt) {
-            var beautifier = new Beautifier(evt.data.js_source_text, evt.data.options);
-            var result = beautifier.beautify();
+            const beautifier = new Beautifier(evt.data.js_source_text, evt.data.options);
+            const result = beautifier.beautify();
             self.postMessage(result);
         };
     };

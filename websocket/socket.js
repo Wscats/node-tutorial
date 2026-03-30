@@ -1,11 +1,13 @@
+'use strict';
+
 //创建一个服务器
-var http = require("http");
-var app = http.createServer(function(req, res) {});
-var ioFn = require("socket.io");
-var _ = require('underscore');
+const http = require("http");
+const app = http.createServer(function(req, res) {});
+const ioFn = require("socket.io");
+const _ = require('underscore');
 //实例化服务器，让它支持websocket
-var io = ioFn(app);
-var socketArr = [];
+const io = ioFn(app);
+const socketArr = [];
 //跟前端进行连接
 io.on("connection", function(socket) {
 	console.log(socket.id);
@@ -15,7 +17,7 @@ io.on("connection", function(socket) {
 			id: socket.id,
 			name: name,
 		});
-		var userList = {
+		const userList = {
 			socketArr: socketArr
 		};
 		//console.log(userList)

@@ -1,3 +1,5 @@
+'use strict';
+
 function doUpload() {
 	$.ajax({
 		url: 'http://localhost:3000/upload-single',

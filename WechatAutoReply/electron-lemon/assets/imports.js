@@ -1,3 +1,5 @@
+'use strict';
+
 const links = document.querySelectorAll('link[rel="import"]')
 
 // Import and add each page to the DOM

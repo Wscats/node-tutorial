@@ -1,20 +1,22 @@
-var http = require('http');
+'use strict';
+
+const http = require('http');
 //读写文件的模块
-var fs = require('fs');
+const fs = require('fs');
 //获取请求地址信息的模块
-var url = require('url');
+const url = require('url');
 //处理字符串的模块
-var querystring = require('querystring');
+const querystring = require('querystring');
 //创建服务器
 http.createServer(function(request, response) {
 	request.setEncoding('utf-8');
 	//获取请求路径 比如index.html
-	var pathname = url.parse(request.url).pathname;
+	const pathname = url.parse(request.url).pathname;
 	//获取请求参数 例如?callback=JSON_CALLBACK&name=yao
-	var paramStr = url.parse(request.url).query;
+	const paramStr = url.parse(request.url).query;
 	//将参数转化为json对象
 	//例如把?callback=JSON_CALLBACK&name=yao 转化为对象{callback:'JSON_CALLBACK',name:'yao'}
-	var param = querystring.parse(paramStr);
+	const param = querystring.parse(paramStr);
 	//发送 HTTP 头部 
 	//HTTP 状态值: 200 : OK
 	//内容类型: text/jsonp
@@ -24,7 +26,7 @@ http.createServer(function(request, response) {
 	});
 	
 	//定义一个对象，后面把它转化为json字符串
-	var datas = {
+	const datas = {
 		name: "wsscat",
 		age: "0",
 		sex: "cat",
@@ -57,7 +59,7 @@ console.log('Hello, I am wsscat, Server running at http://127.0.0.1:8888/');
 
 //接口代理
 function responseRebotMessage(param, response) {
-	var data = {
+	const data = {
 		//图灵机器人需要的API KEY
 		key: 'c75ba576f50ddaa5fd2a87615d144ecf',
 		//向图灵机器人发送的问题
@@ -77,7 +79,7 @@ function responseRebotMessage(param, response) {
 		//console.log('HEADERS: ' + JSON.stringify(resquest.headers));
 		resquest.setEncoding('utf8');
 		//这里用str来不间断监听数据
-		var str='';
+		const str='';
 		resquest.on('data', function(data) {
 			console.log('相应的内容为: ' + data);
 			str += data;
@@ -96,9 +98,9 @@ function responseRebotMessage(param, response) {
 
 //读取home.html并显示
 function responseIndex(response) {
-	var readPath = __dirname + '/' + url.parse('home.html').pathname;
+	const readPath = __dirname + '/' + url.parse('home.html').pathname;
 	//同步获取文件
-	//var indexPage = fs.readFileSync(readPath);
+	//const indexPage = fs.readFileSync(readPath);
 	//response.writeHead(200, {
 	//	'Content-Type': 'text/html'
 	//});

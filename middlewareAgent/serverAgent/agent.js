@@ -1,7 +1,9 @@
-var http = require("http")
-var querystring = require("querystring")
+'use strict';
+
+const http = require("http")
+const querystring = require("querystring")
 function agent(param, callback) {
-	var data = {
+	const data = {
 		skill: 'Javascript',
 		//向图灵机器人发送的问题
 		name: param.name
@@ -18,7 +20,7 @@ function agent(param, callback) {
 	}, function(resquest) {
 		resquest.setEncoding('utf8');
 		//这里用str来不间断监听数据
-		var str = '';
+		const str = '';
 		resquest.on('data', function(data) {
 			console.log('相应的内容为: ' + data);
 			str += data;

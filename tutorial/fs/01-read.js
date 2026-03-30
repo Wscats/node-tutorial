@@ -1,4 +1,6 @@
-var fs = require('fs');
+'use strict';
+
+const fs = require('fs');
 
 // 异步读取
 // 参数1：文件路径，
@@ -12,7 +14,7 @@ fs.readFile('demoFile.txt', function (err, data) {
 });
 
 // 同步读取
-// var data = fs.readFileSync('demoFile.txt');
+// const data = fs.readFileSync('demoFile.txt');
 // console.log("同步读取: " + data.toString());
 
 // console.log("程序执行完毕。");

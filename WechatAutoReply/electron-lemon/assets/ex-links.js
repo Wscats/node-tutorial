@@ -1,3 +1,5 @@
+'use strict';
+
 const shell = require('electron').shell
 
 const links = document.querySelectorAll('a[href]')

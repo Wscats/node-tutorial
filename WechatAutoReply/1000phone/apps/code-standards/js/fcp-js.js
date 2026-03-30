@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 注册命名空间：baidu.js
  */
@@ -9,15 +11,15 @@ baidu.namespace.register("baidu.js");
  */
 baidu.js = (function(){
 	
-	var _readyQueen = null;
-	var _asyncInterface = 0;
-	var _scriptBlockCount  = 0;
+	let _readyQueen = null;
+	const _asyncInterface = 0;
+	const _scriptBlockCount  = 0;
 	
 	/**
 	 * js源代码
 	 * @item {fileName:'',fileContent:''}
 	 */
-	var _rawJsSource = [];
+	const _rawJsSource = [];
 	
 	/**
 	 * 页面cookies
@@ -27,13 +29,13 @@ baidu.js = (function(){
 	/**
 	 * 结果集
 	 */
-	var _summaryInformation = null;
+	let _summaryInformation = null;
 	
 	/**
 	 * 初始化js文件的读取队列
 	 * @param {Object} isFinished 是否读取完成
 	 */
-	var _initReadyQueen = function(isFinished){
+	const _initReadyQueen = function(isFinished){
 		_readyQueen = {
 			curIndex : 0,	//当前正处于读取的index
 			queen : [],	//js文件队列，格式为：{src:"",block:""}，其中src和block不可能同时有值
@@ -46,35 +48,35 @@ baidu.js = (function(){
 	 * 增加一项读取项
 	 * @param {Object} readyItem 格式为：{src:Object,block:Object}
 	 */
-	var _addReadyItem = function(readyItem){
+	const _addReadyItem = function(readyItem){
 		_readyQueen.queen.push(readyItem);
 	};
 	
 	/**
 	 * 获取当前正在解析的script块
 	 */
-	var _getCurrentReadyItem = function(){
+	const _getCurrentReadyItem = function(){
 		return _readyQueen.queen[_readyQueen.curIndex];
 	};
 	
 	/**
 	 * 判断当前读取的是否为最后一个script块
 	 */
-	var _isLastReadyItem = function(){
-		return (_readyQueen.curIndex == _readyQueen.queen.length);
+	const _isLastReadyItem = function(){
+		return (_readyQueen.curIndex === _readyQueen.queen.length);
 	};
 	
 	/**
 	 * 读取队列移动到下一个元素
 	 */
-	var _moveToNextReadyItem = function(){
+	const _moveToNextReadyItem = function(){
 		_readyQueen.curIndex += 1;
 	};
 	
 	/**
 	 * 判断当前队列是否读取完毕
 	 */
-	var _isDealFinished = function(){
+	const _isDealFinished = function(){
 		return _readyQueen.finished;
 	};
 	
@@ -82,16 +84,16 @@ baidu.js = (function(){
 	 * 根据文件路径，提取文件名
 	 * @param {Object} path 文件url
 	 */
-	var _getFileName = function(path){
-		var reg = /(.*\/)([^\/]+\.js)/;
-		var p = reg.exec((path || '').replace(/\?.*/,''));
+	const _getFileName = function(path){
+		const reg = /(.*\/)([^\/]+\.js)/;
+		const p = reg.exec((path || '').replace(/\?.*/,''));
 		return p ? p[2] : path ? ('异步接口' + ++_asyncInterface) : ('script块' + ++_scriptBlockCount);
 	};
 	
 	/**
 	 * 初始化侦测结果
 	 */
-	var _initSummaryInformation = function(){
+	const _initSummaryInformation = function(){
 	    _summaryInformation = {
 			cookies:  [],						//有效的cookie，[{key:'',value:''}]
 			scriptTag : {
@@ -113,13 +115,13 @@ baidu.js = (function(){
 	 * @param {Object} _filePath 文件完整路径
 	 * @param {Object} _fileContent 内容
 	 */
-	var _saveJsSource = function(_filePath,_fileContent){
+	const _saveJsSource = function(_filePath,_fileContent){
 		
 		//过滤CSS注释
 		_fileContent = _fileContent.replace(/\/\*[\S\s]*?\*\//g,'');
 		
 		//提取文件名
-		var _fileName = _getFileName(_filePath);
+		let _fileName = _getFileName(_filePath);
 		
 		_rawJsSource.push({
 			href : _filePath ? _filePath : '#',
@@ -132,10 +134,10 @@ baidu.js = (function(){
 	 * 将scripts归类进行检测
 	 * @param {Array} scripts Script对象数组
 	 */
-	var _getJsData = function(scripts){
+	const _getJsData = function(scripts){
 		//从页面上获取<script src> 或者 <script> 内容
-		var jsdata = (function(){
-			var ss = {src:[],block:[]};
+		const jsdata = (function(){
+			const ss = {src:[],block:[]};
 			jQuery.each(scripts,function(i,script){
 				//通过 <script src> 标签引用的js
 				if(!!script.src) { ss.src.push(script); }
@@ -153,7 +155,7 @@ baidu.js = (function(){
 	 * @param {String} src 需要读取的js文件
 	 * @see 具体可参见network.js文件中定义的Function： _readFileContent
 	 */
-	var _getJsSourceByServer = function(link){
+	const _getJsSourceByServer = function(link){
 		
 		//向background发送一个消息，要求其加载并处理js文件内容
 		chrome.runtime.sendMessage({
@@ -173,7 +175,7 @@ baidu.js = (function(){
 	 * @param {script} script
 	 * @return {Undefined} 无返回值 
 	 */
-	var _readScriptTagContent = function(script){
+	const _readScriptTagContent = function(script){
 		//保存源代码
 		_saveJsSource('',script.innerHTML)
 		
@@ -185,10 +187,10 @@ baidu.js = (function(){
 	/**
 	 * 从就绪队列中，逐个加载js
 	 */
-	var _readRawJs = function(){
+	const _readRawJs = function(){
 		
 		//取得当前需要读取的数据
-		var curData = _getCurrentReadyItem();
+		const curData = _getCurrentReadyItem();
 
 		//是否读取完成
 		if(_isDealFinished() || !curData) {
@@ -219,7 +221,7 @@ baidu.js = (function(){
 	/**
 	 * 初始化JS数据
 	 */
-	var _initJsData = function(){
+	const _initJsData = function(){
 		scripts = _getJsData(document.scripts);
 		
 		//处理<script>定义的样式
@@ -246,8 +248,8 @@ baidu.js = (function(){
 	/**
 	 * 对以存储的js代码进行解析
 	 */
-	var _dealJsFile = function(){
-		var isStop = false;
+	const _dealJsFile = function(){
+		const isStop = false;
 		jQuery.each(_rawJsSource,function(i,fileObj){
 			_dealJs(fileObj);
 		});
@@ -264,9 +266,9 @@ baidu.js = (function(){
 	 * @config {String} fileName
 	 * @config {String} fileContent
 	 */
-	var _dealJs = function(_fileObj){
-		var fileName = _fileObj.fileName;
-		var fileContent = _fileObj.fileContent;
+	const _dealJs = function(_fileObj){
+		const fileName = _fileObj.fileName;
+		const fileContent = _fileObj.fileContent;
 		
 		//检测js是否压缩
 		_detectJsMinify(_fileObj);
@@ -277,7 +279,7 @@ baidu.js = (function(){
 	/**
 	 * 获取浏览器记录的Cookie
 	 */
-	var _getCookies = function(){
+	const _getCookies = function(){
 		chrome.runtime.sendMessage({
 			type : MSG_TYPE.GET_COOKIE,
 			url : location.href
@@ -289,7 +291,7 @@ baidu.js = (function(){
 	/**
 	 * 侦测页面的cookie
 	 */
-	var _detectCookies = function(){
+	const _detectCookies = function(){
 		//cookie已经在_getCookies中准备好了
 		_summaryInformation.cookies = _cookies;
 	};
@@ -301,9 +303,9 @@ baidu.js = (function(){
 	 * @config {String} fileName 文件名
 	 * @config {String} fileContent 文件内容
 	 */
-	var _detectJsMinify = function(jsObj){
-		var lines = jsObj.fileContent.split(/\n/);
-		var average_length_perline = jsObj.fileContent.length / lines.length;
+	const _detectJsMinify = function(jsObj){
+		const lines = jsObj.fileContent.split(/\n/);
+		const average_length_perline = jsObj.fileContent.length / lines.length;
 		if (average_length_perline < 150 && lines.length > 1) {
 			_summaryInformation.jsMinified.count++;
 			_summaryInformation.jsMinified.files.push({
@@ -316,13 +318,13 @@ baidu.js = (function(){
 	/**
 	 * 检测tangram
 	 */
-	var _detectTangram = function(){
-		var allScripts = document.querySelectorAll('script[src]');
-		var tangram = [];
+	const _detectTangram = function(){
+		const allScripts = document.querySelectorAll('script[src]');
+		let tangram = [];
 		
 		jQuery.each(allScripts,function(i,item){
 			if(!item.src) return true;
-			var _fileName = _getFileName(item.src);
+			const _fileName = _getFileName(item.src);
 			if(_fileName.indexOf('tangram') > -1) {
 				tangram.push(_fileName);
 			}
@@ -334,12 +336,12 @@ baidu.js = (function(){
 	/**
 	 * 检测是否引入的重复的文件
 	 */
-	var _detectDuplicatedFile = function(){
+	const _detectDuplicatedFile = function(){
 		scripts = _getJsData(document.scripts);
 		
-		var files = {};
-		var duplicatedFiles = [];
-		var dealedFiles = {};
+		const files = {};
+		let duplicatedFiles = [];
+		const dealedFiles = {};
 		
 		//处理<script>引入的js文件
 		if(scripts.src && scripts.src.length >0) {
@@ -355,16 +357,16 @@ baidu.js = (function(){
 						count : count
 					});
 				} else {	//href不重复的情况下，检测文件内容是否相同
-					var _fileContent = '';
-					var _dupFiles = [];
+					let _fileContent = '';
+					const _dupFiles = [];
 					jQuery.each(_rawJsSource,function(i,file){
-						if(file.href == href) {
+						if(file.href === href) {
 							_fileContent = file.fileContent.replace(/\s+/g,'');
 							return false;
 						}
 					});
 					jQuery.each(_rawJsSource,function(i,file){
-						if(_fileContent == file.fileContent.replace(/\s+/g,'') && !dealedFiles[file.href] && _dupFiles.join(',').indexOf(file.href) == -1) {
+						if(_fileContent === file.fileContent.replace(/\s+/g,'') && !dealedFiles[file.href] && _dupFiles.join(',').indexOf(file.href) === -1) {
 							_dupFiles.push(file.href);
 						}
 					});
@@ -386,7 +388,7 @@ baidu.js = (function(){
 	/**
 	 * 检测Js
 	 */
-	var _detectJS = function(){
+	const _detectJS = function(){
 		//处理js文件以及script块
 		_dealJsFile();
 	};
@@ -394,7 +396,7 @@ baidu.js = (function(){
 	/**
 	 * 初始化
 	 */
-	var _init = function(){
+	const _init = function(){
 		//初始化就绪队列
 		_initReadyQueen(false);
 		//初始化JS数据
@@ -408,7 +410,7 @@ baidu.js = (function(){
 	 * @param {Function} callback 侦测完毕后的回调方法，形如：function(data){}
 	 * @config {Object} data 就是_summaryInformation
 	 */
-	var _detect = function(callback){
+	const _detect = function(callback){
 		
 		//初始化结果集
 		_initSummaryInformation();

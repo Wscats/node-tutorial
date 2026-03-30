@@ -1,3 +1,5 @@
+'use strict';
+
 function test(request, response) {
 	response.end("test");
 }

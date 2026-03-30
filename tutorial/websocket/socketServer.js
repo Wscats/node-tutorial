@@ -1,17 +1,19 @@
-var socketServer = require('ws').Server;
+'use strict';
 
-var wss = new socketServer({
+const socketServer = require('ws').Server;
+
+let wss = new socketServer({
 	port: 8080
 });
 
-// var app = require('express')();
-// var server = require('http').Server(app);
+// const app = require('express')();
+// const server = require('http').Server(app);
 
-// var wss = new socketServer({server: server, port: 8080});
+// const wss = new socketServer({server: server, port: 8080});
 
 wss.on('connection', function (client) {
     client.on('message', function (_message) {
-        var _messageObj = JSON.parse(_message);
+        const _messageObj = JSON.parse(_message);
         //status = 1 表示正常聊天
         _messageObj.status = 1;
         this.message = _messageObj;

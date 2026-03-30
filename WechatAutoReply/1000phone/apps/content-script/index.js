@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper Content Scripts Manager
  * @author zhaoxianlie

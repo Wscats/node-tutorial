@@ -1,3 +1,5 @@
+'use strict';
+
 // background.js
 function test() {
     console.log("后台")

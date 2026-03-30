@@ -1,3 +1,5 @@
+'use strict';
+
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
@@ -38,8 +40,8 @@ http.createServer((req, res) => {
     messageList.push(message);
     let html = messageList.map((item,index) => {
         return `<li style="
-            width:${index%2==0?'100%':'10%'};
-            float:${index%2==0?'left':'right'}
+            width:${index%2===0?'100%':'10%'};
+            float:${index%2===0?'left':'right'}
         ">${item}</li>`
     }).join('');
     res.end('已接收');

@@ -1,6 +1,8 @@
-var mysql = require("mysql");
+'use strict';
+
+const mysql = require("mysql");
 //配置数据库的连接
-var connection = mysql.createConnection({
+let connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'laoxie',
 	password: '12345678',

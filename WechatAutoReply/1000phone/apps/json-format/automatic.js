@@ -126,7 +126,7 @@ module.exports = (() => {
             }).trim();
 
             let matches = reg.exec(sourceReplaced);
-            if (matches != null && (fnTry && fnCatch || !fnTry && !fnCatch)) {
+            if (matches !== null && (fnTry && fnCatch || !fnTry && !fnCatch)) {
                 funcName = matches[1];
                 source = matches[2];
             } else {
@@ -159,7 +159,7 @@ module.exports = (() => {
         }
 
         // 是json格式，可以进行JSON自动格式化
-        if (jsonObj != null && typeof jsonObj === "object") {
+        if (jsonObj !== null && typeof jsonObj === "object") {
             try {
                 // 要尽量保证格式化的东西一定是一个json，所以需要把内容进行JSON.stringify处理
                 let jsonStr = JSON.stringify(jsonObj);
@@ -185,7 +185,7 @@ module.exports = (() => {
             Tarp.require('../json-format/format-lib').format(source);
 
             // 如果是JSONP格式的，需要把方法名也显示出来
-            if (funcName != null) {
+            if (funcName !== null) {
                 if (fnTry && fnCatch) {
                     $('#jfCallbackName_start').html('<pre style="padding:0">' + fnTry + '</pre>' + funcName + '(');
                     $('#jfCallbackName_end').html(')<br><pre style="padding:0">' + fnCatch + '</pre>');

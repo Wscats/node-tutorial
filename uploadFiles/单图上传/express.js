@@ -1,27 +1,29 @@
+'use strict';
+
 //引入express框架
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
 app.listen(3000);
 
-var multer = require('multer');
-/*var upload = multer({
+const multer = require('multer');
+/*let upload = multer({
 	//如果用这种方法上传，要手动添加文明名后缀
 	dest: 'uploads/'
 })*/
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
 	//设置上传后文件路径，uploads文件夹会自动创建。
 	destination: function(req, file, cb) {
 		cb(null, './uploads')
 	},
 	//给上传文件重命名，获取添加后缀名
 	filename: function(req, file, cb) {
-		var fileFormat = (file.originalname).split(".");
+		const fileFormat = (file.originalname).split(".");
 		//给图片加上时间戳格式防止重名名
 		//比如把 abc.jpg图片切割为数组[abc,jpg],然后用数组长度-1来获取后缀名
 		cb(null, file.fieldname + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
 	}
 });
-var upload = multer({
+const upload = multer({
 	storage: storage
 });
 

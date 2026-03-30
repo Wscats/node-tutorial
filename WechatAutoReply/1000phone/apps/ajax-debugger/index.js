@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Ajax接口调试功能
  *

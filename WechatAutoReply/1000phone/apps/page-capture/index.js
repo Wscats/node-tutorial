@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper，截图后的保存界面
  */

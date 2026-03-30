@@ -1,3 +1,5 @@
+'use strict';
+
 //引入模块
 const mongodb = require('mongodb');
 const {

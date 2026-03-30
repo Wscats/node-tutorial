@@ -1,6 +1,8 @@
+'use strict';
+
 /* Jison generated parser */
-var jsonlint = (function () {
-    var parser = {
+const jsonlint = (function () {
+    const parser = {
         trace: function trace() {
         },
         yy: {},
@@ -214,7 +216,7 @@ var jsonlint = (function () {
             throw new Error(str);
         },
         parse: function parse(input) {
-            var self = this,
+            const self = this,
                 stack = [0],
                 vstack = [null], // semantic value stack
                 lstack = [], // location stack
@@ -231,9 +233,9 @@ var jsonlint = (function () {
             this.lexer.setInput(input);
             this.lexer.yy = this.yy;
             this.yy.lexer = this.lexer;
-            if (typeof this.lexer.yylloc == 'undefined')
+            if (typeof this.lexer.yylloc === 'undefined')
                 this.lexer.yylloc = {};
-            var yyloc = this.lexer.yylloc;
+            let yyloc = this.lexer.yylloc;
             lstack.push(yyloc);
 
             if (typeof this.yy.parseError === 'function')
@@ -264,7 +266,7 @@ var jsonlint = (function () {
                 if (this.defaultActions[state]) {
                     action = this.defaultActions[state];
                 } else {
-                    if (symbol == null)
+                    if (symbol === null)
                         symbol = lex();
                     // read action for current state and first input
                     action = table[state] && table[state][symbol];
@@ -280,12 +282,12 @@ var jsonlint = (function () {
                             for (p in table[state]) if (this.terminals_[p] && p > 2) {
                                 expected.push("'" + this.terminals_[p] + "'");
                             }
-                            var errStr = '';
+                            let errStr = '';
                             if (this.lexer.showPosition) {
                                 errStr = 'Parse error on line ' + (yylineno + 1) + ":\n" + this.lexer.showPosition() + "\nExpecting " + expected.join(', ') + ", got '" + this.terminals_[symbol] + "'";
                             } else {
                                 errStr = 'Parse error on line ' + (yylineno + 1) + ": Unexpected " +
-                                    (symbol == 1 /*EOF*/ ? "end of input" :
+                                    (symbol === 1 /*EOF*/ ? "end of input" :
                                         ("'" + (this.terminals_[symbol] || symbol) + "'"));
                             }
                             this.parseError(errStr,
@@ -301,8 +303,8 @@ var jsonlint = (function () {
                         }
 
                         // just recovered from another error
-                        if (recovering == 3) {
-                            if (symbol == EOF) {
+                        if (recovering === 3) {
+                            if (symbol === EOF) {
                                 throw new Error(errStr || 'Parsing halted.');
                             }
 
@@ -320,7 +322,7 @@ var jsonlint = (function () {
                             if ((TERROR.toString()) in table[state]) {
                                 break;
                             }
-                            if (state == 0) {
+                            if (state === 0) {
                                 throw new Error(errStr || 'Parsing halted.');
                             }
                             popStack(1);
@@ -407,8 +409,8 @@ var jsonlint = (function () {
         }
     };
     /* Jison generated lexer */
-    var lexer = (function () {
-        var lexer = ({
+    let lexer = (function () {
+        let lexer = ({
             EOF: 1,
             parseError: function parseError(str, hash) {
                 if (this.yy.parseError) {
@@ -427,12 +429,12 @@ var jsonlint = (function () {
                 return this;
             },
             input: function () {
-                var ch = this._input[0];
+                const ch = this._input[0];
                 this.yytext += ch;
                 this.yyleng++;
                 this.match += ch;
                 this.matched += ch;
-                var lines = ch.match(/\n/);
+                let lines = ch.match(/\n/);
                 if (lines) this.yylineno++;
                 this._input = this._input.slice(1);
                 return ch;
@@ -449,24 +451,24 @@ var jsonlint = (function () {
                 this._input = this.match.slice(n) + this._input;
             },
             pastInput: function () {
-                var past = this.matched.substr(0, this.matched.length - this.match.length);
+                const past = this.matched.substr(0, this.matched.length - this.match.length);
 
                 this._pre = past.slice(past.lastIndexOf('\n')).length - 1;
                 return (past.length > 20 ? '...' : '') + past.substr(-20).replace(/\n/g, "");
             },
             upcomingInput: function () {
-                var next = this.match;
+                const next = this.match;
                 if (next.length < 20) {
                     next += this._input.substr(0, 20 - next.length);
                 }
-                var s = (next.substr(0, 20) + (next.length > 20 ? '...' : '')).replace(/\n/g, "");
+                let s = (next.substr(0, 20) + (next.length > 20 ? '...' : '')).replace(/\n/g, "");
                 return s;
             },
             showPosition: function () {
-                var pre = this.pastInput();
-                var c = new Array(pre.length + 1).join("-");
-                var sW = this.upcomingInput();
-                var s = pre + sW;
+                const pre = this.pastInput();
+                const c = new Array(pre.length + 1).join("-");
+                const sW = this.upcomingInput();
+                let s = pre + sW;
                 this._sLine = s;
                 return s + "\n" + c + "^";
             },
@@ -486,8 +488,8 @@ var jsonlint = (function () {
                     this.yytext = '';
                     this.match = '';
                 }
-                var rules = this._currentRules();
-                for (var i = 0; i < rules.length; i++) {
+                let rules = this._currentRules();
+                for (let i = 0; i < rules.length; i++) {
                     tempMatch = this._input.match(this.rules[rules[i]]);
                     if (tempMatch && (!match || tempMatch[0].length > match[0].length)) {
                         match = tempMatch;
@@ -529,7 +531,7 @@ var jsonlint = (function () {
                 }
             },
             lex: function lex() {
-                var r = this.next();
+                const r = this.next();
                 if (typeof r !== 'undefined') {
                     return r;
                 } else {
@@ -555,7 +557,7 @@ var jsonlint = (function () {
         lexer.options = {};
         lexer.performAction = function anonymous(yy, yy_, $avoiding_name_collisions, YY_START) {
 
-            var YYSTATE = YY_START
+            const YYSTATE = YY_START
             switch ($avoiding_name_collisions) {
                 case 0:/* skip whitespace */
                     break;

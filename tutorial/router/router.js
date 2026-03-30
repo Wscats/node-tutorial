@@ -1,3 +1,5 @@
+'use strict';
+
 const http = require('http')
 const url = require('url')
 const qs = require('querystring');
@@ -8,7 +10,7 @@ http.createServer((request, response) => {
     let pathname = urlObj.pathname;
     let method = request.method.toUpperCase();
     let params = urlObj.query;
-    if(method == 'POST'){
+    if(method === 'POST'){
         let postData = '';
         request.on('data', (_data) => {
             postData += '_data';

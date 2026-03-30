@@ -1,7 +1,9 @@
-var express = require('express');
-var app = express();
-var agent = require('./agent.js');
-var fs = require('fs')
+'use strict';
+
+const express = require('express');
+const app = express();
+const agent = require('./agent.js');
+const fs = require('fs')
 
 app.get('/', function(req, res) {
 		res.send('Hello World');
@@ -9,12 +11,12 @@ app.get('/', function(req, res) {
 	//中间件
 app.get('/log/:route', function(req, res) {
 	fs.readFile('log.html', function(err, data) {
-		var th1 = data.toString() ? data.toString() : "";
+		let th1 = data.toString() ? data.toString() : "";
 		//提交内容
-		var th2 = JSON.stringify(req.query);
+		let th2 = JSON.stringify(req.query);
 		//时间
-		var th3 = (new Date()).toLocaleString();
-		var html = `<tr style="border:1px solid blue">${th1}
+		let th3 = (new Date()).toLocaleString();
+		let html = `<tr style="border:1px solid blue">${th1}
 						<th style="border:1px solid blue">${th2}</th>
 						<th style="border:1px solid blue">${th3}</th>
 						<th style="border:1px solid blue">GET</th>
@@ -32,12 +34,12 @@ app.get('/log/:route', function(req, res) {
 })
 app.post('/log/:route', function(req, res) {
 	fs.readFile('log.html', function(err, data) {
-		var th1 = data.toString() ? data.toString() : "";
+		const th1 = data.toString() ? data.toString() : "";
 		//提交内容
-		var th2 = JSON.stringify(req.query);
+		const th2 = JSON.stringify(req.query);
 		//时间
-		var th3 = (new Date()).toLocaleString();
-		var html = `<tr style="border:1px solid blue">${th1}
+		const th3 = (new Date()).toLocaleString();
+		const html = `<tr style="border:1px solid blue">${th1}
 						<th style="border:1px solid blue">${th2}</th>
 						<th style="border:1px solid blue">${th3}</th>
 						<th style="border:1px solid blue">POST</th>
@@ -58,8 +60,8 @@ app.get('/log', function(req, res) {
 		res.send(`<meta charset='utf-8'><table>${data}<table>`)
 	});
 })
-var server = app.listen(8081, function() {
-	var host = server.address().address
-	var port = server.address().port
+const server = app.listen(8081, function() {
+	const host = server.address().address
+	const port = server.address().port
 	console.log("应用实例，访问地址为 http://%s:%s", host, port)
 })

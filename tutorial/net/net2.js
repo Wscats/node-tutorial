@@ -1,3 +1,5 @@
+'use strict';
+
 let net = require('net');
 let {
     StringDecoder

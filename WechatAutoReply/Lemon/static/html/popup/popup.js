@@ -1,7 +1,9 @@
+'use strict';
+
 // popup.js
 document.querySelector('#btn').addEventListener('click', (e) => {
     console.log(e)
-    var bg = chrome.extension.getBackgroundPage();
+    let bg = chrome.extension.getBackgroundPage();
     bg.test(); // 访问bg的函数
     sendMessageToContentScript({
         cmd: 'test',
@@ -13,7 +15,7 @@ document.querySelector('#btn').addEventListener('click', (e) => {
 
 document.querySelector('#btn2').addEventListener('click', (e) => {
     console.log(e)
-    var bg = chrome.extension.getBackgroundPage();
+    const bg = chrome.extension.getBackgroundPage();
     bg.fetch(); // 访问bg的函数
 })
 

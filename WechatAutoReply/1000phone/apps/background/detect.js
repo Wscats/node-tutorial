@@ -1,11 +1,13 @@
+'use strict';
+
 /**
  * 检测浏览器是否支持部分ES6的语法，比如 let、=> 之类
  * FeHelper坚持一个原则：不在低版本的Chrome上运行
  * @returns {boolean}
  * @private
  */
-var _browserSupport = function () {
-    var support = true;
+const _browserSupport = function () {
+    let support = true;
     try {
         new Function('let a = () => {}');
     } catch (e) {

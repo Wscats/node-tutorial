@@ -1,3 +1,5 @@
+'use strict';
+
 chrome.contextMenus.create({
   "title": "启动", "type": "normal", //菜单项类型 "checkbox", "radio","separator"
   "onclick": function (info, tab) {

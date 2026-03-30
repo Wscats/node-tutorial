@@ -1,3 +1,5 @@
+'use strict';
+
 console.log("监听所有input输入框")
 // 获取所有输入框节点
 let inputs = document.querySelectorAll("input");

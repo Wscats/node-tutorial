@@ -1,3 +1,5 @@
+'use strict';
+
 /*jshint curly:true, eqeqeq:true, laxbreak:true, noempty:false */
 /*
 
@@ -96,7 +98,7 @@
           single_token: 'br,input,link,meta,!doctype,basefont,base,area,hr,wbr,param,img,isindex,?xml,embed,?php,?,?='.split(','), //all the single tags for HTML
           extra_liners: 'head,body,/html'.split(','), //for tags that need a line of whitespace before them
           in_array: function (what, arr) {
-            for (var i=0; i<arr.length; i++) {
+            for (let i=0; i<arr.length; i++) {
               if (what === arr[i]) {
                 return true;
               }
@@ -107,7 +109,7 @@
 
         this.get_content = function () { //function to capture regular content between tags
 
-          var input_char = '',
+          let input_char = '',
               content = [],
               space = false; //if a space is needed
 
@@ -130,7 +132,7 @@
             else if (space) {
               if (this.line_char_count >= this.max_char) { //insert a line when the max_char is reached
                 content.push('\n');
-                for (var i=0; i<this.indent_level; i++) {
+                for (let i=0; i<this.indent_level; i++) {
                   content.push(this.indent_string);
                 }
                 this.line_char_count = 0;
@@ -150,12 +152,12 @@
           if (this.pos === this.input.length) {
             return ['', 'TK_EOF'];
           }
-          var input_char = '';
-          var content = '';
-          var reg_match = new RegExp('</' + name + '\\s*>', 'igm');
+          let input_char = '';
+          let content = '';
+          const reg_match = new RegExp('</' + name + '\\s*>', 'igm');
           reg_match.lastIndex = this.pos;
-          var reg_array = reg_match.exec(this.input);
-          var end_script = reg_array?reg_array.index:this.input.length; //absolute end of script
+          const reg_array = reg_match.exec(this.input);
+          const end_script = reg_array?reg_array.index:this.input.length; //absolute end of script
           if(this.pos < end_script) { //get everything in between the script tags
             content = this.input.substring(this.pos, end_script);
             this.pos = end_script;
@@ -178,7 +180,7 @@
 
         this.retrieve_tag = function (tag) { //function to retrieve the opening tag to the corresponding closer
           if (this.tags[tag + 'count']) { //if the openener is not in the Object we ignore it
-            var temp_parent = this.tags.parent; //check to see if it's a closable tag.
+            let temp_parent = this.tags.parent; //check to see if it's a closable tag.
             while (temp_parent) { //till we reach '' (the initial value);
               if (tag + this.tags[tag + 'count'] === temp_parent) { //if this is it use it
                 break;
@@ -201,7 +203,7 @@
         };
 
         this.get_tag = function (peek) { //function to get a full tag and parse its type
-          var input_char = '',
+          let input_char = '',
               content = [],
               comment = '',
               space = false,
@@ -259,7 +261,7 @@
             content.push(input_char); //inserts character at-a-time (or string)
           } while (input_char !== '>');
 
-          var tag_complete = content.join('');
+          const tag_complete = content.join('');
           var tag_index;
           if (tag_complete.indexOf(' ') !== -1) { //if there's whitespace, thats where the tag name ends
             tag_index = tag_complete.indexOf(' ');
@@ -267,7 +269,7 @@
           else { //otherwise go with the tag ending
             tag_index = tag_complete.indexOf('>');
           }
-          var tag_check = tag_complete.substring(1, tag_index).toLowerCase();
+          let tag_check = tag_complete.substring(1, tag_index).toLowerCase();
           if (tag_complete.charAt(tag_complete.length-2) === '/' ||
             this.Utils.in_array(tag_check, this.Utils.single_token)) { //if this tag name is a single tag type (either in the list or has a closing /)
             if ( ! peek) {
@@ -353,9 +355,9 @@
           if (orig_tag && orig_tag.toLowerCase().indexOf(delimiter) !== -1) {
             return '';
           }
-          var input_char = '';
-          var content = '';
-          var space = true;
+          let input_char = '';
+          const content = '';
+          let space = true;
           do {
 
             if (this.pos >= this.input.length) {
@@ -373,7 +375,7 @@
               if (input_char === '\n' || input_char === '\r') {
                 content += '\n';
                 /*  Don't change tab indention for unformatted blocks.  If using code for html editing, this will greatly affect <pre> tags if they are specified in the 'unformatted array'
-                for (var i=0; i<this.indent_level; i++) {
+                for (let i=0; i<this.indent_level; i++) {
                   content += this.indent_string;
                 }
                 space = false; //...and make sure other indentation is erased
@@ -395,7 +397,7 @@
           var token;
 
           if (this.last_token === 'TK_TAG_SCRIPT' || this.last_token === 'TK_TAG_STYLE') { //check if we need to format javascript
-           var type = this.last_token.substr(7);
+           const type = this.last_token.substr(7);
            token = this.get_contents_to(type);
             if (typeof token !== 'string') {
               return token;
@@ -418,7 +420,7 @@
               return token;
             }
             else {
-              var tag_name_type = 'TK_TAG_' + this.tag_type;
+              const tag_name_type = 'TK_TAG_' + this.tag_type;
               return [token, tag_name_type];
             }
           }
@@ -445,10 +447,10 @@
 
             //at this point we have an  tag; is its first child something we want to remain
             //unformatted?
-            var next_tag = this.get_tag(true /* peek. */);
+            const next_tag = this.get_tag(true /* peek. */);
 
             // tets next_tag to see if it is just html tag (no external content)
-            var tag = (next_tag || "").match(/^\s*<\s*\/?([a-z]*)\s*[^>]*>\s*$/);
+            const tag = (next_tag || "").match(/^\s*<\s*\/?([a-z]*)\s*[^>]*>\s*$/);
 
             // if next_tag comes back but is not an isolated tag, then
             // let's treat the 'a' tag as having content
@@ -472,7 +474,7 @@
           this.max_char = max_char;
           this.line_char_count = 0; //count to see if max_char was exceeded
 
-          for (var i=0; i<this.indent_size; i++) {
+          for (let i=0; i<this.indent_size; i++) {
             this.indent_string += this.indent_character;
           }
 
@@ -487,7 +489,7 @@
               }
             }
             arr.push('\n');
-            for (var i=0; i<this.indent_level; i++) {
+            for (let i=0; i<this.indent_level; i++) {
               arr.push(this.indent_string);
             }
           };
@@ -515,7 +517,7 @@
       multi_parser.printer(html_source, indent_character, indent_size, max_char, brace_style); //initialize starting values
 
       while (true) {
-          var t = multi_parser.get_token();
+          const t = multi_parser.get_token();
           multi_parser.token_text = t[0];
           multi_parser.token_type = t[1];
 
@@ -539,8 +541,8 @@
           case 'TK_TAG_END':
             //Print new line only if the tag has no content and has child
             if (multi_parser.last_token === 'TK_CONTENT' && multi_parser.last_text === '') {
-                var tag_name = multi_parser.token_text.match(/\w+/)[0];
-                var tag_extracted_from_last_output = multi_parser.output[multi_parser.output.length -1].match(/<\s*(\w+)/);
+                const tag_name = multi_parser.token_text.match(/\w+/)[0];
+                const tag_extracted_from_last_output = multi_parser.output[multi_parser.output.length -1].match(/<\s*(\w+)/);
                 if (tag_extracted_from_last_output === null || tag_extracted_from_last_output[1] !== tag_name) {
                     multi_parser.print_newline(true, multi_parser.output);
                 }
@@ -550,7 +552,7 @@
             break;
           case 'TK_TAG_SINGLE':
             // Don't add a newline before elements that should remain unformatted.
-            var tag_check = multi_parser.token_text.match(/^\s*<([a-z]+)/i);
+            const tag_check = multi_parser.token_text.match(/^\s*<([a-z]+)/i);
             if (!tag_check || !multi_parser.Utils.in_array(tag_check[1], unformatted)){
                 multi_parser.print_newline(false, multi_parser.output);
             }
@@ -567,7 +569,7 @@
           case 'TK_SCRIPT':
             if (multi_parser.token_text !== '') {
               multi_parser.output.push('\n');
-              var text = multi_parser.token_text,
+              let text = multi_parser.token_text,
                   _beautifier,
                   script_indent_level = 1;
               if (multi_parser.token_type === 'TK_SCRIPT') {
@@ -582,15 +584,15 @@
                 script_indent_level = -multi_parser.indent_level;
               }
 
-              var indentation = multi_parser.get_full_indent(script_indent_level);
+              const indentation = multi_parser.get_full_indent(script_indent_level);
               if (_beautifier) {
                 // call the Beautifier if avaliable
                 text = _beautifier(text.replace(/^\s*/, indentation), options);
               } else {
                 // simply indent the string otherwise
-                var white = text.match(/^\s*/)[0];
-                var _level = white.match(/[^\n\r]*$/)[0].split(multi_parser.indent_string).length - 1;
-                var reindent = multi_parser.get_full_indent(script_indent_level -_level);
+                const white = text.match(/^\s*/)[0];
+                const _level = white.match(/[^\n\r]*$/)[0].split(multi_parser.indent_string).length - 1;
+                const reindent = multi_parser.get_full_indent(script_indent_level -_level);
                 text = text.replace(/^\s*/, indentation)
                        .replace(/\r\n|\r|\n/g, '\n' + reindent)
                        .replace(/\s*$/, '');

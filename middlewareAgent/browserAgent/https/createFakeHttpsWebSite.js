@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const forge = require('node-forge');
 const pki = forge.pki;
@@ -37,7 +39,7 @@ function createFakeHttpsWebSite(domain, successFun) {
     // 针对域名生成公钥和私钥
     const fakeCertObj = createFakeCertificateByDomain(caKey, caCert, domain);
     // 构建一个https服务器
-    var fakeServer = new https.Server({
+    const fakeServer = new https.Server({
         key: pki.privateKeyToPem(fakeCertObj.key),
         cert: pki.certificateToPem(fakeCertObj.cert),
         SNICallback: (hostname, done) => {
@@ -50,7 +52,7 @@ function createFakeHttpsWebSite(domain, successFun) {
     });
 
     fakeServer.listen(0, () => {
-        var address = fakeServer.address();
+        const address = fakeServer.address();
         console.log('触发fakeServer请求');
         // 触发net.conect的tcp连接
         // 然后在该https的服务器`request`阶段监听
@@ -59,7 +61,7 @@ function createFakeHttpsWebSite(domain, successFun) {
     fakeServer.on('request', (req, res) => {
         console.log('响应fakeServer请求');
         // 解析客户端请求
-        var urlObject = url.parse(req.url);
+        const urlObject = url.parse(req.url);
         let options = {
             protocol: 'https:',
             hostname: req.headers.host.split(':')[0],
@@ -114,8 +116,8 @@ function createFakeHttpsWebSite(domain, successFun) {
  * @return {[type]}        [description]
  */
 function createFakeCertificateByDomain(caKey, caCert, domain) {
-    var keys = pki.rsa.generateKeyPair(2046);
-    var cert = pki.createCertificate();
+    const keys = pki.rsa.generateKeyPair(2046);
+    const cert = pki.createCertificate();
     cert.publicKey = keys.publicKey;
 
     cert.serialNumber = (new Date()).getTime() + '';
@@ -123,7 +125,7 @@ function createFakeCertificateByDomain(caKey, caCert, domain) {
     cert.validity.notBefore.setFullYear(cert.validity.notBefore.getFullYear() - 1);
     cert.validity.notAfter = new Date();
     cert.validity.notAfter.setFullYear(cert.validity.notAfter.getFullYear() + 1);
-    var attrs = [{
+    const attrs = [{
         name: 'commonName',
         value: domain
     }, {

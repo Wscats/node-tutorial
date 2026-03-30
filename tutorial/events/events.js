@@ -1,7 +1,9 @@
+'use strict';
+
 // 引入 events 模块
-var events = require('events');
+const events = require('events');
 // 创建 eventEmitter 对象
-var eventEmitter = new events.EventEmitter();
+const eventEmitter = new events.EventEmitter();
 
 // $('div').on('dk', function(){});
 

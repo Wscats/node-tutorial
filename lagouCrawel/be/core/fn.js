@@ -1,7 +1,9 @@
-var https = require("https");
+'use strict';
+
+const https = require("https");
 exports.fetch = function(url, callback) {
 	https.get(url, function(res) {
-		var data = "";
+		const data = "";
 		res.on('data', function(chunk) {
 			data += chunk
 		})

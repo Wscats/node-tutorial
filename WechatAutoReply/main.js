@@ -1,3 +1,5 @@
+'use strict';
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
@@ -23,7 +25,7 @@ function createWindow() {
 
 	ipcMain.on("answer", function(event, data) {
 		console.log(data)
-		var data = {
+		const data = {
 			//图灵机器人需要的API KEY
 			key: 'c75ba576f50ddaa5fd2a87615d144ecf',
 			//向图灵机器人发送的问题
@@ -41,14 +43,14 @@ function createWindow() {
 		}, function(resquest) {
 			resquest.setEncoding('utf8');
 			//这里用str来不间断监听数据
-			var str = '';
+			const str = '';
 			resquest.on('data', function(data) {
 				console.log('相应的内容为: ' + data);
 				str += data;
 			});
 			//监听数据成功后才去拼jsonp的数据
 			resquest.on('end', function() {
-				var answer = JSON.parse(str).text;
+				const answer = JSON.parse(str).text;
 				console.log(answer)
 				mainWindow.webContents.executeJavaScript(`
 					console.log("${answer}")
@@ -65,11 +67,11 @@ function createWindow() {
 	mainWindow.loadURL("https://wx2.qq.com");
 	mainWindow.webContents.executeJavaScript(`
 		//对比前后回复列表的数据来监听是否有新消息进入
-		var answerNum = 2;
+		let answerNum = 2;
 		setInterval(function(){
 			//console.log(newAnswerNum)
-			var newAnswerNum = document.querySelectorAll(".content").length
-			if(answerNum == document.querySelectorAll(".content").length){
+			const newAnswerNum = document.querySelectorAll(".content").length
+			if(answerNum === document.querySelectorAll(".content").length){
 				//没有变化
 			}else{
 				console.log("有新回复")
@@ -79,7 +81,7 @@ function createWindow() {
 					//并且是别人回复的信息,也就是消息体为白色居左
 					if(document.querySelectorAll(".content")[newAnswerNum-2].querySelector(".left")){
 						//获取最后回复的消息文本
-						var content = document.querySelectorAll(".content")[newAnswerNum-2].getElementsByTagName("pre")[0].innerHTML;
+						const content = document.querySelectorAll(".content")[newAnswerNum-2].getElementsByTagName("pre")[0].innerHTML;
 						console.log(content);
 						require("electron").ipcRenderer.send("answer",content);
 					}

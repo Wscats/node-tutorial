@@ -1,3 +1,5 @@
+'use strict';
+
 // curl -k https://localhost:8000/
 const https = require('https');
 const fs = require('fs');

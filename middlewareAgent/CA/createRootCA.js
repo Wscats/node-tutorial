@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 生成根证书
  */
@@ -10,15 +12,15 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 
-var keys = pki.rsa.generateKeyPair(1024);
-var cert = pki.createCertificate();
+const keys = pki.rsa.generateKeyPair(1024);
+const cert = pki.createCertificate();
 cert.publicKey = keys.publicKey;
 cert.serialNumber = (new Date()).getTime() + '';
 cert.validity.notBefore = new Date();
 cert.validity.notBefore.setFullYear(cert.validity.notBefore.getFullYear() - 5);
 cert.validity.notAfter = new Date();
 cert.validity.notAfter.setFullYear(cert.validity.notAfter.getFullYear() + 20);
-var attrs = [{
+const attrs = [{
     name: 'commonName',
     value: 'https-mitm-proxy-handbook'
 }, {
@@ -54,10 +56,10 @@ cert.setExtensions([{
 // self-sign certificate
 cert.sign(keys.privateKey, forge.md.sha256.create());
 
-var certPem = pki.certificateToPem(cert);
-var keyPem = pki.privateKeyToPem(keys.privateKey);
-var certPath = path.join(__dirname, '../CA/rootCA/rootCA.crt');
-var keyPath = path.join(__dirname, '../CA/rootCA/rootCA.key.pem');
+const certPem = pki.certificateToPem(cert);
+const keyPem = pki.privateKeyToPem(keys.privateKey);
+const certPath = path.join(__dirname, '../CA/rootCA/rootCA.crt');
+const keyPath = path.join(__dirname, '../CA/rootCA/rootCA.key.pem');
 
 console.log('公钥内容：\n');
 console.log(certPem);

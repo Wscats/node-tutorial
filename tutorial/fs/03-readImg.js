@@ -1,6 +1,8 @@
-var http = require('http');
-var fs = require('fs');
-var content =  fs.readFileSync('001.jpg', "binary");
+'use strict';
+
+const http = require('http');
+const fs = require('fs');
+const content =  fs.readFileSync('001.jpg', "binary");
 
 http.createServer(function(request, response){
 	response.writeHead(200, {'Content-Type': 'image/jpeg'});

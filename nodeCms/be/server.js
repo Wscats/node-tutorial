@@ -1,10 +1,12 @@
+'use strict';
+
 //引入http内置模块
-var http = require("http");
-var url = require("url")
+const http = require("http");
+const url = require("url")
 	//引入queryString，用于格式化url上面的参数
-var querystring = require('querystring');
-var mysql = require("mysql");
-var connection = mysql.createConnection({
+const querystring = require('querystring');
+const mysql = require("mysql");
+const connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'laoxie',
 	password: '12345678',
@@ -17,13 +19,13 @@ connection.connect();
 //response相应 处理响应头 相应体
 http.createServer(function(request, response) {
 		console.log(url.parse(request.url).pathname)
-		var post = "";
+		const post = "";
 		request.on("data", function(chunk) {
 			post += chunk;
 		})
 		request.on("end", function() {
 			console.log(querystring.parse(post));
-			var params = querystring.parse(post);
+			const params = querystring.parse(post);
 
 			switch(url.parse(request.url).pathname) {
 				case "/seek":
@@ -44,7 +46,7 @@ function seek(request, response) {
 		if(error) throw error;
 		//results =>array类型
 		console.log('The solution is: ', results);
-		var obj = {
+		const obj = {
 			news: results
 		}
 		response.end(JSON.stringify(obj));

@@ -1,22 +1,24 @@
-var fs = require("fs");
-var cheerio = require("cheerio");
-var fn = require("./fn.js");
-var mysql = require("./mysql.js");
-var log = require("./log.js");
-var config = require("./config.js").config;
+'use strict';
+
+const fs = require("fs");
+const cheerio = require("cheerio");
+const fn = require("./fn.js");
+const mysql = require("./mysql.js");
+const log = require("./log.js");
+const config = require("./config.js").config;
 exports.fetchList = (function(config) {
 	//初始化起点页
-	var page = 1;
+	let page = 1;
 	//初始化起点列表项
-	var item = 1;
+	let item = 1;
 	//初始化是否打印信息
-	var isLog = false;
+	let isLog = false;
 	//保存抓取网页的文件夹名
-	var file = "webqianduan";
+	let file = "webqianduan";
 	//是否保存数据库
-	var isSave = false;
+	let isSave = false;
 	//遍历结束页数
-	var pageEnd = 30;
+	let pageEnd = 30;
 	//配置值
 	page = (config.page ? config.page : page);
 	item = (config.item ? config.item : item);

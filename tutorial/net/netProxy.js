@@ -1,3 +1,5 @@
+'use strict';
+
 let net = require('net');
 let fs = require('fs');
 let http = require('http');

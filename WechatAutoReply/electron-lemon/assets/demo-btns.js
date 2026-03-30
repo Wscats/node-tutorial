@@ -1,3 +1,5 @@
+'use strict';
+
 const settings = require('electron-settings')
 
 const demoBtns = document.querySelectorAll('.js-container-target')

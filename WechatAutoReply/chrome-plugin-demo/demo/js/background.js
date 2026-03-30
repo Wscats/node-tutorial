@@ -1,3 +1,5 @@
+'use strict';
+
 //-------------------- 右键菜单演示 ------------------------//
 chrome.contextMenus.create({
 	title: "测试右键菜单",
@@ -25,8 +27,8 @@ chrome.contextMenus.create({
 //-------------------- badge演示 ------------------------//
 /*(function()
 {
-	var showBadge = false;
-	var menuId = chrome.contextMenus.create({
+	let showBadge = false;
+	const menuId = chrome.contextMenus.create({
 		title: '显示图标上的Badge',
 		type: 'checkbox',
 		checked: false,
@@ -64,7 +66,7 @@ $('#test_cors').click((e) => {
 });
 
 $('#get_popup_title').click(e => {
-	var views = chrome.extension.getViews({type:'popup'});
+	const views = chrome.extension.getViews({type:'popup'});
 	if(views.length > 0) {
 		alert(views[0].document.title);
 	} else {
@@ -99,7 +101,7 @@ function openUrlNewTab(url)
 chrome.omnibox.onInputChanged.addListener((text, suggest) => {
 	console.log('inputChanged: ' + text);
 	if(!text) return;
-	if(text == '美女') {
+	if(text === '美女') {
 		suggest([
 			{content: '中国' + text, description: '你要找“中国美女”吗？'},
 			{content: '日本' + text, description: '你要找“日本美女”吗？'},
@@ -107,7 +109,7 @@ chrome.omnibox.onInputChanged.addListener((text, suggest) => {
 			{content: '韩国' + text, description: '你要找“韩国美女”吗？'}
 		]);
 	}
-	else if(text == '微博') {
+	else if(text === '微博') {
 		suggest([
 			{content: '新浪' + text, description: '新浪' + text},
 			{content: '腾讯' + text, description: '腾讯' + text},
@@ -126,7 +128,7 @@ chrome.omnibox.onInputChanged.addListener((text, suggest) => {
 chrome.omnibox.onInputEntered.addListener((text) => {
     console.log('inputEntered: ' + text);
 	if(!text) return;
-	var href = '';
+	let href = '';
     if(text.endsWith('美女')) href = 'http://image.baidu.com/search/index?tn=baiduimage&ie=utf-8&word=' + text;
 	else if(text.startsWith('百度搜索')) href = 'https://www.baidu.com/s?ie=UTF-8&wd=' + text.replace('百度搜索 ', '');
 	else if(text.startsWith('谷歌搜索')) href = 'https://www.google.com.tw/search?q=' + text.replace('谷歌搜索 ', '');
@@ -147,10 +149,10 @@ chrome.storage.sync.get({showImage: true}, function(items) {
 // web请求监听，最后一个参数表示阻塞式，需单独声明权限：webRequestBlocking
 chrome.webRequest.onBeforeRequest.addListener(details => {
 	// cancel 表示取消本次请求
-	if(!showImage && details.type == 'image') return {cancel: true};
+	if(!showImage && details.type === 'image') return {cancel: true};
 	// 简单的音视频检测
 	// 大部分网站视频的type并不是media，且视频做了防下载处理，所以这里仅仅是为了演示效果，无实际意义
-	if(details.type == 'media') {
+	if(details.type === 'media') {
 		chrome.notifications.create(null, {
 			type: 'basic',
 			iconUrl: 'img/icon.png',

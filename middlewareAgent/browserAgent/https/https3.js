@@ -1,3 +1,5 @@
+'use strict';
+
 // node.js 中基于express 实现简单http代理服务
 const express = require('express');
 const morgan = require('morgan');
@@ -73,10 +75,10 @@ server.listen(port, () => {
     console.log(`address: ${ip.address()}:${port}`);
 });
 server.on('error', (e) => {
-    if (e.code == 'EADDRINUSE') {
+    if (e.code === 'EADDRINUSE') {
         console.error('HTTP中间人代理启动失败！！');
         console.error(`端口：${port}，已被占用。`);
-    } else if (e.code == 'ECONNRESET') {
+    } else if (e.code === 'ECONNRESET') {
         console.error(e);
     } else {
         console.error(e);

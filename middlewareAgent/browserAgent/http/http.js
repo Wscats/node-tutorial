@@ -1,3 +1,5 @@
+'use strict';
+
 const http = require('http');
 const url = require('url');
 let httpMitmProxy = new http.Server();
@@ -9,7 +11,7 @@ httpMitmProxy.listen(port, () => {
 // 代理接收客户端的转发请求
 httpMitmProxy.on('request', (req, res) => {
     // 解析客户端请求
-    var urlObject = url.parse(req.url);
+    const urlObject = url.parse(req.url);
     let options = {
         protocol: 'http:',
         hostname: req.headers.host.split(':')[0],

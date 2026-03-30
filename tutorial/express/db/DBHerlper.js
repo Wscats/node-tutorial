@@ -1,5 +1,7 @@
-var mongodb = require('./MongoDB.js');
-var mysql = require('./MySQL.js');
+'use strict';
+
+const mongodb = require('./MongoDB.js');
+const mysql = require('./MySQL.js');
 
 module.exports = {
 	mongodb: mongodb,

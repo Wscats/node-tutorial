@@ -1,3 +1,5 @@
+'use strict';
+
 let net = require('net');
 let server = net.createServer({
     // 如果 pauseOnConnect 被设置为 true, 那么与连接相关的套接字都会暂停，也不会从套接字句柄读取数据。 这样就允许连接在进程之间传递，避免数据被最初的进程读取。 如果想从一个暂停的套接字开始读数据

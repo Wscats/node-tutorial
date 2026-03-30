@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * FeHelper QR Code Tools
  */

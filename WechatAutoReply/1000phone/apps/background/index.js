@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * FE-Helper后台运行程序
  * @author zhaoxianlie
  */
-var BgPageInstance = (function () {
+const BgPageInstance = (function () {
 
     let MSG_TYPE = Tarp.require('../static/js/msg_type');
     let Settings = Tarp.require('../options/settings');
