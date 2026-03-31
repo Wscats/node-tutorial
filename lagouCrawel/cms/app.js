@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const mysql = require("mysql");
-var connection;
+let connection;
 
 function createConnection() {
 	connection = mysql.createConnection({
@@ -19,28 +19,23 @@ function createConnection() {
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
-//设置静态文件 app.js根目录下寻找public文件夹作为静态文件夹
+// Set static files directory
 app.use(express.static('public'));
 // parse application/json 
-//是要get请求并且匹配到路由`/`，我就执行回调，并用`res.send`方法去相应结果
+// Handle GET request for root path
 app.get('/', function(req, res) {
 	res.send('Hello World');
 });
 
-//中间件
+// Middleware: fetch paginated job listings
 app.get('/index', function(req, res) {
 		createConnection()
 		connection.connect();
-		console.log(req.query)
 		const pageCount = (req.query.page - 1) * 10;
-		//SELECT * FROM jobs WHERE position_id = 3067990 LIMIT 100,10
-		//SELECT * FROM jobs LIMIT 0,10
-		console.log('SELECT * FROM jobs LIMIT ' + pageCount + ',10')
 		connection.query('SELECT * FROM jobs LIMIT ' + pageCount + ',10', function(error, results, fields) {
 			if(error) throw error;
-			//results =>array类型
-			console.log('The solution is: ', results);
-			const obj = {
+			//results => array type
+			console.log('The solution is: ', results);			const obj = {
 				jobs: results
 			}
 			res.send(JSON.stringify(obj));
@@ -49,23 +44,22 @@ app.get('/index', function(req, res) {
 		console.log(req.query)
 		res.append("Access-Control-Allow-Origin", "*")
 	})
-	//要post请求，并且路由是/home才能进入此逻辑
+
+// Handle POST request for /home
 app.post('/home', function(req, res) {
 	console.log(req.body)
 	res.append("Access-Control-Allow-Origin", "*")
-	res.send('进入到home页面');
+	res.send('Home page');
 })
 
-//只要路由是/test就进入到此逻辑
+// Handle all methods for /test
 app.all('/test', function(req, res) {
 	console.log(req.cookies)
-	res.send('进入到test页面');
+	res.send('Test page');
 })
 
 const server = app.listen(8081, function() {
-	//测试
-	//测试
 	const host = server.address().address
 	const port = server.address().port
-	console.log("应用实例，访问地址为 http://%s:%s", host, port)
+	console.log("App listening at http://%s:%s", host, port)
 })
